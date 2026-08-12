@@ -230,6 +230,30 @@ class PdfPipelineStats:
 
 
 @dataclass(frozen=True)
+class SourceDecision:
+    """Read-only decision describing which source a submission would use."""
+
+    note_id: str
+    title: str
+    action: str
+    source_kind: str
+    venue_id: str = ""
+    arxiv_id: str = ""
+    pdf_url: str = ""
+    evidence: str = ""
+
+
+@dataclass(frozen=True)
+class SourcePlanStats:
+    considered: int
+    already_processed: int
+    planned_arxiv: int
+    planned_openreview_pdf: int
+    review_required: int
+    unavailable: int
+
+
+@dataclass(frozen=True)
 class ConferenceCategorySummary:
     s2_matched: CategoryCounts
     s2_with_arxiv: CategoryCounts
@@ -900,6 +924,137 @@ def summarize_pdf_pipeline_need(
     )
 
 
+def resolve_submission_sources(
+    submissions: list[OpenReviewPaper],
+    *,
+    local_comparison: LocalComparison | None,
+    s2_comparison: S2Comparison | None,
+) -> list[SourceDecision]:
+    """Choose an arXiv-first source without downloading or changing local state."""
+    local_matches = local_comparison.matches if local_comparison else {}
+    s2_matches = s2_comparison.matches if s2_comparison and s2_comparison.available else {}
+    decisions: list[SourceDecision] = []
+
+    for submission in submissions:
+        local_match = local_matches.get(submission.note_id)
+        if local_match and local_match.paper and local_match.paper.result_count > 0:
+            decisions.append(
+                SourceDecision(
+                    note_id=submission.note_id,
+                    title=submission.title,
+                    action="skip-processed",
+                    source_kind="local",
+                    venue_id=submission.venueid or submission.venue,
+                    arxiv_id=local_match.paper.arxiv_id,
+                    evidence=f"local-{local_match.status}-with-results",
+                )
+            )
+            continue
+
+        openreview_arxiv = _normalize_optional_arxiv_id(submission.arxiv_id)
+        if openreview_arxiv:
+            decisions.append(
+                SourceDecision(
+                    note_id=submission.note_id,
+                    title=submission.title,
+                    action="queue-arxiv",
+                    source_kind="arxiv",
+                    venue_id=submission.venueid or submission.venue,
+                    arxiv_id=openreview_arxiv,
+                    evidence="openreview-arxiv-id",
+                )
+            )
+            continue
+
+        if local_match and local_match.paper and local_match.paper.arxiv_id:
+            decisions.append(
+                SourceDecision(
+                    note_id=submission.note_id,
+                    title=submission.title,
+                    action="queue-arxiv",
+                    source_kind="arxiv",
+                    venue_id=submission.venueid or submission.venue,
+                    arxiv_id=local_match.paper.arxiv_id,
+                    evidence=f"local-{local_match.status}",
+                )
+            )
+            continue
+
+        s2_match = s2_matches.get(submission.note_id)
+        if s2_match and s2_match.candidate and s2_match.candidate.arxiv_id:
+            decisions.append(
+                SourceDecision(
+                    note_id=submission.note_id,
+                    title=submission.title,
+                    action="queue-arxiv",
+                    source_kind="arxiv",
+                    venue_id=submission.venueid or submission.venue,
+                    arxiv_id=s2_match.candidate.arxiv_id,
+                    evidence=f"semantic-scholar-{s2_match.status}",
+                )
+            )
+            continue
+
+        ambiguity_sources: list[str] = []
+        if local_match and local_match.status == "ambiguous":
+            ambiguity_sources.append("local")
+        if s2_match and s2_match.status == "ambiguous":
+            ambiguity_sources.append("semantic-scholar")
+        if ambiguity_sources:
+            decisions.append(
+                SourceDecision(
+                    note_id=submission.note_id,
+                    title=submission.title,
+                    action="review",
+                    source_kind="none",
+                    venue_id=submission.venueid or submission.venue,
+                    pdf_url=submission.pdf_url,
+                    evidence="ambiguous-" + "-and-".join(ambiguity_sources),
+                )
+            )
+            continue
+
+        if submission.pdf_url:
+            decisions.append(
+                SourceDecision(
+                    note_id=submission.note_id,
+                    title=submission.title,
+                    action="queue-pdf",
+                    source_kind="openreview-pdf",
+                    venue_id=submission.venueid or submission.venue,
+                    pdf_url=submission.pdf_url,
+                    evidence="no-arxiv-source-found",
+                )
+            )
+            continue
+
+        decisions.append(
+            SourceDecision(
+                note_id=submission.note_id,
+                title=submission.title,
+                action="unavailable",
+                source_kind="none",
+                venue_id=submission.venueid or submission.venue,
+                evidence="no-arxiv-or-pdf-source",
+            )
+        )
+
+    return decisions
+
+
+def summarize_source_plan(decisions: list[SourceDecision]) -> SourcePlanStats:
+    """Summarize read-only source decisions as planned actions."""
+    actions = Counter(decision.action for decision in decisions)
+    return SourcePlanStats(
+        considered=len(decisions),
+        already_processed=actions["skip-processed"],
+        planned_arxiv=actions["queue-arxiv"],
+        planned_openreview_pdf=actions["queue-pdf"],
+        review_required=actions["review"],
+        unavailable=actions["unavailable"],
+    )
+
+
 def summarize_conference_categories(
     submissions: list[OpenReviewPaper],
     *,
@@ -1080,6 +1235,9 @@ def _print_summary(
     kaggle_summary: KaggleCategorySummary | None,
     show_unprocessed: int,
     pdf_stats: PdfPipelineStats,
+    source_decisions: list[SourceDecision],
+    source_plan: SourcePlanStats,
+    show_source_decisions: int,
 ) -> None:
     """Print one globally aligned specific/unspecific/total table."""
     console.print(f"\nSummary: {venue_id}")
@@ -1144,6 +1302,22 @@ def _print_summary(
         print_counts("Need PDF pipeline", category_summary.needs_pdf_pipeline)
     if category_summary.arxiv_still_to_process.total:
         print_counts("arXiv still to process", category_summary.arxiv_still_to_process)
+    console.print(
+        "  Source plan (dry run): "
+        f"processed={source_plan.already_processed:,}; "
+        f"arXiv={source_plan.planned_arxiv:,}; "
+        f"OpenReview PDF={source_plan.planned_openreview_pdf:,}; "
+        f"review={source_plan.review_required:,}; "
+        f"unavailable={source_plan.unavailable:,}"
+    )
+    if show_source_decisions:
+        console.print(f"  Source decisions (showing up to {show_source_decisions}; no downloads):")
+        for decision in source_decisions[:show_source_decisions]:
+            identifier = decision.arxiv_id or decision.pdf_url or "no source"
+            console.print(
+                f"    {decision.action:<14} {decision.note_id}: {decision.title} "
+                f"[{identifier}; {decision.evidence}]"
+            )
     if kaggle_summary is not None:
         category_by_match = kaggle_summary.category_counts_by_match_type
         match_types = ["specific", "unspecific"]
@@ -1269,6 +1443,15 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Show up to N titles among pending arXiv papers (default: 10 when enabled)",
     )
     parser.add_argument(
+        "--show-source-decisions",
+        nargs="?",
+        type=_positive_int,
+        const=20,
+        default=0,
+        metavar="N",
+        help="Show up to N read-only source decisions (default: 20 when enabled)",
+    )
+    parser.add_argument(
         "--summary-only",
         action=argparse.BooleanOptionalAction,
         default=True,
@@ -1379,6 +1562,12 @@ def main(argv: list[str] | None = None) -> int:
         local_comparison=local_comparison,
         s2_comparison=s2_comparison,
     )
+    source_decisions = resolve_submission_sources(
+        matching_submissions,
+        local_comparison=local_comparison,
+        s2_comparison=s2_comparison,
+    )
+    source_plan = summarize_source_plan(source_decisions)
     pending_arxiv_papers = collect_unprocessed_arxiv_papers(
         matching_submissions,
         filter_categories=filter_categories,
@@ -1411,6 +1600,9 @@ def main(argv: list[str] | None = None) -> int:
             local_comparison=local_comparison,
             s2_comparison=s2_comparison,
         ),
+        source_decisions=source_decisions,
+        source_plan=source_plan,
+        show_source_decisions=args.show_source_decisions,
     )
     return 0
 

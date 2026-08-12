@@ -19,7 +19,8 @@ and never written directly to the leaderboard.
 - [x] Add deterministic table-value and downstream extraction comparison tools.
 - [x] Add a Markdown pipe-table adapter for the existing extraction pipeline.
 - [x] Select the initial PDF backend and settings.
-- [ ] Implement source resolution and staged OpenReview PDF downloads.
+- [x] Implement read-only, arXiv-first source resolution and dry-run action counts.
+- [ ] Implement staged OpenReview PDF downloads.
 - [ ] Implement result-based processed-paper detection.
 - [ ] Implement PDF extraction as a first-class, staged pipeline source.
 - [ ] Test venue discovery and downloads on NeurIPS 2024, ICLR 2022, and LoG venues.
@@ -166,9 +167,11 @@ fixture boundaries in the normal test suite; live venue checks are explicit inte
 ## Implementation sequence
 
 1. Add a source-resolution record that keeps OpenReview note ID, venue, PDF URL, resolved arXiv ID,
-   selected source kind, and resolution evidence.
+   selected source kind, and resolution evidence. **Completed.**
 2. Extend the read-only OpenReview discovery output with the source-resolution decision and dry-run
-   download counts.
+   download counts. **Completed:** the report now distinguishes processed, planned arXiv, planned
+   OpenReview PDF, review-required, and unavailable records. Use `--show-source-decisions [N]` to
+   inspect per-paper evidence without downloading anything.
 3. Add a staged downloader with content validation and resumable, atomic files.
 4. Promote the Markdown table adapter from the experiment into a tested backend module.
 5. Add table-structure checks and evidence-linked result staging.
@@ -191,6 +194,9 @@ Relevant commits:
 
 - `cf09b1b` — add the PDF extraction bake-off harness.
 - `e54ef4e` — parse PDF Markdown tables for extraction comparison.
+
+The current source resolver lives in `scripts/openreview_stats.py`. Ambiguous local or Semantic
+Scholar matches block automatic PDF selection, even when an OpenReview PDF URL is present.
 
 ## Open questions
 

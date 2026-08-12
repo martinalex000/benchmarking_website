@@ -159,6 +159,60 @@ def test_summarize_pdf_pipeline_need_prioritizes_openreview_local_and_s2():
     assert stats.needs_pdf_pipeline == 1
 
 
+def test_resolve_submission_sources_is_arxiv_first_and_blocks_ambiguity():
+    submissions = [
+        _paper("Processed", note_id="processed"),
+        _paper("OpenReview arXiv", arxiv_id="2501.00002", note_id="openreview"),
+        _paper("Local pending", note_id="local"),
+        _paper("S2 resolved", note_id="s2"),
+        _paper("Ambiguous", pdf_url="https://openreview.net/pdf?id=amb", note_id="ambiguous"),
+        _paper("PDF only", pdf_url="https://openreview.net/pdf?id=pdf", note_id="pdf"),
+        _paper("Unavailable", note_id="unavailable"),
+    ]
+    local = openreview_stats.compare_local(
+        submissions,
+        [
+            _local("2501.00001", "Processed", result_count=4),
+            _local("2501.00003", "Local pending"),
+            _local("2501.00004", "Ambiguous"),
+            _local("2501.00005", "Ambiguous"),
+        ],
+    )
+    s2 = openreview_stats.compare_s2(
+        submissions,
+        [openreview_stats.S2Candidate("2501.00006", "S2 resolved")],
+    )
+
+    decisions = openreview_stats.resolve_submission_sources(
+        submissions,
+        local_comparison=local,
+        s2_comparison=s2,
+    )
+
+    assert [(decision.note_id, decision.action) for decision in decisions] == [
+        ("processed", "skip-processed"),
+        ("openreview", "queue-arxiv"),
+        ("local", "queue-arxiv"),
+        ("s2", "queue-arxiv"),
+        ("ambiguous", "review"),
+        ("pdf", "queue-pdf"),
+        ("unavailable", "unavailable"),
+    ]
+    assert decisions[1].evidence == "openreview-arxiv-id"
+    assert decisions[1].venue_id == "NeurIPS.cc/2025/Conference"
+    assert decisions[2].evidence == "local-title-author"
+    assert decisions[3].evidence == "semantic-scholar-title"
+    assert decisions[4].pdf_url.endswith("id=amb")
+    assert openreview_stats.summarize_source_plan(decisions) == openreview_stats.SourcePlanStats(
+        considered=7,
+        already_processed=1,
+        planned_arxiv=3,
+        planned_openreview_pdf=1,
+        review_required=1,
+        unavailable=1,
+    )
+
+
 def test_compare_local_prefers_arxiv_then_title_author_and_reports_ambiguity():
     submissions = [
         _paper("Direct", arxiv_id="2501.00001"),
@@ -489,6 +543,44 @@ def test_main_fetches_and_lists_submissions_without_database_or_download(monkeyp
     assert calls == ["NeurIPS.cc/2025/Conference"]
     assert "A paper" in output
     assert "OpenReview (authoritative): 1 submissions; 1 arXiv links" in output
+
+
+def test_main_can_show_read_only_source_decisions(monkeypatch, capsys):
+    submissions = [
+        _paper("arXiv paper", arxiv_id="2501.00001", note_id="arxiv"),
+        _paper("PDF paper", pdf_url="https://openreview.net/pdf?id=pdf", note_id="pdf"),
+    ]
+
+    class FakeClient:
+        @staticmethod
+        def fetch_venue_submissions(_venue_id):
+            return submissions
+
+    monkeypatch.setattr(openreview_stats.OpenReviewClient, "from_config", lambda: FakeClient())
+    monkeypatch.setattr(
+        openreview_stats,
+        "lookup_kaggle_categories",
+        lambda _papers, _snapshot: openreview_stats.KaggleCategorySummary([], {}, 1),
+    )
+
+    assert (
+        openreview_stats.main(
+            [
+                "--no-compare-local",
+                "--no-compare-s2",
+                "--no-filter",
+                "--no-cache",
+                "--show-source-decisions",
+                "2",
+            ]
+        )
+        == 0
+    )
+
+    output = capsys.readouterr().out
+    assert "Source plan (dry run): processed=0; arXiv=1; OpenReview PDF=1" in output
+    assert "queue-arxiv" in output
+    assert "queue-pdf" in output
 
 
 def test_main_defaults_to_neurips_2024(monkeypatch, capsys):
