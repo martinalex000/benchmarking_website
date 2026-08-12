@@ -337,6 +337,7 @@ def test_dataset_export_sanitizes_summary_stats_and_benchmark_data(monkeypatch, 
             benchmark_id=benchmark.id,
             name="ogbn-arxiv",
             task_type="node_classification",
+            short_description="Predict each paper's subject area.",
             description="Node classification on arXiv citation network (40 subject areas).",
             detailed_description=json.dumps(
                 {
@@ -401,6 +402,7 @@ def test_dataset_export_sanitizes_summary_stats_and_benchmark_data(monkeypatch, 
 
     assert dataset_page.exists()
     dataset_text = dataset_page.read_text(encoding="utf-8")
+    assert "short_description: Predict each paper's subject area." in dataset_text
     assert "num_classes: 40" in dataset_text
     assert "num_classes: 1" not in dataset_text
     assert "task: Predict a subject area." in dataset_text

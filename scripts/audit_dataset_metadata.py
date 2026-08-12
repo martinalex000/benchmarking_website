@@ -22,9 +22,17 @@ REQUIRED_DETAIL_SECTIONS = (
 
 def audit_dataset(dataset: dict[str, Any]) -> list[str]:
     issues: list[str] = []
+    short_description = str(dataset.get("short_description") or "").strip()
     description = str(dataset.get("description") or "").strip()
     details = dataset.get("detailed_description")
     sources = dataset.get("sources")
+
+    if not short_description:
+        issues.append("missing one-line description")
+    elif len(short_description) > 180:
+        issues.append("one-line description exceeds 180 characters")
+    elif "**" in short_description:
+        issues.append("one-line description contains presentation markup")
 
     if not description:
         issues.append("missing concise description")

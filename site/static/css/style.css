@@ -2569,6 +2569,11 @@ a.mini-badge-code:focus-visible,
 .dataset-header .dataset-description p {
   margin: 0;
 }
+.dataset-card-summary {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .dataset-research {
   order: 4;
   margin-top: 0.75rem;

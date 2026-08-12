@@ -101,6 +101,7 @@ class Dataset(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     benchmark_id = Column(Integer, ForeignKey("benchmarks.id", ondelete="SET NULL"))
     name = Column(String, nullable=False)
+    short_description = Column(Text)  # One-line dataset-index summary
     description = Column(Text)
     detailed_description = Column(Text)  # JSON object of researched detail sections
     sources = Column(Text)  # JSON list of source/provenance records

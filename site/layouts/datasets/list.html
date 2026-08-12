@@ -85,7 +85,8 @@
         {{ with .Params.task_type }}<span class="badge">{{ replace . "_" " " }}</span>{{ end }}
         {{ with .Params.result_count }}<span class="badge muted">{{ . }} results</span>{{ end }}
       </div>
-      {{ with .Params.description }}<p>{{ . }}</p>{{ end }}
+      {{ $summary := .Params.short_description | default .Params.description }}
+      {{ with $summary }}<p class="dataset-card-summary" title="{{ . | plainify }}">{{ . | plainify }}</p>{{ end }}
       {{ with .Params.best_model }}
       {{ $bestArxiv := .arxiv_id }}
       {{ $bestTitle := .paper_title }}

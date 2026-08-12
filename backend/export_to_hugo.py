@@ -3441,6 +3441,7 @@ def _export_dataset_impl(session: Session, dataset_id: int) -> bool:
         "slug": dataset_slug,
         "benchmark": benchmark_name,
         "task_type": ds.task_type or "",
+        "short_description": ds.short_description or "",
         "description": ds.description or "",
         "detailed_description": _json_metadata(ds.detailed_description, dict, {}),
         "sources": _json_metadata(ds.sources, list, []),

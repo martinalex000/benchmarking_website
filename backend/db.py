@@ -160,6 +160,10 @@ def _migration_dataset_research_metadata(engine: Engine) -> None:
     _add_column_if_missing(engine, "datasets", "sources", "TEXT")
 
 
+def _migration_dataset_short_description(engine: Engine) -> None:
+    _add_column_if_missing(engine, "datasets", "short_description", "TEXT")
+
+
 def _migration_todo_manual_importance(engine: Engine) -> None:
     # Added after 003 was already applied on some DBs without this column.
     _add_column_if_missing(
@@ -229,6 +233,7 @@ MIGRATIONS: tuple[Migration, ...] = (
         "016_pending_dataset_discovery_payload", _migration_pending_dataset_discovery_payload
     ),
     Migration("017_dataset_research_metadata", _migration_dataset_research_metadata),
+    Migration("018_dataset_short_description", _migration_dataset_short_description),
 )
 
 

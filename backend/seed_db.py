@@ -258,34 +258,13 @@ def _move_dataset_to_benchmark(
     if target is None:
         return
     if source is None:
-        dataset = (
-            session.query(Dataset).filter_by(name=dataset_name, benchmark_id=target.id).first()
-        )
-        if dataset is not None and dataset_name == "Deezer":
-            dataset.description = (
-                "Deezer Europe user friendship graph binary node classification (like/dislike), "
-                "used in LINKX-style non-homophily evaluations."
-            )
         return
     dataset = session.query(Dataset).filter_by(name=dataset_name, benchmark_id=source.id).first()
     if dataset is None:
-        dataset = (
-            session.query(Dataset).filter_by(name=dataset_name, benchmark_id=target.id).first()
-        )
-        if dataset is not None and dataset_name == "Deezer":
-            dataset.description = (
-                "Deezer Europe user friendship graph binary node classification (like/dislike), "
-                "used in LINKX-style non-homophily evaluations."
-            )
         return
     existing = session.query(Dataset).filter_by(name=dataset_name, benchmark_id=target.id).first()
     if existing is None:
         dataset.benchmark_id = target.id
-        if dataset_name == "Deezer":
-            dataset.description = (
-                "Deezer Europe user friendship graph binary node classification (like/dislike), "
-                "used in LINKX-style non-homophily evaluations."
-            )
         logger.info("Moved dataset %s from %s to %s", dataset_name, source_name, target_name)
     else:
         logger.warning(
@@ -455,6 +434,7 @@ def seed(dry_run: bool = False) -> None:
             for ds_data in bm_data.get("datasets", []):
                 ds_defaults = {
                     "task_type": ds_data.get("task_type"),
+                    "short_description": ds_data.get("short_description"),
                     "description": ds_data.get("description"),
                     "detailed_description": json.dumps(
                         ds_data.get("detailed_description", {}), ensure_ascii=False
