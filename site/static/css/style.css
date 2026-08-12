@@ -2566,6 +2566,9 @@ a.mini-badge-code:focus-visible,
   color: var(--gray-600);
   font-size: 0.92rem;
 }
+.dataset-header .dataset-description p {
+  margin: 0;
+}
 .dataset-research {
   order: 4;
   margin-top: 0.75rem;

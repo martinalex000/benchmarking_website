@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -29,6 +30,11 @@ def audit_dataset(dataset: dict[str, Any]) -> list[str]:
         issues.append("missing concise description")
     elif len(description) > 280:
         issues.append("concise description exceeds 280 characters")
+    else:
+        if not re.match(r"^\*\*[^*]+\*\*", description):
+            issues.append("concise description lacks a bold task specification")
+        if "evaluated by" not in description.lower():
+            issues.append("concise description lacks the evaluation metric")
 
     if not isinstance(details, dict):
         issues.append("missing detailed description")

@@ -9,7 +9,11 @@ benchmarks:
   datasets:
   - name: Peptides-func
     task_type: graph_classification
-    description: Multi-label prediction of 10 therapeutic peptide functions from heavy-atom molecular graphs derived from SATPdb.
+    description: >-
+      **10-dimensional multi-label classification** on molecular graphs without hydrogens.
+      Predict a binary label per peptide function (antibacterial, antiviral, cell-cell
+      communication, antifungal, anticancer, etc.) from OGB features. Positive rates span
+      1.9%–62.7%; evaluated by AP.
     detailed_description:
       task: Predict all applicable therapeutic-function labels for each peptide. A peptide may have several of the 10 labels, so this is graph-level multi-label classification evaluated with the unweighted mean average precision across labels.
       data: The benchmark contains 15,535 peptides selected from SATPdb, which itself aggregates and manually curates peptide records from 22 source databases. Each peptide is represented as a molecular graph whose nodes are non-hydrogen atoms and whose edges are covalent bonds.
@@ -37,7 +41,10 @@ benchmarks:
       is_standard: true
   - name: Peptides-struct
     task_type: graph_regression
-    description: Regression of 11 normalized 3D shape descriptors from heavy-atom peptide graphs that contain no 3D coordinates.
+    description: >-
+      **11-target graph regression** Predict 11 graph-level geometric descriptors computed from each
+      peptide's 3D structure. Inputs use OGB's nine categorical atom fields and three categorical bond
+      fields derived from SMILES. Evaluated by MAE.
     detailed_description:
       task: Predict 11 graph-level geometric descriptors computed from each peptide's 3D structure. The targets cover three mass-weighted inertias, three valence-weighted inertias, three principal-axis lengths, sphericity, and distance from a best-fit plane; each target is standardized to zero mean and unit variance.
       data: The 15,535 peptides are the same SATPdb-derived molecules used by Peptides-func. Nodes are non-hydrogen atoms and edges are covalent bonds, giving much larger molecular graphs than typical small-molecule benchmarks.
@@ -64,7 +71,9 @@ benchmarks:
       is_standard: true
   - name: PascalVOC-SP
     task_type: node_classification
-    description: Semantic segmentation of Pascal VOC 2011 images represented as sparse graphs of SLIC superpixels.
+    description: >-
+      **21-class node classification** Assign one of 21 semantic-segmentation labels, including
+      background, to every superpixel node. Evaluated by F1.
     detailed_description:
       task: Assign one of 21 semantic-segmentation labels, including background, to every superpixel node. A superpixel receives the ground-truth class of the pixel at the superpixel's center-of-mass coordinate.
       data: Each of 11,355 images from the Semantic Boundaries Dataset augmentation of Pascal VOC 2011 becomes one graph. SLIC with compactness 30 produces at most 500 image regions, and two regions are connected when they share a boundary in the default region-adjacency graph.
@@ -91,7 +100,10 @@ benchmarks:
       is_standard: true
   - name: COCO-SP
     task_type: node_classification
-    description: Semantic segmentation of MS COCO images represented as sparse graphs of SLIC superpixels.
+    description: >-
+      **81-class node classification** Predict one of 81 semantic labels for each superpixel node.
+      Nodes contain 12 per-region RGB statistics—mean, standard deviation, maximum, and minimum per
+      channel—and two center-of-mass coordinates. Evaluated by F1.
     detailed_description:
       task: Predict one of 81 semantic labels for each superpixel node. The assigned target is the pixel annotation at the mean coordinate of the superpixel region.
       data: The benchmark converts 123,286 MS COCO images into graphs. Its default construction uses SLIC superpixels with compactness 30 and at most 500 regions per image, joined by edges when the regions share a boundary.
@@ -118,7 +130,10 @@ benchmarks:
       is_standard: true
   - name: PCQM-Contact
     task_type: link_prediction
-    description: Inductive prediction of non-covalent 3D atom contacts from 2D molecular graphs derived from PCQM4Mv2.
+    description: >-
+      **Long-range link prediction** Rank atom pairs that are more than five covalent-bond hops apart
+      but less than 3.5 angstrom apart in the molecule's computed 3D geometry. Only atom pairs
+      separated by more than five covalent hops are candidates. Evaluated by MRR.
     detailed_description:
       task: Rank atom pairs that are more than five covalent-bond hops apart but less than 3.5 angstrom apart in the molecule's computed 3D geometry. The benchmark frames this contact-map problem as link prediction on previously unseen molecules.
       data: The 529,434 molecules come from PCQM4Mv2 training molecules with available 3D structures and at least one qualifying contact. Unlike most molecular graph benchmarks, hydrogen atoms are explicit nodes because hydrogen bonding is relevant to the contact target.
@@ -155,7 +170,10 @@ benchmarks:
   datasets:
   - name: BlueSky
     task_type: node_regression
-    description: Temporal node regression of future Bluesky post engagement from directed interaction graphs and content embeddings.
+    description: >-
+      **Node regression** Predict each user's median likes, replies, and reposts on future posts using
+      earlier posts and interactions. User features aggregate modern language-model embeddings of
+      posts written before the prediction cutoff. Evaluated by MAE.
     detailed_description:
       task: Predict each user's median likes, replies, and reposts on future posts using earlier posts and interactions. GraphBench reports MAE, R-squared, and Spearman correlation for separate quote-, reply-, and repost-edge graphs.
       data: Users are nodes and a directed timestamped edge records that one user quoted, replied to, or reposted another user's post. The benchmark derives these graphs from the public Bluesky collection curated by Failla and colleagues.
@@ -181,10 +199,9 @@ benchmarks:
       is_standard: true
   - name: Chip Design
     task_type: graph_generation
-    description: 'Learning to generate small Boolean circuits (and-inverter graphs,
-      AIGs). Generation task: produce functionally equivalent, optimised circuits.
-
-      '
+    description: >-
+      **Graph generation** Generate a structurally efficient and-inverter graph implementing a
+      supplied Boolean function while preserving the exact truth table. Evaluated by Accuracy.
     detailed_description:
       task: Generate a structurally efficient and-inverter graph implementing a supplied Boolean function while preserving the exact truth table. Quality must account for functional equivalence as well as circuit size or synthesis cost.
       data: Samples are small directed acyclic logic circuits represented as and-inverter graphs. The benchmark uses functions and circuits produced with established logic-synthesis tooling rather than analog measurements.
@@ -207,10 +224,10 @@ benchmarks:
       is_standard: true
   - name: Electronic Circuits
     task_type: graph_regression
-    description: 'Analog circuit topology design. Graph-level task: predict 2 continuous
-      performance metrics from graph structure across 3 circuit-size datasets.
-
-      '
+    description: >-
+      **Graph regression** Regress voltage conversion ratio and power conversion efficiency for a
+      switched power-converter topology. Nodes represent capacitors, inductors, two phase-specific
+      switch types, input, output, and ground. Evaluated by MAE.
     detailed_description:
       task: Regress voltage conversion ratio and power conversion efficiency for a switched power-converter topology. Each target is evaluated separately with relative squared error.
       data: Random valid, non-isomorphic converter topologies contain 5, 7, or 10 internal components and three terminal ports. NGSPICE simulations supply targets; circuits that fail simulation are discarded.
@@ -236,10 +253,9 @@ benchmarks:
       is_standard: true
   - name: SAT Solving
     task_type: graph_classification
-    description: 'SAT problem instances represented as graphs. Multi-level node/edge/graph-level
-      tasks across 11 solvers and 3 instance-size scales.
-
-      '
+    description: >-
+      **Joint solver-selection and runtime prediction** on SAT-instance graphs, selecting the fastest
+      solver and regressing per-solver runtime. Evaluated by Accuracy.
     detailed_description:
       task: GraphBench defines graph-level algorithm selection, choosing the fastest SAT solver for an instance, and empirical performance prediction, regressing individual solver runtime. These are separate classification and regression targets over the same formulas.
       data: The collection combines SAT instances spanning several size regimes and records runtimes for multiple modern solvers. Formulas are available in literal-clause, variable-clause, and variable graph representations.
@@ -271,10 +287,9 @@ benchmarks:
       is_standard: false
   - name: Combinatorial Optimization
     task_type: graph_regression
-    description: 'Synthetically generated NP-hard optimization problems (3 families
-      × 2 configs). Node/edge/graph-level prediction of optimal solution costs.
-
-      '
+    description: >-
+      **Graph regression** For maximum independent set, max-cut, and graph coloring instances, the
+      supervised task predicts the optimal objective value with MAE. Evaluated by MAE.
     detailed_description:
       task: For maximum independent set, max-cut, and graph coloring instances, the supervised task predicts the optimal objective value with MAE. A separate unsupervised protocol learns variable scores, decodes them to a feasible solution, and evaluates the decoded objective.
       data: Each problem is generated on Barabasi-Albert, Erdos-Renyi, and RB random graphs, with 50,000 instances per dataset and small/large configurations. Solver-generated optima provide supervised labels.
@@ -294,10 +309,10 @@ benchmarks:
       is_standard: true
   - name: Algorithmic Reasoning
     task_type: graph_classification
-    description: 'Graphs from 6 generators with 7 algorithmic reasoning tasks (e.g.
-      MST). Size generalisation: train on size 16, test up to 512 nodes.
-
-      '
+    description: >-
+      **Mixed node/edge/graph prediction suite** covering topological sorting, maximum flow, MST,
+      bridges, Steiner tree, maximum clique, and matching with task-specific node, edge, or graph
+      targets. Evaluated by Accuracy.
     detailed_description:
       task: >-
         Simulate seven graph algorithms through node regression, node classification, or
@@ -323,10 +338,10 @@ benchmarks:
       is_standard: true
   - name: Weather Forecasting
     task_type: node_regression
-    description: 'ERA5 reanalysis data on a 64×32 icosahedron grid. Node-level task:
-      predict 12h residual change in 11 atmospheric variables.
-
-      '
+    description: >-
+      **Node regression** Predict the residual change in atmospheric state 12 hours ahead from the two
+      preceding six-hour states. Grid nodes contain two consecutive weather states and static location
+      information. Evaluated by MAE.
     detailed_description:
       task: Predict the residual change in atmospheric state 12 hours ahead from the two preceding six-hour states. Training uses latitude-, variable-, and pressure-level-weighted MSE; evaluation reports per-variable unweighted MSE.
       data: ERA5 reanalysis is processed through WeatherBench2 and conservatively downsampled to a 64 by 32 global grid at six-hour resolution. The representation includes the latitude-longitude grid, an icosahedral mesh, and mappings between them.
@@ -355,7 +370,10 @@ benchmarks:
       is_standard: true
   - name: BA graph
     task_type: graph_regression
-    description: Predict optimum values, or learn feasible solutions, for graph-optimization problems on synthetic Barabási–Albert graphs.
+    description: >-
+      **Graph regression** Predict an optimal combinatorial-objective value in the supervised
+      protocol, or learn node scores that a problem-specific decoder turns into a feasible solution in
+      the unsupervised protocol. Evaluated by MAE.
     detailed_description:
       task: Predict an optimal combinatorial-objective value in the supervised protocol, or learn node scores that a problem-specific decoder turns into a feasible solution in the unsupervised protocol. GraphBench covers maximum independent set, max-cut, and graph coloring.
       data: Synthetic Barabási–Albert preferential-attachment graphs are generated in small and large regimes. The generator controls graph size and the number of edges attached by each newly added node; GraphBench reports 50,000 instances per dataset.
@@ -378,7 +396,10 @@ benchmarks:
       is_standard: true
   - name: ER graph
     task_type: graph_regression
-    description: Predict optimum values, or learn feasible solutions, for graph-optimization problems on synthetic Erdős–Rényi graphs.
+    description: >-
+      **Graph regression** Predict an optimal combinatorial-objective value in the supervised
+      protocol, or learn node scores decoded into feasible solutions in the unsupervised protocol.
+      Graphs have no supplied node or edge features, so topology is the model input. Evaluated by MAE.
     detailed_description:
       task: Predict an optimal combinatorial-objective value in the supervised protocol, or learn node scores decoded into feasible solutions in the unsupervised protocol. The included problems are maximum independent set, max-cut, and graph coloring.
       data: Synthetic Erdős–Rényi graphs are sampled in small and large regimes by controlling node count and independent edge probability. GraphBench reports 50,000 instances per dataset.
@@ -401,7 +422,11 @@ benchmarks:
       is_standard: true
   - name: RB graph
     task_type: graph_regression
-    description: Predict optimum values, or learn feasible solutions, for graph-optimization problems on synthetic RB-model graphs.
+    description: >-
+      **Graph regression** Predict the optimal objective value for maximum independent set in the
+      supervised setting, or train node scores with differentiable surrogates and
+      feasibility-preserving decoders for maximum independent set, max-cut, and graph coloring.
+      Evaluated by MAE.
     detailed_description:
       task: Predict the optimal objective value for maximum independent set in the supervised setting, or train node scores with differentiable surrogates and feasibility-preserving decoders for maximum independent set, max-cut, and graph coloring.
       data: RB-model instances contain n groups of k vertices and use a constraint-tightness parameter p; GraphBench rejection-samples to keep graph sizes in configured ranges and provides small and large variants with 50,000 instances per dataset.
@@ -424,7 +449,9 @@ benchmarks:
       is_standard: true
   - name: MST
     task_type: edge_classification
-    description: Identify the edges in a minimum spanning tree of each weighted synthetic graph.
+    description: >-
+      **Edge classification** Classify each edge according to whether it belongs to the NetworkX
+      reference minimum spanning tree. Edge weights are provided as edge attributes. Evaluated by F1.
     detailed_description:
       task: Classify each edge according to whether it belongs to the NetworkX reference minimum spanning tree.
       data: Unique synthetic graphs are drawn from ER, stochastic-block, power-law-cluster, Newman-Watts-Strogatz, BA, and dual-BA generators. Difficulty changes the train-versus-test generator mixture; MST also uses shifted generator parameters because the original setting generalized too easily.
@@ -453,7 +480,10 @@ benchmarks:
       is_standard: false
   - name: Bridges
     task_type: edge_classification
-    description: Classify which edges are bridges whose removal increases the number of connected components.
+    description: >-
+      **Edge classification** Predict a binary label for every edge indicating whether it is a graph
+      bridge, using NetworkX outputs as ground truth. The task provides topology without task-specific
+      node or edge attributes. Evaluated by F1.
     detailed_description:
       task: Predict a binary label for every edge indicating whether it is a graph bridge, using NetworkX outputs as ground truth.
       data: Unique synthetic graphs come from mixtures of ER, stochastic-block, power-law-cluster, BA, and dual-BA generators; the bridge task omits Newman-Watts-Strogatz. Generator mixture differs across easy, medium, and hard train/test settings.
@@ -482,7 +512,10 @@ benchmarks:
       is_standard: false
   - name: Max Clique
     task_type: node_classification
-    description: Classify the vertices selected by a reference maximum-clique solution on synthetic graphs.
+    description: >-
+      **Node classification** Predict a binary membership label for each node in a maximum clique
+      selected by the reference solution procedure. Labels encode one selected optimum, although
+      multiple maximum cliques may exist. Evaluated by F1.
     detailed_description:
       task: Predict a binary membership label for each node in a maximum clique selected by the reference solution procedure.
       data: Unique synthetic graphs are generated from ER, stochastic-block, power-law-cluster, Newman-Watts-Strogatz, BA, and dual-BA families. Easy, medium, and hard settings alter which generators appear in training and evaluation.
@@ -509,7 +542,10 @@ benchmarks:
       is_standard: false
   - name: Max Matching
     task_type: edge_classification
-    description: Classify the edges selected by a reference maximum bipartite matching algorithm.
+    description: >-
+      **Edge classification** Predict binary edge membership in a maximum-cardinality bipartite
+      matching computed by the reference algorithm. Node features identify the bipartition required by
+      the task; graph connectivity supplies the candidate edges. Evaluated by F1.
     detailed_description:
       task: Predict binary edge membership in a maximum-cardinality bipartite matching computed by the reference algorithm.
       data: Unique synthetic inputs are sampled from ER, stochastic-block, power-law-cluster, Newman-Watts-Strogatz, BA, and dual-BA generators, with easy, medium, and hard generator-mixture shifts.
@@ -536,7 +572,10 @@ benchmarks:
       is_standard: false
   - name: Steiner Trees
     task_type: edge_classification
-    description: Classify the edges selected for a reference Steiner tree connecting designated terminals.
+    description: >-
+      **Edge classification** Predict a binary label for each edge indicating membership in the
+      reference Steiner tree that connects the designated terminal nodes. Node features designate the
+      required terminals and edge attributes provide weights. Evaluated by F1.
     detailed_description:
       task: Predict a binary label for each edge indicating membership in the reference Steiner tree that connects the designated terminal nodes.
       data: Unique weighted synthetic graphs are sampled from six standard random-graph generators. Easy, medium, and hard settings vary the train/test generator mixtures, with training on 16-node graphs and evaluation on 128-node graphs.
@@ -563,7 +602,10 @@ benchmarks:
       is_standard: false
   - name: Topological Sorting
     task_type: node_regression
-    description: Regress each vertex's position in a reference topological ordering of a synthetic directed acyclic graph.
+    description: >-
+      **Node regression** Predict a real-valued ordering position for every node in a directed acyclic
+      graph, matching the reference topological sort. Task-specific node information is provided along
+      with directed topology. Evaluated by MAE.
     detailed_description:
       task: Predict a real-valued ordering position for every node in a directed acyclic graph, matching the reference topological sort.
       data: Unique synthetic graphs are drawn from six generator families and converted into valid task instances. Difficulty changes the generator mixture between train and evaluation; training graphs have 16 nodes and test graphs 128.
@@ -590,7 +632,9 @@ benchmarks:
       is_standard: false
   - name: Flow
     task_type: graph_regression
-    description: Regress the maximum source-to-sink flow value of a weighted synthetic network.
+    description: >-
+      **Graph regression** Predict one scalar per graph: the maximum feasible flow between designated
+      source and sink vertices under the supplied edge capacities. Evaluated by MAE.
     detailed_description:
       task: >-
         Predict one scalar per graph: the maximum feasible flow between designated source
@@ -629,7 +673,9 @@ benchmarks:
   datasets:
   - name: ogbg-molhiv
     task_type: graph_classification
-    description: Binary prediction of HIV replication inhibition from molecular graphs, using MoleculeNet assay labels and a scaffold split.
+    description: >-
+      **Binary graph classification** Predict whether a compound inhibits HIV replication. Evaluated
+      by ROC-AUC.
     detailed_description:
       task: Predict whether a compound inhibits HIV replication. This is one binary graph-classification task scored by ROC-AUC because active compounds are rare.
       data: The 41,127 compounds are OGB's RDKit-processed version of the MoleculeNet HIV dataset. Each graph is one molecule, with atoms as nodes and covalent bonds as edges; the activity labels ultimately come from the Drug Therapeutics Program AIDS antiviral screen.
@@ -661,7 +707,10 @@ benchmarks:
       notes: OGB scaffold split; use the official default task and features.
   - name: ogbg-molpcba
     task_type: graph_classification
-    description: Multi-task prediction of 128 PubChem bioassay outcomes from molecular graphs under a scaffold split.
+    description: >-
+      **128-task multi-label graph classification** Predict activity separately for 128 PubChem
+      BioAssay tasks. Inputs use the standard OGB nine-field categorical atom representation and
+      three-field categorical bond representation generated from SMILES. Evaluated by AP.
     detailed_description:
       task: Predict activity separately for 128 PubChem BioAssay tasks. Labels are binary where measured, but many molecule-task pairs are unassayed and stored as missing rather than negative.
       data: OGB adopts 437,929 RDKit-processable compounds from MoleculeNet's PCBA collection. Graphs represent atoms and covalent bonds; assay outcomes originate from PubChem's heterogeneous high-throughput screening records.
@@ -693,7 +742,10 @@ benchmarks:
       notes: OGB scaffold split; AP is averaged across all 128 tasks.
   - name: ogbg-ppa
     task_type: graph_classification
-    description: Classification of STRING protein-association neighborhoods into 37 broad taxonomic groups, with held-out species.
+    description: >-
+      **37-class graph classification** Given a protein-association neighborhood, predict the broad
+      taxonomic group of its source species. Nodes carry no intrinsic biological feature in the
+      standard artifact. Evaluated by Accuracy.
     detailed_description:
       task: Given a protein-association neighborhood, predict the broad taxonomic group of its source species. The output is one of 37 classes and is scored by accuracy.
       data: OGB samples 100 center proteins from each of 1,581 STRING species, extracts their two-hop association neighborhoods, removes the center, and subsamples graphs to fewer than 300 protein nodes. The resulting 158,100 graphs cover diverse branches of the tree of life.
@@ -725,7 +777,9 @@ benchmarks:
       notes: OGB species split.
   - name: ogbg-code2
     task_type: graph_classification
-    description: Method-name subtoken prediction from augmented abstract syntax trees of about 452,000 Python methods.
+    description: >-
+      **Set-valued graph prediction** Predict the subtokens in a Python method's name from the method
+      body represented as an abstract syntax tree. Evaluated by F1.
     detailed_description:
       task: Predict the subtokens in a Python method's name from the method body represented as an abstract syntax tree. The graph-level output is a sequence, but the official F1 score compares sets of predicted and reference subtokens and therefore does not reward the correct subtoken order.
       data: The 452,741 methods originate from CodeSearchNet and were extracted from 13,587 popular GitHub repositories. OGB parses each method into an abstract syntax tree and augments the tree with next-token edges; inverse edges are normally added for bidirectional message passing.
@@ -757,7 +811,9 @@ benchmarks:
       notes: OGB project split.
   - name: ogbn-arxiv
     task_type: node_classification
-    description: Time-split classification of computer-science arXiv papers into 40 primary subject areas on a MAG citation graph.
+    description: >-
+      **40-class node classification** Predict each paper's primary arXiv computer-science category
+      from its content representation and citation context. Evaluated by Accuracy.
     detailed_description:
       task: Predict each paper's primary arXiv computer-science category from its content representation and citation context. The task is transductive 40-class node classification scored by accuracy.
       data: The directed graph contains 169,343 arXiv CS papers indexed by Microsoft Academic Graph; a directed edge represents a citation. Labels are primary categories assigned through arXiv submission and moderation, and publication years accompany nodes.
@@ -787,7 +843,10 @@ benchmarks:
       is_standard: true
   - name: ogbn-proteins
     task_type: node_classification
-    description: Cross-species prediction of 112 protein functions on a weighted, multi-evidence STRING association graph.
+    description: >-
+      **112-label node classification** Predict all applicable Gene Ontology-derived function labels
+      for each protein. Edges have eight confidence values between zero and one, one per association
+      evidence channel. Evaluated by ROC-AUC.
     detailed_description:
       task: Predict all applicable Gene Ontology-derived function labels for each protein. This is 112-task multi-label node classification evaluated by mean ROC-AUC across tasks.
       data: One undirected graph contains 132,534 proteins from eight species and biologically meaningful STRING associations including physical interaction, co-expression, and homology.
@@ -819,7 +878,10 @@ benchmarks:
       is_standard: true
   - name: ogbn-products
     task_type: node_classification
-    description: Popularity-split classification of Amazon products into 47 top-level categories on a co-purchase graph.
+    description: >-
+      **47-class node classification** Predict one of 47 top-level product categories for every
+      product node using its description representation and co-purchase neighborhood. Evaluated by
+      Accuracy.
     detailed_description:
       task: Predict one of 47 top-level product categories for every product node using its description representation and co-purchase neighborhood. Accuracy is the official metric.
       data: The undirected, unweighted graph contains 2,449,029 Amazon products; an edge indicates that two products are frequently purchased together. Categories and preprocessing follow the Cluster-GCN version of the source collection.
@@ -849,7 +911,10 @@ benchmarks:
       is_standard: true
   - name: ogbn-papers100M
     task_type: node_classification
-    description: Time-split classification of arXiv papers into 172 subjects within a 111-million-paper MAG citation graph.
+    description: >-
+      **172-class node classification** Predict a primary arXiv subject area for the approximately 1.5
+      million labeled arXiv papers while using the full 111-million-node citation network. Evaluated
+      by Accuracy.
     detailed_description:
       task: Predict a primary arXiv subject area for the approximately 1.5 million labeled arXiv papers while using the full 111-million-node citation network. Accuracy over 172 classes is the official measure.
       data: Nodes are papers indexed by Microsoft Academic Graph and directed edges are citations. Most nodes are not arXiv papers and have no class label, but remain available as unlabeled graph context.
@@ -879,7 +944,9 @@ benchmarks:
       is_standard: true
   - name: ogbn-mag
     task_type: node_classification
-    description: Time-split prediction of 349 publication venues for papers in a heterogeneous Microsoft Academic Graph subset.
+    description: >-
+      **349-class node classification** Predict the conference or journal of each paper using paper
+      content, citations, authors, affiliations, and fields of study. Evaluated by Accuracy.
     detailed_description:
       task: Predict the conference or journal of each paper using paper content, citations, authors, affiliations, and fields of study. It is a 349-class paper-node classification task scored by accuracy.
       data: The heterogeneous graph has paper, author, institution, and field-of-study nodes, connected by writes, affiliation, citation, and topic relations. It contains 736,389 papers within 1,939,743 total entities.
@@ -908,7 +975,10 @@ benchmarks:
       is_standard: true
   - name: ogbl-collab
     task_type: link_prediction
-    description: Time-based prediction of future co-authorships in a Microsoft Academic Graph author network.
+    description: >-
+      **Link prediction** Rank future author-author collaboration edges above sampled non-edges, given
+      collaborations observed in earlier years. Each author has a 128-dimensional vector obtained by
+      averaging word embeddings over that author's papers. Evaluated by Hits@50.
     detailed_description:
       task: Rank future author-author collaboration edges above sampled non-edges, given collaborations observed in earlier years. The official score is Hits@50 against 100,000 sampled negative pairs per positive edge.
       data: The undirected graph is a MAG subset with 235,868 author nodes. Multiple collaborations between the same authors in different years remain separate temporal edges; edge weight records the number of jointly authored papers in that year.
@@ -936,7 +1006,10 @@ benchmarks:
       is_standard: true
   - name: ogbl-ppa
     task_type: link_prediction
-    description: Prediction of low-throughput protein associations from a multi-species STRING graph and easier evidence channels.
+    description: >-
+      **Link prediction** Predict held-out biologically meaningful protein-protein association edges.
+      Each node has only a 58-dimensional one-hot species indicator in the standard artifact.
+      Evaluated by Hits@100.
     detailed_description:
       task: Predict held-out biologically meaningful protein-protein association edges. Each positive is ranked against three million sampled negative edges and evaluated by Hits@100.
       data: The undirected graph contains 576,289 proteins from 58 species and STRING associations arising from physical interaction, co-expression, homology, genomic neighborhood, and other evidence.
@@ -964,7 +1037,10 @@ benchmarks:
       is_standard: true
   - name: ogbl-ddi
     task_type: link_prediction
-    description: Protein-target-split prediction of interactions among FDA-approved and experimental drugs from DrugBank.
+    description: >-
+      **Link prediction** Rank true drug-drug interaction edges above sampled non-interacting pairs.
+      The standard graph supplies topology but no intrinsic drug node features or typed interaction
+      labels. Evaluated by Hits@20.
     detailed_description:
       task: Rank true drug-drug interaction edges above sampled non-interacting pairs. OGB reports Hits@20 with each positive ranked among approximately 100,000 random negatives.
       data: The homogeneous, undirected, unweighted DrugBank graph contains 4,267 drugs. An edge means the combined effect of the drug pair differs substantially from the effect expected if the drugs acted independently.
@@ -992,7 +1068,10 @@ benchmarks:
       is_standard: true
   - name: ogbl-citation2
     task_type: link_prediction
-    description: Time-based recommendation of missing references in a directed Microsoft Academic Graph citation network.
+    description: >-
+      **Link prediction** For each 2019 source paper, rank a withheld true reference above 1,000
+      older, uncited candidate papers. Papers have 128-dimensional averages of skip-gram embeddings
+      from their titles and abstracts. Evaluated by MRR.
     detailed_description:
       task: For each 2019 source paper, rank a withheld true reference above 1,000 older, uncited candidate papers. Mean reciprocal rank is averaged over the source-paper queries.
       data: The directed MAG subset contains 2,927,963 papers and 30,561,187 citation edges. Each node has its publication year and citations point from the citing paper to the referenced paper.
@@ -1020,7 +1099,10 @@ benchmarks:
       is_standard: true
   - name: ogbl-wikikg2
     task_type: link_prediction
-    description: Time-split completion of 535 relation types in a 2.5-million-entity Wikidata knowledge graph.
+    description: >-
+      **Link prediction** Predict missing heads or tails of Wikidata triples. Entities are identifiers
+      with learned representations in the standard task; no text or image features are supplied by the
+      core artifact. Evaluated by MRR.
     detailed_description:
       task: Predict missing heads or tails of Wikidata triples. Filtered MRR ranks each true entity against 500 sampled corrupt heads and 500 sampled corrupt tails that do not form known triples.
       data: The graph contains 2,500,604 retained entities, 535 directed relation types, and 17,137,181 triples extracted from historical Wikidata dumps after filtering rare entities.
@@ -1048,7 +1130,9 @@ benchmarks:
       is_standard: true
   - name: ogbl-biokg
     task_type: link_prediction
-    description: Typed completion of a heterogeneous biomedical knowledge graph with five entity types and 51 relations.
+    description: >-
+      **Link prediction** Predict missing biomedical triples by ranking the true head or tail above
+      sampled replacements of the same entity type. Evaluated by MRR.
     detailed_description:
       task: Predict missing biomedical triples by ranking the true head or tail above sampled replacements of the same entity type. The official metric is filtered mean reciprocal rank.
       data: The aggregate graph has 93,773 diseases, proteins, drugs, side effects, and protein functions joined by 51 directed relation types. These include 38 drug-drug and eight protein-protein relations plus drug-protein, drug-side-effect, and function relations.
@@ -1073,7 +1157,10 @@ benchmarks:
       is_standard: true
   - name: PCQM4Mv2
     task_type: graph_regression
-    description: Regression of DFT-computed HOMO-LUMO gaps for 3.75 million PubChemQC molecules from their molecular graphs.
+    description: >-
+      **Graph regression** Predict each molecule's HOMO-LUMO energy gap, a continuous quantum-chemical
+      property calculated with density functional theory. The default 2D graph conversion uses OGB's
+      nine categorical atom and three categorical bond fields from SMILES. Evaluated by MAE.
     detailed_description:
       task: Predict each molecule's HOMO-LUMO energy gap, a continuous quantum-chemical property calculated with density functional theory. Mean absolute error in electron volts is the official metric.
       data: PCQM4Mv2 contains 3,746,619 PubChemQC molecules. Training molecules also have DFT-optimized 3D structures, while SMILES describe the final optimized connectivity; test labels are held by OGB-LSC.
@@ -1110,7 +1197,9 @@ benchmarks:
   datasets:
   - name: Cora
     task_type: node_classification
-    description: Transductive classification of machine-learning papers into seven topics using text features and citation links.
+    description: >-
+      **Node classification** Predict one of seven research-topic labels for every paper in a single
+      citation network. Evaluated by Accuracy.
     detailed_description:
       task: Predict one of seven research-topic labels for every paper in a single citation network. The standard Planetoid formulation is transductive, so the features and graph position of validation and test nodes are available during training while their labels are withheld.
       data: The commonly used Planetoid version contains 2,708 machine-learning papers connected by citation links. It is a processed subset of the larger Cora research-paper collection; other datasets called Cora, including citation-matching corpora and Cora-ML, are not interchangeable with it.
@@ -1161,7 +1250,10 @@ benchmarks:
     - title: PyTorch Geometric ZINC loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.ZINC.html
       kind: implementation_documentation
-    description: Molecular property regression (constrained solubility).
+    description: >-
+      **Graph regression** on heavy-atom molecular graphs, predicting penalized logP (logP minus
+      synthetic-accessibility and long-cycle penalties). Nodes are atom types and edges are bond
+      types. Evaluated by MAE.
     primary_metric: MAE
     higher_is_better: false
     domain: chemistry
@@ -1200,7 +1292,9 @@ benchmarks:
     - title: PyTorch Geometric CiteSeer loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
       kind: implementation_documentation
-    description: Citation network node classification (6 classes).
+    description: >-
+      **Node classification** on one citation graph, predicting each paper’s research topic from
+      bag-of-words features and citation links. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -1230,7 +1324,9 @@ benchmarks:
     - title: PyTorch Geometric PubMed loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
       kind: implementation_documentation
-    description: Citation network node classification (3 classes).
+    description: >-
+      **Node classification** on one citation graph, predicting one of three diabetes-related paper
+      classes from TF-IDF features and citations. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -1260,8 +1356,9 @@ benchmarks:
     - title: PyTorch Geometric Coauthor-CS loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
       kind: implementation_documentation
-    description: Co-authorship graph (CS) node classification from the "Pitfalls of
-      Graph Neural Network Evaluation" paper.
+    description: >-
+      **Node classification** on one coauthorship graph, predicting each author’s computer-science
+      field from paper-keyword features. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -1290,8 +1387,9 @@ benchmarks:
     - title: PyTorch Geometric Coauthor-Physics loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
       kind: implementation_documentation
-    description: Co-authorship graph (Physics) node classification from the "Pitfalls
-      of Graph Neural Network Evaluation" paper.
+    description: >-
+      **Node classification** on one coauthorship graph, predicting each author’s physics field from
+      paper-keyword features. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -1319,7 +1417,9 @@ benchmarks:
     - title: PyTorch Geometric Amazon-Computers loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
       kind: implementation_documentation
-    description: Amazon co-purchase graph (Computers) node classification.
+    description: >-
+      **Node classification** on one co-purchase graph, predicting each product’s category from
+      review-derived features and product links. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: e_commerce
@@ -1347,7 +1447,9 @@ benchmarks:
     - title: PyTorch Geometric Amazon-Photo loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
       kind: implementation_documentation
-    description: Amazon co-purchase graph (Photo) node classification.
+    description: >-
+      **Node classification** on one co-purchase graph, predicting each product’s category from
+      review-derived features and product links. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: e_commerce
@@ -1375,8 +1477,9 @@ benchmarks:
     - title: PyTorch Geometric Reddit loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Reddit.html
       kind: implementation_documentation
-    description: Reddit posts node classification (41 community labels) from the GraphSAGE
-      paper.
+    description: >-
+      **41-class node classification** on a post-interaction graph, predicting the subreddit/community
+      of each post from text-derived features. Evaluated by F1.
     primary_metric: F1
     higher_is_better: true
     domain: social
@@ -1404,7 +1507,9 @@ benchmarks:
     - title: PyTorch Geometric PPI loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PPI.html
       kind: implementation_documentation
-    description: Protein-protein interaction node classification (121 GO labels, multi-label).
+    description: >-
+      **121-label node classification** across protein-interaction graphs, predicting 121
+      non-exclusive Gene Ontology labels per protein from sequence/role features. Evaluated by F1.
     primary_metric: F1
     higher_is_better: true
     domain: biology
@@ -1432,7 +1537,9 @@ benchmarks:
     - title: PyTorch Geometric WikiCS loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikiCS.html
       kind: implementation_documentation
-    description: Wikipedia-based node classification (10 classes) with 20 train splits.
+    description: >-
+      **10-class node classification** on a Wikipedia hyperlink graph, predicting each article’s
+      computer-science category from text-derived features. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: knowledge_graphs
@@ -1464,8 +1571,9 @@ benchmarks:
     - title: PyTorch Geometric AQSOL loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.AQSOL.html
       kind: implementation_documentation
-    description: Aqueous solubility regression on 9,982 molecular graphs from the
-      LRGB paper.
+    description: >-
+      **Graph regression** on molecular graphs, predicting measured aqueous solubility. Atom and bond
+      types form the graph input. Evaluated by MAE.
     primary_metric: MAE
     higher_is_better: false
     domain: chemistry
@@ -1499,8 +1607,10 @@ benchmarks:
     - title: PyTorch Geometric MUTAG loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Graph classification of mutagenic aromatic and heteroaromatic nitro
-      compounds (2 classes).
+    description: >-
+      **2-class graph classification** Graph classification of mutagenic aromatic and heteroaromatic
+      nitro compounds (2 classes). Uses the released node/edge labels or attributes; several social
+      datasets are featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: chemistry
@@ -1532,7 +1642,11 @@ benchmarks:
     - title: PyTorch Geometric PROTEINS loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Graph classification of proteins as enzyme or non-enzyme (2 classes).
+    description: >-
+      **2-class graph classification** Graph classification of proteins as enzyme or non-enzyme (2
+      classes). Uses the released node/edge labels or attributes; several social datasets are
+      featureless. No canonical split; report folds and any added node features. Evaluated by
+      Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: biology
@@ -1565,8 +1679,10 @@ benchmarks:
     - title: PyTorch Geometric D&D loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Graph classification of proteins into enzymes and non-enzymes via
-      D&D representation.
+    description: >-
+      **2-class graph classification** Graph classification of proteins into enzymes and non-enzymes
+      via D&D representation. Uses the released node/edge labels or attributes; several social
+      datasets are featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: biology
@@ -1598,8 +1714,10 @@ benchmarks:
     - title: PyTorch Geometric NCI1 loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Graph classification of chemical compounds screened for anti-cancer
-      activity.
+    description: >-
+      **2-class graph classification** Graph classification of chemical compounds screened for
+      anti-cancer activity. Uses the released node/edge labels or attributes; several social datasets
+      are featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: chemistry
@@ -1631,7 +1749,10 @@ benchmarks:
     - title: PyTorch Geometric COLLAB loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Graph classification of scientific collaboration networks (3 classes).
+    description: >-
+      **3-class graph classification** Graph classification of scientific collaboration networks (3
+      classes). Uses the released node/edge labels or attributes; several social datasets are
+      featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -1642,7 +1763,7 @@ benchmarks:
     num_graphs: 5000
     avg_nodes: 74.5
     avg_edges: 2457.8
-    num_classes: 2
+    num_classes: 3
   - name: IMDB-BINARY
     task_type: graph_classification
     detailed_description:
@@ -1663,8 +1784,10 @@ benchmarks:
     - title: PyTorch Geometric IMDB-BINARY loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Binary graph classification of movie collaboration networks (action
-      vs. romance).
+    description: >-
+      **2-class graph classification** Binary graph classification of movie collaboration networks
+      (action vs. romance). Uses the released node/edge labels or attributes; several social datasets
+      are featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -1696,8 +1819,10 @@ benchmarks:
     - title: PyTorch Geometric IMDB-MULTI loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Multi-class graph classification of movie collaboration networks
-      (3 genres).
+    description: >-
+      **3-class graph classification** Multi-class graph classification of movie collaboration
+      networks (3 genres). Uses the released node/edge labels or attributes; several social datasets
+      are featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -1729,8 +1854,10 @@ benchmarks:
     - title: PyTorch Geometric REDDIT-BINARY loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Binary graph classification of Reddit discussion threads (question-answering
-      vs. online discussion).
+    description: >-
+      **2-class graph classification** Binary graph classification of Reddit discussion threads
+      (question-answering vs. online discussion). Uses the released node/edge labels or attributes;
+      several social datasets are featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -1762,8 +1889,10 @@ benchmarks:
     - title: PyTorch Geometric REDDIT-MULTI-5K loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Multi-class graph classification of Reddit discussion threads (5
-      subreddits).
+    description: >-
+      **5-class graph classification** Multi-class graph classification of Reddit discussion threads
+      (5 subreddits). Uses the released node/edge labels or attributes; several social datasets are
+      featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -1795,7 +1924,10 @@ benchmarks:
     - title: PyTorch Geometric RDT-B loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: Alias for REDDIT-BINARY in some papers.
+    description: >-
+      **2-class graph classification** Alias for REDDIT-BINARY in some papers. Uses the released
+      node/edge labels or attributes; several social datasets are featureless. No canonical split;
+      report folds and any added node features. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -1827,8 +1959,10 @@ benchmarks:
     - title: PyTorch Geometric ENZYMES loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
       kind: implementation_documentation
-    description: TU Dortmund graph classification on 6 enzyme reaction classes (600
-      graphs, subset of BRENDA database).
+    description: >-
+      **6-class graph classification** TU Dortmund graph classification on 6 enzyme reaction classes
+      (600 graphs, subset of BRENDA database). Uses the released node/edge labels or attributes;
+      several social datasets are featureless. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: biology
@@ -1866,8 +2000,10 @@ benchmarks:
     - title: PyTorch Geometric MNIST loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
       kind: implementation_documentation
-    description: Graph classification on MNIST superpixel graphs (10 digit classes,
-      70k graphs).
+    description: >-
+      **10-class graph classification** Graph classification on MNIST superpixel graphs (10 digit
+      classes, 70k graphs). Uses the benchmark-provided synthetic or superpixel node/edge features.
+      Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: computer_vision
@@ -1895,8 +2031,10 @@ benchmarks:
     - title: PyTorch Geometric CIFAR10 loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
       kind: implementation_documentation
-    description: Graph classification on CIFAR10 superpixel graphs (10 classes, 60k
-      graphs).
+    description: >-
+      **10-class graph classification** Graph classification on CIFAR10 superpixel graphs (10 classes,
+      60k graphs). Uses the benchmark-provided synthetic or superpixel node/edge features. Evaluated
+      by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: computer_vision
@@ -1924,8 +2062,10 @@ benchmarks:
     - title: PyTorch Geometric CLUSTER loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
       kind: implementation_documentation
-    description: Semi-supervised node classification on stochastic block model graphs
-      (6 classes).
+    description: >-
+      **6-class node classification** Semi-supervised node classification on stochastic block model
+      graphs (6 classes). Uses the benchmark-provided synthetic or superpixel node/edge features.
+      Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: synthetic
@@ -1953,8 +2093,10 @@ benchmarks:
     - title: PyTorch Geometric PATTERN loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
       kind: implementation_documentation
-    description: Semi-supervised node classification — detect specific graph patterns
-      (2 classes).
+    description: >-
+      **Binary node classification** Semi-supervised node classification — detect specific graph
+      patterns (2 classes). Uses the benchmark-provided synthetic or superpixel node/edge features.
+      Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: synthetic
@@ -1982,8 +2124,10 @@ benchmarks:
     - title: PyTorch Geometric TSP loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
       kind: implementation_documentation
-    description: Travelling salesman problem — edge classification (in/not in optimal
-      tour).
+    description: >-
+      **Binary edge classification** Travelling salesman problem — edge classification (in/not in
+      optimal tour). Uses the benchmark-provided synthetic or superpixel node/edge features. Evaluated
+      by F1.
     primary_metric: F1
     higher_is_better: true
     domain: synthetic
@@ -2011,8 +2155,10 @@ benchmarks:
     - title: PyTorch Geometric CSL loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
       kind: implementation_documentation
-    description: Circular skip link graphs — tests graph isomorphism discrimination
-      (10 classes).
+    description: >-
+      **10-class graph classification** Circular skip link graphs — tests graph isomorphism
+      discrimination (10 classes). Uses the benchmark-provided synthetic or superpixel node/edge
+      features. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: synthetic
@@ -2036,7 +2182,10 @@ benchmarks:
   datasets:
   - name: Texas
     task_type: node_classification
-    description: Five-class node classification on a small hyperlink graph of University of Texas computer-science webpages.
+    description: >-
+      **5-class node classification** Classify each webpage as student, project, course, staff, or
+      faculty using the page text and hyperlink graph. Uses the Geom-GCN/PyG node features and graph.
+      Evaluated by Accuracy.
     detailed_description:
       task: Classify each webpage as student, project, course, staff, or faculty using the page text and hyperlink graph. This is transductive node classification on one university-specific subgraph of WebKB.
       data: Nodes are webpages collected from the University of Texas computer-science department and edges are hyperlinks between pages. The Geom-GCN/PyG processing used in graph-learning papers contains 183 nodes; it is only one processed subset of the broader seven-class, multi-university WebKB collection.
@@ -2082,7 +2231,9 @@ benchmarks:
     - title: PyTorch Geometric Wisconsin loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
       kind: implementation_documentation
-    description: WebKB node classification on Wisconsin university webpages (5 classes).
+    description: >-
+      **5-class node classification** WebKB node classification on Wisconsin university webpages (5
+      classes). Uses the Geom-GCN/PyG node features and graph. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: web
@@ -2111,7 +2262,9 @@ benchmarks:
     - title: PyTorch Geometric Cornell loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
       kind: implementation_documentation
-    description: WebKB node classification on Cornell university webpages (5 classes).
+    description: >-
+      **5-class node classification** WebKB node classification on Cornell university webpages (5
+      classes). Uses the Geom-GCN/PyG node features and graph. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: web
@@ -2140,8 +2293,9 @@ benchmarks:
     - title: PyTorch Geometric Actor loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Actor.html
       kind: implementation_documentation
-    description: Actor co-occurrence node classification (5 classes) from the Geom-GCN
-      paper. Also called Film in papers using the same graph.
+    description: >-
+      **5-class node classification** Actor co-occurrence node classification (5 classes) from the
+      Geom-GCN paper. Uses the Geom-GCN/PyG node features and graph. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -2170,7 +2324,9 @@ benchmarks:
     - title: PyTorch Geometric Chameleon loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html
       kind: implementation_documentation
-    description: Wikipedia Chameleon page node classification (5 classes, heterophilic).
+    description: >-
+      **5-class node classification** Wikipedia Chameleon page node classification (5 classes,
+      heterophilic). Uses the Geom-GCN/PyG node features and graph. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: web
@@ -2206,7 +2362,9 @@ benchmarks:
     - title: PyTorch Geometric Squirrel loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html
       kind: implementation_documentation
-    description: Wikipedia Squirrel page node classification (5 classes, heterophilic).
+    description: >-
+      **5-class node classification** Wikipedia Squirrel page node classification (5 classes,
+      heterophilic). Uses the Geom-GCN/PyG node features and graph. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: web
@@ -2253,8 +2411,10 @@ benchmarks:
     - title: PyTorch Geometric Roman-empire loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
       kind: implementation_documentation
-    description: Wikipedia Roman Empire article node classification (18 syntactic
-      roles) from the heterophilic benchmark.
+    description: >-
+      **18-class node classification** Wikipedia Roman Empire article node classification (18
+      syntactic roles) from the heterophilic benchmark. Uses the corrected benchmark features and ten
+      official splits. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: web
@@ -2282,8 +2442,10 @@ benchmarks:
     - title: PyTorch Geometric Amazon-ratings loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
       kind: implementation_documentation
-    description: Amazon product co-purchase node classification (5 rating classes)
-      from the heterophilic benchmark.
+    description: >-
+      **5-class node classification** Amazon product co-purchase node classification (5 rating
+      classes) from the heterophilic benchmark. Uses the corrected benchmark features and ten official
+      splits. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: e_commerce
@@ -2311,8 +2473,10 @@ benchmarks:
     - title: PyTorch Geometric Minesweeper loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
       kind: implementation_documentation
-    description: Synthetic Minesweeper grid graph binary node classification from
-      the heterophilic benchmark.
+    description: >-
+      **Binary node classification** Synthetic Minesweeper grid graph binary node classification from
+      the heterophilic benchmark. Uses the corrected benchmark features and ten official splits.
+      Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: synthetic
@@ -2340,8 +2504,10 @@ benchmarks:
     - title: PyTorch Geometric Tolokers loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
       kind: implementation_documentation
-    description: Yandex Toloka worker network binary node classification from the
-      heterophilic benchmark.
+    description: >-
+      **Binary node classification** Yandex Toloka worker network binary node classification from the
+      heterophilic benchmark. Uses the corrected benchmark features and ten official splits. Low
+      homophily and class imbalance make split and metric choice important. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: social
@@ -2373,8 +2539,10 @@ benchmarks:
     - title: PyTorch Geometric Questions loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
       kind: implementation_documentation
-    description: Yandex Q&A expert network binary node classification from the heterophilic
-      benchmark.
+    description: >-
+      **Binary node classification** Yandex Q&A expert network binary node classification from the
+      heterophilic benchmark. Uses the corrected benchmark features and ten official splits. Low
+      homophily and class imbalance make split and metric choice important. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: social
@@ -2413,7 +2581,10 @@ benchmarks:
     - title: PyTorch Geometric Penn94 loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
       kind: implementation_documentation
-    description: Facebook100 Penn94 social network node classification (binary gender).
+    description: >-
+      **Binary node classification** Facebook100 Penn94 social network node classification (binary
+      gender). Uses the released sparse node features and a low-homophily graph. Feature-only
+      baselines are essential because structure can be weakly predictive. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -2445,8 +2616,10 @@ benchmarks:
     - title: PyTorch Geometric Pokec loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
       kind: implementation_documentation
-    description: Slovak social network Pokec node classification (binary gender, 1.6M
-      nodes).
+    description: >-
+      **Binary node classification** Slovak social network Pokec node classification (binary gender,
+      1.6M nodes). Uses the released sparse node features and a low-homophily graph. Feature-only
+      baselines are essential because structure can be weakly predictive. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -2478,7 +2651,10 @@ benchmarks:
     - title: PyTorch Geometric snap-patents loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
       kind: implementation_documentation
-    description: USPTO patent citation graph node classification (5 time-based classes).
+    description: >-
+      **5-class node classification** USPTO patent citation graph node classification (5 time-based
+      classes). Uses the released sparse node features and a low-homophily graph. Feature-only
+      baselines are essential because structure can be weakly predictive. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -2510,7 +2686,10 @@ benchmarks:
     - title: PyTorch Geometric twitch-gamers loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
       kind: implementation_documentation
-    description: Twitch streamer network binary node classification (streaming language).
+    description: >-
+      **Binary node classification** Twitch streamer network binary node classification (streaming
+      language). Uses the released sparse node features and a low-homophily graph. Feature-only
+      baselines are essential because structure can be weakly predictive. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -2543,8 +2722,10 @@ benchmarks:
     - title: PyTorch Geometric arxiv-year loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.LINKXDataset.html
       kind: implementation_documentation
-    description: OGB-arXiv node classification by publication year (5 classes, heterophilic
-      variant).
+    description: >-
+      **5-class node classification** OGB-arXiv node classification by publication year (5 classes,
+      heterophilic variant). Uses the released sparse node features and a low-homophily graph.
+      Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -2581,7 +2762,10 @@ benchmarks:
     - title: PyTorch Geometric BBBP loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Binary classification — blood-brain barrier permeability of molecules.
+    description: >-
+      **Binary graph classification** Binary classification — blood-brain barrier permeability of
+      molecules. SMILES and labels are fixed; molecular graph featurization is implementation-defined.
+      Missing labels are not negatives; report split and featurizer. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: chemistry
@@ -2609,8 +2793,10 @@ benchmarks:
     - title: PyTorch Geometric Tox21 loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Multi-task toxicity prediction (12 tasks) on NCI Tox21 challenge
-      compounds.
+    description: >-
+      **12-task multi-label graph classification** Multi-task toxicity prediction (12 tasks) on NCI
+      Tox21 challenge compounds. SMILES and labels are fixed; molecular graph featurization is
+      implementation-defined. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: chemistry
@@ -2638,8 +2824,10 @@ benchmarks:
     - title: PyTorch Geometric ToxCast loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Multi-task toxicological profile prediction (617 tasks) from the
-      EPA ToxCast program.
+    description: >-
+      **617-task multi-label graph classification** Multi-task toxicological profile prediction (617
+      tasks) from the EPA ToxCast program. SMILES and labels are fixed; molecular graph featurization
+      is implementation-defined. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: chemistry
@@ -2667,8 +2855,10 @@ benchmarks:
     - title: PyTorch Geometric BACE loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Binary classification — BACE-1 inhibitory activity (binding results
-      for human beta-secretase 1).
+    description: >-
+      **Binary graph classification** Binary classification — BACE-1 inhibitory activity (binding
+      results for human beta-secretase 1). SMILES and labels are fixed; molecular graph featurization
+      is implementation-defined. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: chemistry
@@ -2696,7 +2886,10 @@ benchmarks:
     - title: PyTorch Geometric SIDER loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Multi-label classification of marketed drug side effects (27 tasks).
+    description: >-
+      **27-label graph classification** Multi-label classification of marketed drug side effects (27
+      tasks). SMILES and labels are fixed; molecular graph featurization is implementation-defined.
+      Missing labels are not negatives; report split and featurizer. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: chemistry
@@ -2724,7 +2917,10 @@ benchmarks:
     - title: PyTorch Geometric ClinTox loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Clinical toxicity prediction — FDA-approved vs. failed drugs (2 tasks).
+    description: >-
+      **2-task graph classification** Clinical toxicity prediction — FDA-approved vs. failed drugs (2
+      tasks). SMILES and labels are fixed; molecular graph featurization is implementation-defined.
+      Missing labels are not negatives; report split and featurizer. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: chemistry
@@ -2752,7 +2948,10 @@ benchmarks:
     - title: PyTorch Geometric ESOL loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Aqueous solubility regression (log mol/L) on 1,128 molecules.
+    description: >-
+      **Graph regression** Aqueous solubility regression (log mol/L) on 1,128 molecules. SMILES and
+      labels are fixed; molecular graph featurization is implementation-defined. Random and scaffold
+      splits are not comparable. Evaluated by RMSE.
     primary_metric: RMSE
     higher_is_better: false
     domain: chemistry
@@ -2780,7 +2979,10 @@ benchmarks:
     - title: PyTorch Geometric FreeSolv loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Hydration free energy regression (kcal/mol) on 642 molecules.
+    description: >-
+      **Graph regression** Hydration free energy regression (kcal/mol) on 642 molecules. SMILES and
+      labels are fixed; molecular graph featurization is implementation-defined. Random and scaffold
+      splits are not comparable. Evaluated by RMSE.
     primary_metric: RMSE
     higher_is_better: false
     domain: chemistry
@@ -2808,8 +3010,10 @@ benchmarks:
     - title: PyTorch Geometric Lipophilicity loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
       kind: implementation_documentation
-    description: Octanol/water distribution coefficient (logD) regression on 4,200
-      molecules.
+    description: >-
+      **Graph regression** Octanol/water distribution coefficient (logD) regression on 4,200
+      molecules. SMILES and labels are fixed; molecular graph featurization is implementation-defined.
+      Random and scaffold splits are not comparable. Evaluated by RMSE.
     primary_metric: RMSE
     higher_is_better: false
     domain: chemistry
@@ -2826,13 +3030,13 @@ benchmarks:
     task_type: graph_regression
     detailed_description:
       task: >-
-        Multi-target quantum property regression on 130k drug-like organic molecules (19 targets). The primary catalog metric is gap.
+        Multi-target quantum property regression on 130k drug-like organic molecules (19 targets). The primary catalog metric is MAE.
       data: >-
         Multi-target quantum property regression on 130k drug-like organic molecules (19 targets).
       features: >-
         Atoms, nuclear species, and molecular geometries are the core inputs. Graph edges or neighbor lists are model preprocessing choices; energy units, force signs, target normalization, and coordinate conventions must match the release.
       splits_and_evaluation: >-
-        The catalog records these protocols or variants: Standard split. Evaluation uses gap (lower is better). Exact masks or folds must come from the cited release.
+        The catalog records these protocols or variants: Standard split. Evaluation uses MAE (lower is better). Exact masks or folds must come from the cited release.
       quirks_and_pitfalls: >-
         Near-duplicate conformations and molecule-wise versus conformation-wise splits can cause leakage. Units and reference-energy conventions differ across implementations, and MD trajectories are strongly autocorrelated.
     sources:
@@ -2842,9 +3046,11 @@ benchmarks:
     - title: PyTorch Geometric QM9 loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM9.html
       kind: implementation_documentation
-    description: Multi-target quantum property regression on 130k drug-like organic
-      molecules (19 targets).
-    primary_metric: gap
+    description: >-
+      **19-target graph regression** Multi-target quantum property regression on 130k drug-like
+      organic molecules (19 targets). Inputs are atomic species and molecular geometries. Evaluated by
+      MAE.
+    primary_metric: MAE
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM9.html
@@ -2872,8 +3078,10 @@ benchmarks:
     - title: PyTorch Geometric QM7b loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM7b.html
       kind: implementation_documentation
-    description: Quantum chemistry regression on 7,211 molecules (14 electronic and
-      thermodynamic targets).
+    description: >-
+      **14-target graph regression** Quantum chemistry regression on 7,211 molecules (14 electronic
+      and thermodynamic targets). Inputs are atomic species and molecular geometries. Evaluated by
+      MAE.
     primary_metric: MAE
     higher_is_better: false
     domain: chemistry
@@ -2901,8 +3109,9 @@ benchmarks:
     - title: PyTorch Geometric MD17 loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MD17.html
       kind: implementation_documentation
-    description: Ab-initio molecular dynamics — predict energy and forces for small
-      organic molecules.
+    description: >-
+      **Energy-and-force regression** Ab-initio molecular dynamics — predict energy and forces for
+      small organic molecules. Inputs are atomic species and molecular geometries. Evaluated by MAE.
     primary_metric: MAE
     higher_is_better: false
     domain: chemistry
@@ -2942,8 +3151,10 @@ benchmarks:
     - title: PyTorch Geometric DBLP loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.DBLP.html
       kind: implementation_documentation
-    description: Heterogeneous academic graph — classify author nodes (4 research
-      areas).
+    description: >-
+      **4-class node classification** Heterogeneous academic graph — classify author nodes (4 research
+      areas). Uses typed nodes, typed relations, and available type-specific features. Evaluated by
+      Micro-F1.
     primary_metric: Micro-F1
     higher_is_better: true
     domain: citation_networks
@@ -2973,7 +3184,9 @@ benchmarks:
     - title: PyTorch Geometric IMDB loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.IMDB.html
       kind: implementation_documentation
-    description: Heterogeneous IMDB graph — classify movie nodes (3 genres).
+    description: >-
+      **3-class node classification** Heterogeneous IMDB graph — classify movie nodes (3 genres). Uses
+      typed nodes, typed relations, and available type-specific features. Evaluated by Micro-F1.
     primary_metric: Micro-F1
     higher_is_better: true
     domain: social
@@ -3003,7 +3216,10 @@ benchmarks:
     - title: PyTorch Geometric ACM loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HGBDataset.html
       kind: implementation_documentation
-    description: Heterogeneous ACM academic graph — classify paper nodes (3 areas).
+    description: >-
+      **3-class node classification** Heterogeneous ACM academic graph — classify paper nodes (3
+      areas). Uses typed nodes, typed relations, and available type-specific features. Evaluated by
+      Micro-F1.
     primary_metric: Micro-F1
     higher_is_better: true
     domain: citation_networks
@@ -3033,8 +3249,10 @@ benchmarks:
     - title: PyTorch Geometric Freebase loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HGBDataset.html
       kind: implementation_documentation
-    description: Heterogeneous Freebase knowledge graph node classification (8 entity
-      types).
+    description: >-
+      **Node classification** Heterogeneous Freebase knowledge graph node classification (8 entity
+      types). Uses typed nodes, typed relations, and available type-specific features. Evaluated by
+      Macro-F1.
     primary_metric: Macro-F1
     higher_is_better: true
     domain: knowledge_graphs
@@ -3062,8 +3280,10 @@ benchmarks:
     - title: PyTorch Geometric RCDD loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.RCDD.html
       kind: implementation_documentation
-    description: Heterogeneous risk commodity detection — link prediction on Alibaba
-      e-commerce graph.
+    description: >-
+      **Link prediction** Heterogeneous risk commodity detection — link prediction on Alibaba
+      e-commerce graph. Uses typed nodes, typed relations, and available type-specific features.
+      Evaluated by MRR.
     primary_metric: MRR
     higher_is_better: true
     domain: e_commerce
@@ -3096,8 +3316,10 @@ benchmarks:
     - title: PyTorch Geometric FB15k-237 loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.FB15k_237.html
       kind: implementation_documentation
-    description: Knowledge graph link prediction on Freebase (14,541 entities, 237
-      relations).
+    description: >-
+      **237-relation knowledge-graph completion** Knowledge graph link prediction on Freebase (14,541
+      entities, 237 relations). Inputs are directed subject-relation-object triples with learned
+      embeddings. Evaluated by MRR.
     primary_metric: MRR
     higher_is_better: true
     domain: knowledge_graphs
@@ -3130,7 +3352,10 @@ benchmarks:
     - title: PyTorch Geometric WN18RR loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WordNet18RR.html
       kind: implementation_documentation
-    description: Knowledge graph link prediction on WordNet (40,943 entities, 11 relations).
+    description: >-
+      **11-relation knowledge-graph completion** Knowledge graph link prediction on WordNet (40,943
+      entities, 11 relations). Inputs are directed subject-relation-object triples with learned
+      embeddings. Filtered ranking is required; WN18 has inverse-relation leakage. Evaluated by MRR.
     primary_metric: MRR
     higher_is_better: true
     domain: knowledge_graphs
@@ -3162,7 +3387,10 @@ benchmarks:
     - title: PyTorch Geometric WN18 loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WordNet18.html
       kind: implementation_documentation
-    description: Knowledge graph link prediction on WordNet (full, 18 relations).
+    description: >-
+      **18-relation knowledge-graph completion** Knowledge graph link prediction on WordNet (full, 18
+      relations). Inputs are directed subject-relation-object triples with learned embeddings. Inverse
+      relations make this legacy split highly vulnerable to leakage. Evaluated by MRR.
     primary_metric: MRR
     higher_is_better: true
     domain: knowledge_graphs
@@ -3196,8 +3424,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: US Congress bill co-sponsorship hypergraph node classification (2
-      classes).
+    description: >-
+      **2-class node classification** US Congress bill co-sponsorship hypergraph node classification
+      (2 classes). Uses node-hyperedge incidence and the released node features. Clique expansion
+      changes the input by discarding hyperedge identity. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -3226,8 +3456,10 @@ benchmarks:
     - title: PyTorch Geometric Deezer loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
       kind: implementation_documentation
-    description: Deezer Europe user friendship graph binary node classification (like/dislike),
-      used in LINKX-style non-homophily evaluations.
+    description: >-
+      **2-class node classification** Deezer Europe user friendship graph binary node classification
+      (like/dislike), used in LINKX-style non-homophily evaluations. Uses node-hyperedge incidence and
+      the released node features. Evaluated by ROC-AUC.
     primary_metric: ROC-AUC
     higher_is_better: true
     domain: social
@@ -3256,8 +3488,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: US House of Representatives voting hypergraph node classification
-      (2 classes).
+    description: >-
+      **2-class node classification** US House of Representatives voting hypergraph node
+      classification (2 classes). Uses node-hyperedge incidence and the released node features. Clique
+      expansion changes the input by discarding hyperedge identity. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -3283,7 +3517,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: US Senate voting hypergraph node classification (2 classes).
+    description: >-
+      **2-class node classification** US Senate voting hypergraph node classification (2 classes).
+      Uses node-hyperedge incidence and the released node features. Clique expansion changes the input
+      by discarding hyperedge identity. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -3309,8 +3546,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: Walmart co-purchase trip hypergraph node classification (product
-      category, 11 classes).
+    description: >-
+      **11-class node classification** Walmart co-purchase trip hypergraph node classification
+      (product category, 11 classes). Uses node-hyperedge incidence and the released node features.
+      Clique expansion changes the input by discarding hyperedge identity. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: e_commerce
@@ -3336,8 +3575,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: Brazilian Airport Transactions hypergraph node classification (4
-      region classes, 131 nodes).
+    description: >-
+      **4-class node classification** Brazilian Airport Transactions hypergraph node classification (4
+      region classes, 131 nodes). Uses node-hyperedge incidence and the released node features. Clique
+      expansion changes the input by discarding hyperedge identity. Evaluated by F1.
     primary_metric: F1
     higher_is_better: true
     domain: transportation
@@ -3364,8 +3605,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: US Airport Transactions hypergraph node classification (4 region
-      classes, 1190 nodes).
+    description: >-
+      **4-class node classification** US Airport Transactions hypergraph node classification (4 region
+      classes, 1190 nodes). Uses node-hyperedge incidence and the released node features. Clique
+      expansion changes the input by discarding hyperedge identity. Evaluated by F1.
     primary_metric: F1
     higher_is_better: true
     domain: transportation
@@ -3392,8 +3635,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: European Airport Transactions hypergraph node classification (4 region
-      classes, 399 nodes).
+    description: >-
+      **4-class node classification** European Airport Transactions hypergraph node classification (4
+      region classes, 399 nodes). Uses node-hyperedge incidence and the released node features. Clique
+      expansion changes the input by discarding hyperedge identity. Evaluated by F1.
     primary_metric: F1
     higher_is_better: true
     domain: transportation
@@ -3423,8 +3668,10 @@ benchmarks:
     - title: PyTorch Geometric AMAP loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
       kind: implementation_documentation
-    description: Amazon Photography co-purchase hypergraph node classification (8
-      categories).
+    description: >-
+      **8-class node classification** Amazon Photography co-purchase hypergraph node classification (8
+      categories). Uses node-hyperedge incidence and the released node features. Clique expansion
+      changes the input by discarding hyperedge identity. Evaluated by F1.
     primary_metric: F1
     higher_is_better: true
     domain: e_commerce
@@ -3451,7 +3698,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: Cora co-authorship hypergraph node classification (7 subject classes).
+    description: >-
+      **7-class node classification** Cora co-authorship hypergraph node classification (7 subject
+      classes). Uses node-hyperedge incidence and the released node features. Clique expansion changes
+      the input by discarding hyperedge identity. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -3477,7 +3727,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: DBLP co-authorship hypergraph node classification (research area).
+    description: >-
+      **Node classification** DBLP co-authorship hypergraph node classification (research area). Uses
+      node-hyperedge incidence and the released node features. Clique expansion changes the input by
+      discarding hyperedge identity. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: citation_networks
@@ -3502,10 +3755,10 @@ benchmarks:
     - title: Hypergraph Benchmarks benchmark
       arxiv_id: '2106.13264'
       kind: benchmark_or_upstream_source
-    description: 'Labeled Entity Network — large-scale coordinated campaign detection
-      graph for online social media analysis (node classification, 2 classes).
-
-      '
+    description: >-
+      **2-class node classification** Labeled Entity Network — large-scale coordinated campaign
+      detection graph for online social media analysis (node classification, 2 classes). Uses
+      node-hyperedge incidence and the released node features. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
@@ -3541,11 +3794,9 @@ benchmarks:
     - title: PyTorch Geometric MalNet-Tiny loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MalNetTiny.html
       kind: implementation_documentation
-    description: 'Malware detection graph classification on a tiny (balanced 5-class)
-      subset of the MalNet-Large dataset. Graphs are function call graphs of Android
-      apps.
-
-      '
+    description: >-
+      **5-class graph classification** on Android function-call graphs, predicting one of five
+      balanced malware families; nodes have no attributes. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: cybersecurity
@@ -3572,10 +3823,9 @@ benchmarks:
     - title: PointNet
       arxiv_id: '1612.00593'
       kind: benchmark_or_upstream_source
-    description: '3D point cloud part segmentation on ShapeNet objects. Graph-based
-      part label prediction on point cloud graphs (16 object categories, 50 part classes).
-
-      '
+    description: >-
+      **50-class node classification** on 3D point clouds, predicting a part label for every point
+      across 16 object categories and 50 part classes. Evaluated by F1.
     primary_metric: F1
     higher_is_better: true
     domain: computer_vision
@@ -3600,10 +3850,9 @@ benchmarks:
     - title: 20 Newsgroups corpus documentation
       url: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_20newsgroups.html
       kind: benchmark_or_upstream_source
-    description: '20 Newsgroups text classification represented as a graph (nodes
-      = documents, edges = TF-IDF similarity). 20 classes.
-
-      '
+    description: >-
+      **20-class graph classification** on text-derived document graphs, predicting one of 20
+      newsgroup topics. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: text
@@ -3628,10 +3877,9 @@ benchmarks:
     - title: Cluster-GCN
       arxiv_id: '1905.07953'
       kind: benchmark_or_upstream_source
-    description: 'Large-scale Amazon co-purchase graph with ~2M nodes. Node classification
-      (product category). Used to benchmark scalable GNNs and graph transformers.
-
-      '
+    description: >-
+      **Node classification** on a roughly two-million-node co-purchase graph, predicting each
+      product’s category. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: e_commerce
@@ -3658,8 +3906,9 @@ benchmarks:
     - title: MovieLens datasets
       url: https://grouplens.org/datasets/movielens/
       kind: benchmark_or_upstream_source
-    description: Movie graph with genre labels from the MovieLens/IMDb film benchmark;
-      distinct from the five-class Actor graph sometimes called Film.
+    description: >-
+      **9-class node classification** on a MovieLens/IMDb movie graph, predicting one or more of nine
+      genre labels per film; this is not the Actor/Film dataset. Evaluated by Micro-F1.
     primary_metric: Micro-F1
     higher_is_better: true
     domain: social
@@ -3697,8 +3946,10 @@ benchmarks:
     - title: Algorithmic Graph Tasks benchmark
       arxiv_id: '2312.16560'
       kind: benchmark_or_upstream_source
-    description: Single Source Shortest Path prediction on synthetic graphs (node-level
-      distances).
+    description: >-
+      **Node regression** on synthetic graphs, predicting every node’s shortest-path distance from a
+      marked source. Uses synthetic topology plus task-specific source indicators or random node
+      features. Evaluated by MSE.
     primary_metric: MSE
     higher_is_better: false
     domain: algorithms
@@ -3725,8 +3976,10 @@ benchmarks:
     - title: Algorithmic Graph Tasks benchmark
       arxiv_id: '2312.16560'
       kind: benchmark_or_upstream_source
-    description: Graph eccentricity prediction — node-level task predicting max distance
-      to any other node.
+    description: >-
+      **Node regression** on synthetic graphs, predicting each node’s maximum shortest-path distance
+      to any other node. Uses synthetic topology plus task-specific source indicators or random node
+      features. Evaluated by MSE.
     primary_metric: MSE
     higher_is_better: false
     domain: algorithms
@@ -3767,7 +4020,10 @@ benchmarks:
     - title: HSG-12M benchmark
       arxiv_id: '2506.08618'
       kind: benchmark_or_upstream_source
-    description: Graph classification of 11.6 million non-Hermitian Hamiltonian spectral multigraphs into 1,401 characteristic-polynomial classes.
+    description: >-
+      **1,401-class graph classification** Classify each Hamiltonian spectral graph into one of 1,401
+      characteristic-polynomial classes. Parallel spectral trajectories remain distinct edges.
+      Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: physics
@@ -3801,8 +4057,10 @@ benchmarks:
     - title: HSG-12M benchmark
       arxiv_id: '2506.08618'
       kind: benchmark_or_upstream_source
-    description: Topology-based classification sub-task of the HSG-12M spatial graph
-      benchmark.
+    description: >-
+      **1,401-class graph classification** Classify each topology-deduplicated Hamiltonian spectral
+      graph into one of 1,401 characteristic-polynomial classes. The variant is designed around unique
+      connectivity patterns. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: physics
@@ -3841,8 +4099,9 @@ benchmarks:
     - title: DualEquiNet RNA Benchmarks benchmark
       arxiv_id: '2506.19862'
       kind: benchmark_or_upstream_source
-    description: RNA structure prediction on the COVID-19 dataset from the EternaFold/Kaggle
-      Ribonanza challenge (RMSE metric, lower is better).
+    description: >-
+      **3-target nucleotide regression** Predict three nucleotide-level experimental signals:
+      reactivity, degradation at pH 10, and degradation with magnesium at pH 10. Evaluated by RMSE.
     primary_metric: RMSE
     higher_is_better: false
     domain: biology
@@ -3852,7 +4111,10 @@ benchmarks:
     num_graphs: 4082
   - name: Ribonanza
     task_type: node_regression
-    description: Nucleotide-level prediction of DMS and 2A3 chemical-mapping reactivity on the 2,260-sequence Ribonanza-2k benchmark.
+    description: >-
+      **2-target nucleotide regression** Predict two continuous reactivity values for each nucleotide,
+      one measured with dimethyl sulfate (DMS) and one with 2-aminopyridine-3-carboxylic acid
+      imidazolide (2A3). Evaluated by RMSE.
     detailed_description:
       task: Predict two continuous reactivity values for each nucleotide, one measured with dimethyl sulfate (DMS) and one with 2-aminopyridine-3-carboxylic acid imidazolide (2A3). These chemical-mapping measurements probe nucleotide accessibility and flexibility and are evaluated with root mean squared error.
       data: Ribonanza-2k contains 2,260 RNA sequences of about 177 nucleotides. It is a benchmark subset derived from the much larger Ribonanza collection of chemical-mapping measurements produced through Eterna and related crowdsourcing efforts, not the complete collection of roughly two million measured sequences.
@@ -3893,8 +4155,9 @@ benchmarks:
     - title: DualEquiNet RNA Benchmarks benchmark
       arxiv_id: '2506.19862'
       kind: benchmark_or_upstream_source
-    description: Thermostable ribosome structure prediction (graph regression, RMSE
-      metric).
+    description: >-
+      **Graph regression** on RNA graphs, predicting one sequence-level expression shift induced by
+      tetracycline binding. Evaluated by RMSE.
     primary_metric: RMSE
     higher_is_better: false
     domain: biology
@@ -3922,8 +4185,10 @@ benchmarks:
     - title: DualEquiNet RNA Benchmarks benchmark
       arxiv_id: '2506.19862'
       kind: benchmark_or_upstream_source
-    description: RNA backbone torsion angle prediction (circular regression task,
-      Circular MAE metric).
+    description: >-
+      **7-target circular nucleotide regression** Predict seven backbone and glycosidic dihedral
+      angles per nucleotide: alpha, beta, gamma, delta, epsilon, zeta, and chi. Evaluated by Circular
+      MAE.
     primary_metric: Circular MAE
     higher_is_better: false
     domain: biology
@@ -3956,8 +4221,10 @@ benchmarks:
     - title: CosmoBench benchmark
       arxiv_id: '2507.03707'
       kind: benchmark_or_upstream_source
-    description: Cosmological parameter inference on Quijote N-body simulation data
-      (graph regression, R² metric).
+    description: >-
+      **Graph regression** Cosmological parameter inference on Quijote N-body simulation data (graph
+      regression, R² metric). Inputs are graphs constructed from cosmological simulations. Evaluated
+      by R^2.
     primary_metric: R^2
     higher_is_better: true
     domain: physics
@@ -3982,8 +4249,9 @@ benchmarks:
     - title: CosmoBench benchmark
       arxiv_id: '2507.03707'
       kind: benchmark_or_upstream_source
-    description: Galaxy property regression on CAMELS Semi-Analytic Model simulation
-      (R² metric).
+    description: >-
+      **Graph regression** Galaxy property regression on CAMELS Semi-Analytic Model simulation (R²
+      metric). Inputs are graphs constructed from cosmological simulations. Evaluated by R^2.
     primary_metric: R^2
     higher_is_better: true
     domain: physics
@@ -4008,7 +4276,9 @@ benchmarks:
     - title: CosmoBench benchmark
       arxiv_id: '2507.03707'
       kind: benchmark_or_upstream_source
-    description: Cosmic structure tree regression task from CosmoBench (R² metric).
+    description: >-
+      **Graph regression** Cosmic structure tree regression task from CosmoBench (R² metric). Inputs
+      are graphs constructed from cosmological simulations. Evaluated by R2.
     primary_metric: R2
     higher_is_better: true
     domain: physics
@@ -4033,7 +4303,9 @@ benchmarks:
     - title: CosmoBench benchmark
       arxiv_id: '2507.03707'
       kind: benchmark_or_upstream_source
-    description: CS-Trees classification variant with 200-node graphs (Accuracy metric).
+    description: >-
+      **Graph classification** CS-Trees classification variant with 200-node graphs (Accuracy metric).
+      Inputs are graphs constructed from cosmological simulations. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: physics
@@ -4066,8 +4338,10 @@ benchmarks:
     - title: ECHO Benchmark benchmark
       arxiv_id: '2512.17762'
       kind: benchmark_or_upstream_source
-    description: ECHO synthetic propagation task — node-level regression on synthetic
-      long-range graphs.
+    description: >-
+      **Mixed graph/node regression suite** covering diameter (graph-level), eccentricity
+      (node-level), and SSSP (node-level) on synthetic long-range graphs. Inputs expose only local
+      graph state while targets require long-range information. Evaluated by MAE.
     primary_metric: MAE
     higher_is_better: false
     domain: physics
@@ -4092,8 +4366,9 @@ benchmarks:
     - title: ECHO Benchmark benchmark
       arxiv_id: '2512.17762'
       kind: benchmark_or_upstream_source
-    description: ECHO charge propagation task — predicting charge distribution on
-      physical graphs.
+    description: >-
+      **Node regression** on molecular graphs, predicting one partial charge per atom. Inputs expose
+      only local graph state while targets require long-range information. Evaluated by MAE.
     primary_metric: MAE
     higher_is_better: false
     domain: physics
@@ -4118,8 +4393,9 @@ benchmarks:
     - title: ECHO Benchmark benchmark
       arxiv_id: '2512.17762'
       kind: benchmark_or_upstream_source
-    description: ECHO energy propagation task — predicting energy distribution on
-      physical graphs.
+    description: >-
+      **Graph regression** on molecular graphs, predicting total molecular energy. Inputs expose only
+      local graph state while targets require long-range information. Evaluated by MAE.
     primary_metric: MAE
     higher_is_better: false
     domain: physics
@@ -4155,8 +4431,10 @@ benchmarks:
     - title: PyTorch Geometric Paris loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
       kind: implementation_documentation
-    description: Paris road-network node classification from the City-Networks benchmark.
-      Labels are derived from long-range accessibility statistics on the city graph.
+    description: >-
+      **Node classification** on the Paris road graph, predicting an accessibility class for every
+      intersection. Street segments are edges and labels depend on long-range network structure.
+      Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: transportation
@@ -4187,8 +4465,10 @@ benchmarks:
     - title: PyTorch Geometric Shanghai loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
       kind: implementation_documentation
-    description: Shanghai road-network node classification from the City-Networks benchmark.
-      Labels are derived from long-range accessibility statistics on the city graph.
+    description: >-
+      **Node classification** on the Shanghai road graph, predicting an accessibility class for every
+      intersection. Street segments are edges and labels depend on long-range network structure.
+      Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: transportation
@@ -4219,8 +4499,10 @@ benchmarks:
     - title: PyTorch Geometric Los Angeles loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
       kind: implementation_documentation
-    description: Los Angeles road-network node classification from the City-Networks benchmark.
-      Labels are derived from long-range accessibility statistics on the city graph.
+    description: >-
+      **Node classification** on the Los Angeles road graph, predicting an accessibility class for
+      every intersection. Street segments are edges and labels depend on long-range network
+      structure. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: transportation
@@ -4251,8 +4533,10 @@ benchmarks:
     - title: PyTorch Geometric London loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.CityNetwork.html
       kind: implementation_documentation
-    description: London road-network node classification from the City-Networks benchmark.
-      Labels are derived from long-range accessibility statistics on the city graph.
+    description: >-
+      **Node classification** on the London road graph, predicting an accessibility class for every
+      intersection. Street segments are edges and labels depend on long-range network structure.
+      Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: transportation
@@ -4296,8 +4580,10 @@ benchmarks:
     - title: PyTorch Geometric LRIM loader documentation
       url: https://lrim-graphbenchmark.com/
       kind: implementation_documentation
-    description: Long-Range Ising Model benchmark for per-node energy prediction on periodic
-      2D grid graphs with controllable long-range interactions.
+    description: >-
+      **Node regression** Long-Range Ising Model benchmark for per-node energy prediction on periodic
+      2D grid graphs with controllable long-range interactions. Uses spins on a periodic 2D grid with
+      controllable long-range couplings. Evaluated by log-MSE.
     primary_metric: log-MSE
     higher_is_better: false
     domain: physics
@@ -4383,8 +4669,10 @@ benchmarks:
     - title: Power Flow Benchmarks benchmark
       arxiv_id: '2601.01387'
       kind: benchmark_or_upstream_source
-    description: Power flow analysis on IEEE test case 1 (small power grid, node-level
-      regression).
+    description: >-
+      **Joint node-and-edge regression** Jointly predict active power, reactive power, and voltage
+      magnitude at buses plus active and reactive flow in both directions on every branch. Evaluated
+      by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: power_systems
@@ -4413,8 +4701,10 @@ benchmarks:
     - title: Power Flow Benchmarks benchmark
       arxiv_id: '2601.01387'
       kind: benchmark_or_upstream_source
-    description: Power flow analysis on IEEE test case 2 (medium power grid, node-level
-      regression).
+    description: >-
+      **Joint node-and-edge regression** Jointly predict bus active/reactive power and voltage
+      magnitude plus directional branch active/reactive flows on a real provincial grid. Evaluated by
+      Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
     domain: power_systems

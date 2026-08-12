@@ -21,6 +21,8 @@ presented as facts on the website.
 - The metadata schema, persistence path, website expansion control, and coverage audit have been
   established.
 - Every catalog entry now has task, data, feature, split/evaluation, pitfall, and source fields.
+- Every concise description now starts with a bold Graph-ML task specification and states the
+  predicted target, salient input representation or protocol issue, and evaluation metric.
 - The pilot established provenance chains for Cora, Texas, Peptides-func, ogbg-code2, and
   Ribonanza-2k. Four could be documented completely enough for the public fields; Ribonanza-2k
   retains explicit reproducibility gaps.

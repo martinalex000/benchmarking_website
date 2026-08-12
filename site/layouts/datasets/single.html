@@ -91,7 +91,7 @@
       </div>
     </div>
     {{ with .Params.description }}
-    <p class="dataset-description">{{ . }}</p>
+    <div class="dataset-description">{{ . | markdownify }}</div>
     {{ end }}
     {{ with .Params.detailed_description }}
     <section class="dataset-research" data-dataset-research>
