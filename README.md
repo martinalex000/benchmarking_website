@@ -237,26 +237,25 @@ rate-limit headers.
 
 ### `scripts/deploy.py` — build and deploy the static site
 
-Builds the Hugo site and deploys via zstd-compressed tar archives over `scp`/`ssh`.
-Figures (`figures/`) are split into a separate archive so day-to-day deploys can send
-only the increment (HTML/CSS/JS) after an initial full run.
+Builds the Hugo site and synchronizes the generated tree incrementally over SFTP using
+`rclone`. Images are compared by size; other generated files are always refreshed so
+Hugo's regenerated modification times do not cause incorrect skips.
 
 ```bash
-# First deploy (or when figures changed): upload figures + increment archives
+# First deploy (or when figures changed)
 uv run python scripts/deploy.py --full
 
-# Routine deploy: upload increment only (reuses latest figures archive on server)
-uv run python scripts/deploy.py                 # to the configured ssh host
+# Routine deploy: synchronize the generated tree and delete stale files
+uv run python scripts/deploy.py                 # to the configured SFTP host
 uv run python scripts/deploy.py --local         # Export and serve locally until Ctrl+C
 uv run python scripts/deploy.py --both          # Deploy to the server and GitHub Pages (not local!)
 ```
 
 
-Archives are stored outside the web root at `~/deploy/` on the server (not web-accessible).
-Archive names:
-`{hostname}-{YYYYMMDDHHMM}-figures.tar.zst` / `...-increment.tar.zst`.
+Local deploy archives are stored under `deploy-archives/` for `--upload-only` retries.
 
 Requires `DEPLOY_USER`, `DEPLOY_HOST`, and `DEPLOY_PATH` in `.env`.
+The deployment host must provide SFTP access; install `rclone` locally.
 
 Github points to: `https://github.com/graphlearningbenchmarks/graphlearningbenchmarks.github.io`
 
