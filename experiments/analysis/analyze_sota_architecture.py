@@ -17,12 +17,13 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from pdfCropMargins import pdfCropMargins
 
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(_PROJECT_ROOT))
 
 from backend.config import cfg  # noqa: E402
 from backend.db import init_db, session_scope  # noqa: E402
 from backend.sota_architecture_analysis import (  # noqa: E402
+    AnalysisRow,
     OwnershipSnapshot,
     analyze_snapshots,
     compare_override_effects,
@@ -140,7 +141,12 @@ def _save_cropped_figure(fig: plt.Figure, output_dir: Path, filename_stem: str) 
     return png_path
 
 
-def _write_figure(snapshots: list[OwnershipSnapshot], output_dir: Path) -> Path:
+def _write_figure(
+    snapshots: list[OwnershipSnapshot],
+    output_dir: Path,
+    *,
+    filename_stem: str = "architecture_ownership_over_time",
+) -> Path:
     snapshots = [
         snapshot for snapshot in snapshots if snapshot.cutoff >= date(PLOT_START_YEAR, 1, 1)
     ]
@@ -172,7 +178,7 @@ def _write_figure(snapshots: list[OwnershipSnapshot], output_dir: Path) -> Path:
     ax_share.grid(axis="y", alpha=0.25)
     _style_axes(ax_share)
     fig.tight_layout()
-    output_path = _save_cropped_figure(fig, output_dir, "architecture_ownership_over_time")
+    output_path = _save_cropped_figure(fig, output_dir, filename_stem)
     plt.close(fig)
     return output_path
 
@@ -329,30 +335,21 @@ def _write_report(
     return report_path
 
 
-def run_analysis(
-    *,
+def _write_figure_set(
+    rows: list[AnalysisRow],
     output_dir: Path,
-    min_papers: int = 5,
-    weight: str = "uniform",
-    papers_root: Path | None = None,
-) -> tuple[Path, Path, Path, Path]:
-    """Run the analysis and return report and figure paths."""
-    init_db()
-    with session_scope() as session:
-        before_rows = load_analysis_rows(session, papers_root=papers_root, apply_overrides=False)
-        after_rows = load_analysis_rows(session, papers_root=papers_root, apply_overrides=True)
-    annual_cutoffs = historical_cutoffs(after_rows)
-    monthly_plot_cutoffs = monthly_cutoffs(after_rows)
-    report_after = analyze_snapshots(
-        after_rows, cutoffs=annual_cutoffs, min_papers=min_papers, weight=weight
-    )
-    plot_after = analyze_snapshots(
-        after_rows, cutoffs=monthly_plot_cutoffs, min_papers=min_papers, weight=weight
-    )
+    *,
+    min_papers: int,
+    weight: str,
+    filename_suffix: str = "",
+) -> tuple[Path, Path, Path]:
+    """Write aggregate, task-level, and single-winner figures for one row cohort."""
+    plot_cutoffs = monthly_cutoffs(rows)
+    snapshots = analyze_snapshots(rows, cutoffs=plot_cutoffs, min_papers=min_papers, weight=weight)
     task_snapshots = {
         level: analyze_snapshots(
-            after_rows,
-            cutoffs=monthly_plot_cutoffs,
+            rows,
+            cutoffs=plot_cutoffs,
             min_papers=min_papers,
             weight=weight,
             task_level=level,
@@ -361,8 +358,8 @@ def run_analysis(
     }
     single_winner_task_snapshots = {
         level: analyze_snapshots(
-            after_rows,
-            cutoffs=monthly_plot_cutoffs,
+            rows,
+            cutoffs=plot_cutoffs,
             min_papers=min_papers,
             weight=weight,
             task_level=level,
@@ -370,6 +367,40 @@ def run_analysis(
         )
         for level in ("node", "graph")
     }
+    figure_path = _write_figure(
+        snapshots,
+        output_dir,
+        filename_stem=f"architecture_ownership_over_time{filename_suffix}",
+    )
+    task_level_figure_path = _write_task_level_figure(
+        task_snapshots,
+        output_dir,
+        filename_stem=f"architecture_ownership_by_task_level{filename_suffix}",
+    )
+    single_winner_figure_path = _write_task_level_figure(
+        single_winner_task_snapshots,
+        output_dir,
+        filename_stem=f"architecture_ownership_by_task_level_single_winner{filename_suffix}",
+    )
+    return figure_path, task_level_figure_path, single_winner_figure_path
+
+
+def run_analysis(
+    *,
+    output_dir: Path,
+    min_papers: int = 5,
+    weight: str = "uniform",
+    papers_root: Path | None = None,
+) -> tuple[Path, ...]:
+    """Run the analysis and return report and figure paths."""
+    init_db()
+    with session_scope() as session:
+        before_rows = load_analysis_rows(session, papers_root=papers_root, apply_overrides=False)
+        after_rows = load_analysis_rows(session, papers_root=papers_root, apply_overrides=True)
+    annual_cutoffs = historical_cutoffs(after_rows)
+    report_after = analyze_snapshots(
+        after_rows, cutoffs=annual_cutoffs, min_papers=min_papers, weight=weight
+    )
     audit = compare_override_effects(before_rows, after_rows, min_papers=min_papers, weight=weight)
     report_path = _write_report(
         output_dir,
@@ -378,14 +409,34 @@ def run_analysis(
         min_papers=min_papers,
         weight=weight,
     )
-    figure_path = _write_figure(plot_after, output_dir)
-    task_level_figure_path = _write_task_level_figure(task_snapshots, output_dir)
-    single_winner_figure_path = _write_task_level_figure(
-        single_winner_task_snapshots,
+    figure_path, task_level_figure_path, single_winner_figure_path = _write_figure_set(
+        after_rows,
         output_dir,
-        filename_stem="architecture_ownership_by_task_level_single_winner",
+        min_papers=min_papers,
+        weight=weight,
     )
-    return report_path, figure_path, task_level_figure_path, single_winner_figure_path
+
+    conference_rows = [row for row in after_rows if row.is_conference_paper]
+    (
+        conference_figure_path,
+        conference_task_figure_path,
+        conference_single_winner_figure_path,
+    ) = _write_figure_set(
+        conference_rows,
+        output_dir,
+        min_papers=min_papers,
+        weight=weight,
+        filename_suffix="_conference_only",
+    )
+    return (
+        report_path,
+        figure_path,
+        task_level_figure_path,
+        single_winner_figure_path,
+        conference_figure_path,
+        conference_task_figure_path,
+        conference_single_winner_figure_path,
+    )
 
 
 def main() -> int:
@@ -402,7 +453,15 @@ def main() -> int:
     if args.min_papers < 1:
         parser.error("--min-papers must be positive")
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
-    report, figure, task_level_figure, single_winner_figure = run_analysis(
+    (
+        report,
+        figure,
+        task_level_figure,
+        single_winner_figure,
+        conference_figure,
+        conference_task_level_figure,
+        conference_single_winner_figure,
+    ) = run_analysis(
         output_dir=args.output_dir,
         min_papers=args.min_papers,
         weight=args.weight,
@@ -412,6 +471,9 @@ def main() -> int:
     print(f"Figure: {figure}")
     print(f"Task-level figure: {task_level_figure}")
     print(f"Single-winner task-level figure: {single_winner_figure}")
+    print(f"Conference-only figure: {conference_figure}")
+    print(f"Conference-only task-level figure: {conference_task_level_figure}")
+    print(f"Conference-only single-winner figure: {conference_single_winner_figure}")
     return 0
 
 

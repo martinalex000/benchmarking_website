@@ -24,6 +24,7 @@ from backend.model_metadata_defaults import lookup_default_model_type
 from backend.models import DatasetVariant, Result
 from backend.override_handler import load_overrides
 from backend.results_parser import result_is_leaderboard_eligible
+from backend.venue import is_arxiv_only_venue, normalize_conference_short
 
 TRANSFORMER_TYPES = frozenset({"graph_transformer", "hybrid"})
 DEFAULT_CATEGORY_ORDER = (
@@ -40,6 +41,21 @@ DEFAULT_CATEGORY_ORDER = (
 )
 NODE_TASK_TYPES = frozenset({"node_classification", "node_regression"})
 GRAPH_TASK_TYPES = frozenset({"graph_classification", "graph_regression", "graph_generation"})
+_JOURNAL_SHORT_LABELS = frozenset({"JMLR", "TMLR"})
+_UNPUBLISHED_VENUE_MARKERS = ("under review", "submitted", "submission")
+_CONFERENCE_VENUE_MARKERS = (
+    "conference",
+    "congress",
+    "proceedings",
+    "symposium",
+    "workshop",
+    "annual meeting",
+    "acm multimedia",
+    "computer vision and pattern recognition",
+    "ecml/pkdd",
+    "web search and data mining",
+)
+_CONFERENCE_VENUE_NAMES = frozenset({"sdm"})
 
 
 @dataclass(frozen=True, slots=True)
@@ -61,6 +77,7 @@ class AnalysisRow:
     task_level: str | None
     override_type_applied: bool = False
     is_baseline: bool = False
+    venue: str = ""
 
     @property
     def category(self) -> str:
@@ -69,6 +86,11 @@ class AnalysisRow:
         if normalized in TRANSFORMER_TYPES:
             return "transformer_involving"
         return normalized or "unknown"
+
+    @property
+    def is_conference_paper(self) -> bool:
+        """Return whether the paper has evidence of conference publication."""
+        return is_conference_publication_venue(self.venue)
 
 
 @dataclass(frozen=True, slots=True)
@@ -157,6 +179,22 @@ def task_level(task_type: str | None) -> str | None:
     if normalized in GRAPH_TASK_TYPES:
         return "graph"
     return None
+
+
+def is_conference_publication_venue(venue: str | None) -> bool:
+    """Conservatively classify stored venue text as a conference publication."""
+    raw = " ".join(str(venue or "").split()).strip()
+    if not raw or is_arxiv_only_venue(raw):
+        return False
+    lowered = raw.casefold()
+    if any(marker in lowered for marker in _UNPUBLISHED_VENUE_MARKERS):
+        return False
+    short = normalize_conference_short(raw)
+    if short and short not in _JOURNAL_SHORT_LABELS:
+        return True
+    return lowered in _CONFERENCE_VENUE_NAMES or any(
+        marker in lowered for marker in _CONFERENCE_VENUE_MARKERS
+    )
 
 
 def _result_override(result: Result, overrides: dict[str, Any]) -> dict[str, Any] | None:
@@ -299,6 +337,7 @@ def load_analysis_rows(
                 task_level=task_level(dataset.task_type),
                 override_type_applied=override_type is not None and override_type != before_type,
                 is_baseline=bool(result.is_baseline),
+                venue=paper.venue or "",
             )
         )
     return rows

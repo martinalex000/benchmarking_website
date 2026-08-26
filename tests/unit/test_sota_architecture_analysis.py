@@ -11,6 +11,7 @@ from backend.sota_architecture_analysis import (
     architecture_category,
     compare_override_effects,
     historical_cutoffs,
+    is_conference_publication_venue,
     monthly_cutoffs,
     square_root_weight,
 )
@@ -51,6 +52,35 @@ def test_architecture_category_combines_transformers():
     assert architecture_category("graph_transformer") == "transformer_involving"
     assert architecture_category("hybrid") == "transformer_involving"
     assert architecture_category(None) == "unknown"
+
+
+@pytest.mark.parametrize(
+    "venue",
+    [
+        "International Conference on Learning Representations",
+        "Neural Information Processing Systems",
+        "ECML/PKDD",
+        "Web Search and Data Mining",
+        "Accepted at the ICLR 2026 GRaM Workshop",
+    ],
+)
+def test_conference_publication_venue_accepts_conference_evidence(venue):
+    assert is_conference_publication_venue(venue)
+
+
+@pytest.mark.parametrize(
+    "venue",
+    [
+        None,
+        "arXiv.org",
+        "Trans. Mach. Learn. Res.",
+        "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+        "Under review in ICLR 2023",
+        "Submitted to NeurIPS 2025",
+    ],
+)
+def test_conference_publication_venue_rejects_preprints_and_journals(venue):
+    assert not is_conference_publication_venue(venue)
 
 
 def test_gat_is_classified_as_message_passing_gnn():
