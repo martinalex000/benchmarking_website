@@ -61,7 +61,6 @@ def test_architecture_category_combines_transformers():
         "Neural Information Processing Systems",
         "ECML/PKDD",
         "Web Search and Data Mining",
-        "Accepted at the ICLR 2026 GRaM Workshop",
     ],
 )
 def test_conference_publication_venue_accepts_conference_evidence(venue):
@@ -77,6 +76,7 @@ def test_conference_publication_venue_accepts_conference_evidence(venue):
         "IEEE Transactions on Pattern Analysis and Machine Intelligence",
         "Under review in ICLR 2023",
         "Submitted to NeurIPS 2025",
+        "Accepted at the ICLR 2026 GRaM Workshop",
     ],
 )
 def test_conference_publication_venue_rejects_preprints_and_journals(venue):

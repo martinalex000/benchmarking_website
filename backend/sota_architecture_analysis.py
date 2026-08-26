@@ -42,13 +42,12 @@ DEFAULT_CATEGORY_ORDER = (
 NODE_TASK_TYPES = frozenset({"node_classification", "node_regression"})
 GRAPH_TASK_TYPES = frozenset({"graph_classification", "graph_regression", "graph_generation"})
 _JOURNAL_SHORT_LABELS = frozenset({"JMLR", "TMLR"})
-_UNPUBLISHED_VENUE_MARKERS = ("under review", "submitted", "submission")
+_NON_CONFERENCE_PAPER_MARKERS = ("under review", "submitted", "submission", "workshop")
 _CONFERENCE_VENUE_MARKERS = (
     "conference",
     "congress",
     "proceedings",
     "symposium",
-    "workshop",
     "annual meeting",
     "acm multimedia",
     "computer vision and pattern recognition",
@@ -187,7 +186,7 @@ def is_conference_publication_venue(venue: str | None) -> bool:
     if not raw or is_arxiv_only_venue(raw):
         return False
     lowered = raw.casefold()
-    if any(marker in lowered for marker in _UNPUBLISHED_VENUE_MARKERS):
+    if any(marker in lowered for marker in _NON_CONFERENCE_PAPER_MARKERS):
         return False
     short = normalize_conference_short(raw)
     if short and short not in _JOURNAL_SHORT_LABELS:
