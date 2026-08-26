@@ -24,7 +24,7 @@ from backend.model_metadata_defaults import lookup_default_model_type
 from backend.models import DatasetVariant, Result
 from backend.override_handler import load_overrides
 from backend.results_parser import result_is_leaderboard_eligible
-from backend.venue import is_arxiv_only_venue, normalize_conference_short
+from backend.venue import is_conference_publication_venue
 
 TRANSFORMER_TYPES = frozenset({"graph_transformer", "hybrid"})
 DEFAULT_CATEGORY_ORDER = (
@@ -41,20 +41,6 @@ DEFAULT_CATEGORY_ORDER = (
 )
 NODE_TASK_TYPES = frozenset({"node_classification", "node_regression"})
 GRAPH_TASK_TYPES = frozenset({"graph_classification", "graph_regression", "graph_generation"})
-_JOURNAL_SHORT_LABELS = frozenset({"JMLR", "TMLR"})
-_NON_CONFERENCE_PAPER_MARKERS = ("under review", "submitted", "submission", "workshop")
-_CONFERENCE_VENUE_MARKERS = (
-    "conference",
-    "congress",
-    "proceedings",
-    "symposium",
-    "annual meeting",
-    "acm multimedia",
-    "computer vision and pattern recognition",
-    "ecml/pkdd",
-    "web search and data mining",
-)
-_CONFERENCE_VENUE_NAMES = frozenset({"sdm"})
 
 
 @dataclass(frozen=True, slots=True)
@@ -178,22 +164,6 @@ def task_level(task_type: str | None) -> str | None:
     if normalized in GRAPH_TASK_TYPES:
         return "graph"
     return None
-
-
-def is_conference_publication_venue(venue: str | None) -> bool:
-    """Conservatively classify stored venue text as a conference publication."""
-    raw = " ".join(str(venue or "").split()).strip()
-    if not raw or is_arxiv_only_venue(raw):
-        return False
-    lowered = raw.casefold()
-    if any(marker in lowered for marker in _NON_CONFERENCE_PAPER_MARKERS):
-        return False
-    short = normalize_conference_short(raw)
-    if short and short not in _JOURNAL_SHORT_LABELS:
-        return True
-    return lowered in _CONFERENCE_VENUE_NAMES or any(
-        marker in lowered for marker in _CONFERENCE_VENUE_MARKERS
-    )
 
 
 def _result_override(result: Result, overrides: dict[str, Any]) -> dict[str, Any] | None:

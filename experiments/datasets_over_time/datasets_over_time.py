@@ -11,6 +11,7 @@ from datasets_over_time_helpers import (  # noqa: E402
     compute_union_relative_shares,
     fetch_data_by_benchmarkgroup,
     fetch_data_by_dataset,
+    filter_conference_papers,
     list_tables,
     load_all_tables,
     plot_line_charts,
@@ -102,3 +103,45 @@ dataset_pivot_share, dataset_pivot_cnt = compute_percentages_and_counts(
     dataset_df, "dataset", DATA_DIR, TIME_STEP, save_csv=False, print_info=True
 )  # save_csv: save joint datasets table
 plot_stacked_bar_charts(dataset_pivot_cnt, "datasets", PLOT_DIR)
+
+# Repeat the paper-usage plots for conference publications only.  Keep these
+# in a subdirectory so the original all-paper figures remain unchanged.
+conference_data_dir = DATA_DIR / "conference_only"
+conference_plot_dir = PLOT_DIR / "conference_only"
+conference_benchmarks_df = filter_conference_papers(benchmarks_df)
+conference_benchmarks_pivot_share, conference_benchmarks_pivot_cnt = compute_percentages_and_counts(
+    conference_benchmarks_df,
+    "benchmark",
+    conference_data_dir,
+    TIME_STEP,
+    save_csv=False,
+    print_info=False,
+)
+plot_stacked_bar_charts(conference_benchmarks_pivot_cnt, "benchmarks", conference_plot_dir)
+plot_line_charts(
+    conference_benchmarks_pivot_cnt,
+    "benchmarks_lines",
+    conference_plot_dir,
+    start_years=BENCHMARK_START_YEARS,
+)
+conference_benchmarks_union_share = compute_union_relative_shares(
+    conference_benchmarks_df, "benchmark", TIME_STEP
+)
+plot_line_charts(
+    conference_benchmarks_union_share,
+    "benchmarks_relative_lines",
+    conference_plot_dir,
+    ylabel="Share of papers (%)",
+    start_years=BENCHMARK_START_YEARS,
+)
+
+conference_dataset_df = filter_conference_papers(dataset_df)
+conference_dataset_pivot_share, conference_dataset_pivot_cnt = compute_percentages_and_counts(
+    conference_dataset_df,
+    "dataset",
+    conference_data_dir,
+    TIME_STEP,
+    save_csv=False,
+    print_info=False,
+)
+plot_stacked_bar_charts(conference_dataset_pivot_cnt, "datasets", conference_plot_dir)

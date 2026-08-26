@@ -39,6 +39,7 @@ from backend.export_to_hugo import (
     clear_export_caches,
 )
 from backend.models import Result
+from backend.venue import is_conference_publication_venue
 
 LRGB_SHORT_NAME = "lrgb"
 LRGB_DATASETS = frozenset(
@@ -257,7 +258,9 @@ def _comparison_row(
     }
 
 
-def load_analysis_rows(db_path: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def load_analysis_rows(
+    db_path: Path, *, conference_only: bool = False
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Load comparable baseline rows and return rows plus population metadata."""
     clear_export_caches()
     clear_at_pub_caches()
@@ -266,6 +269,12 @@ def load_analysis_rows(db_path: Path) -> tuple[list[dict[str, Any]], dict[str, A
         with session_factory() as session:
             results = _primary_metric_results(session)
             baseline_results = [result for result in results if bool(result.is_baseline)]
+            if conference_only:
+                baseline_results = [
+                    result
+                    for result in baseline_results
+                    if is_conference_publication_venue(result.paper.venue if result.paper else "")
+                ]
             rows: list[dict[str, Any]] = []
             skipped_no_truth = 0
             skipped_no_value = 0
@@ -318,6 +327,7 @@ def load_analysis_rows(db_path: Path) -> tuple[list[dict[str, Any]], dict[str, A
                 "skipped_no_value": skipped_no_value,
                 "lrgb_rows": sum(row["benchmark"] == LRGB_SHORT_NAME for row in rows),
                 "generated_on": date.today().isoformat(),
+                "conference_only": conference_only,
             }
             return rows, metadata
     finally:

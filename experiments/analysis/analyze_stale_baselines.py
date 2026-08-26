@@ -7,9 +7,9 @@ import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from backend.stale_baselines_analysis import run
+from backend.stale_baselines_analysis import load_analysis_rows, run, write_outputs, write_report
 
 
 def main() -> None:
@@ -22,6 +22,15 @@ def main() -> None:
     )
     args = parser.parse_args()
     for path in run(args.db, args.output_dir):
+        print(path)
+
+    conference_dir = args.output_dir / "conference_only"
+    conference_rows, conference_metadata = load_analysis_rows(args.db, conference_only=True)
+    conference_paths = write_outputs(conference_rows, conference_metadata, conference_dir)
+    conference_paths.append(
+        write_report(conference_rows, conference_metadata, conference_dir, conference_paths)
+    )
+    for path in conference_paths:
         print(path)
 
 

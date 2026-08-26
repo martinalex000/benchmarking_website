@@ -50,6 +50,20 @@ _CONFERENCE_ALIASES: tuple[tuple[str, tuple[str, ...]], ...] = (
 _SHORT_CONFERENCE_ALIASES = frozenset(
     alias for _label, aliases in _CONFERENCE_ALIASES for alias in aliases if len(alias) <= 5
 )
+_JOURNAL_SHORT_LABELS = frozenset({"JMLR", "TMLR"})
+_NON_CONFERENCE_PAPER_MARKERS = ("under review", "submitted", "submission", "workshop")
+_CONFERENCE_VENUE_MARKERS = (
+    "conference",
+    "congress",
+    "proceedings",
+    "symposium",
+    "annual meeting",
+    "acm multimedia",
+    "computer vision and pattern recognition",
+    "ecml/pkdd",
+    "web search and data mining",
+)
+_CONFERENCE_VENUE_NAMES = frozenset({"sdm"})
 
 _LOG_CANONICAL_NAME = "Learning on Graphs Conference"
 
@@ -70,6 +84,22 @@ def is_arxiv_only_venue(venue: str | None) -> bool:
     remainder = re.sub(r"\b(?:org|e-prints?|preprints?|preprint|corr)\b", "", remainder)
     remainder = re.sub(r"[^a-z0-9]+", "", remainder)
     return remainder == ""
+
+
+def is_conference_publication_venue(venue: str | None) -> bool:
+    """Conservatively classify stored venue text as a conference publication."""
+    raw = " ".join(str(venue or "").split()).strip()
+    if not raw or is_arxiv_only_venue(raw):
+        return False
+    lowered = raw.casefold()
+    if any(marker in lowered for marker in _NON_CONFERENCE_PAPER_MARKERS):
+        return False
+    short = normalize_conference_short(raw)
+    if short and short not in _JOURNAL_SHORT_LABELS:
+        return True
+    return lowered in _CONFERENCE_VENUE_NAMES or any(
+        marker in lowered for marker in _CONFERENCE_VENUE_MARKERS
+    )
 
 
 def _is_log_in_journal_name(name: str) -> bool:

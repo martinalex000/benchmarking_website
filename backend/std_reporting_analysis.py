@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
+from backend.venue import is_conference_publication_venue
+
 STD_REPORTING_RESULT_THRESHOLD = 0.30
 
 
@@ -224,7 +226,9 @@ def _is_nonzero_finite(value: object) -> bool:
     return math.isfinite(numeric) and numeric != 0.0
 
 
-def load_paper_observations(db_path: Path) -> list[PaperObservation]:
+def load_paper_observations(
+    db_path: Path, *, conference_only: bool = False
+) -> list[PaperObservation]:
     """Load result-bearing papers and their raw nonzero ``metric_std`` status.
 
     Problematic result rows are omitted because they are known not to represent
@@ -240,13 +244,15 @@ def load_paper_observations(db_path: Path) -> list[PaperObservation]:
     with sqlite3.connect(f"file:{resolved_path}?mode=ro", uri=True) as connection:
         rows = connection.execute(
             """
-            SELECT p.id, p.published_date, r.metric_std
+            SELECT p.id, p.published_date, r.metric_std, p.venue
             FROM papers AS p
             JOIN results AS r ON r.paper_id = p.id
             WHERE COALESCE(r.is_problematic, 0) = 0
             """
         )
-        for paper_id, raw_date, raw_std in rows:
+        for paper_id, raw_date, raw_std, venue in rows:
+            if conference_only and not is_conference_publication_venue(venue):
+                continue
             paper_date = parse_paper_date(raw_date)
             if paper_date is None:
                 continue
@@ -263,7 +269,9 @@ def load_paper_observations(db_path: Path) -> list[PaperObservation]:
     return list(observations.values())
 
 
-def load_paper_result_observations(db_path: Path) -> list[PaperResultObservation]:
+def load_paper_result_observations(
+    db_path: Path, *, conference_only: bool = False
+) -> list[PaperResultObservation]:
     """Load per-paper result counts for the 30% std-reporting analysis."""
     resolved_path = db_path.expanduser().resolve()
     if not resolved_path.is_file():
@@ -273,13 +281,15 @@ def load_paper_result_observations(db_path: Path) -> list[PaperResultObservation
     with sqlite3.connect(f"file:{resolved_path}?mode=ro", uri=True) as connection:
         rows = connection.execute(
             """
-            SELECT p.id, p.published_date, r.metric_std
+            SELECT p.id, p.published_date, r.metric_std, p.venue
             FROM papers AS p
             JOIN results AS r ON r.paper_id = p.id
             WHERE COALESCE(r.is_problematic, 0) = 0
             """
         )
-        for paper_id, raw_date, raw_std in rows:
+        for paper_id, raw_date, raw_std, venue in rows:
+            if conference_only and not is_conference_publication_venue(venue):
+                continue
             paper_date = parse_paper_date(raw_date)
             if paper_date is None:
                 continue

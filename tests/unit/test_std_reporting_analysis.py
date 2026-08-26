@@ -72,15 +72,15 @@ def test_load_observations_uses_nonzero_raw_std_and_excludes_problematic(tmp_pat
     with sqlite3.connect(db_path) as connection:
         connection.executescript(
             """
-            CREATE TABLE papers (id INTEGER PRIMARY KEY, published_date TEXT);
+            CREATE TABLE papers (id INTEGER PRIMARY KEY, published_date TEXT, venue TEXT);
             CREATE TABLE results (
                 paper_id INTEGER,
                 metric_std REAL,
                 is_problematic INTEGER
             );
-            INSERT INTO papers VALUES (1, '2024-01-10');
-            INSERT INTO papers VALUES (2, '2024-02');
-            INSERT INTO papers VALUES (3, '2024-03-10');
+            INSERT INTO papers VALUES (1, '2024-01-10', 'NeurIPS 2024');
+            INSERT INTO papers VALUES (2, '2024-02', 'arXiv.org');
+            INSERT INTO papers VALUES (3, '2024-03-10', 'ICML 2024');
             INSERT INTO results VALUES (1, 0.0, 0);
             INSERT INTO results VALUES (1, 0.02, 0);
             INSERT INTO results VALUES (2, NULL, 0);
@@ -94,3 +94,6 @@ def test_load_observations_uses_nonzero_raw_std_and_excludes_problematic(tmp_pat
         (1, True),
         (2, False),
     ]
+
+    conference_observations = load_paper_observations(db_path, conference_only=True)
+    assert [(item.paper_id, item.reports_std) for item in conference_observations] == [(1, True)]

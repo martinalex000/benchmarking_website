@@ -25,7 +25,7 @@ plt.rcParams.update(
     }
 )
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from backend.std_reporting_analysis import (  # noqa: E402
     load_paper_observations,
@@ -206,6 +206,25 @@ def main() -> int:
     write_threshold_yearly_percentage_figure(
         threshold_yearly_summaries,
         args.output_dir / "std_reporting_yearly_percentage_gt30_from_2017.pdf",
+    )
+
+    conference_dir = args.output_dir / "conference_only"
+    conference_observations = load_paper_observations(args.db, conference_only=True)
+    conference_summaries = summarize_quarterly(conference_observations)
+    conference_yearly_summaries = summarize_yearly(conference_observations)
+    conference_threshold_summaries = summarize_yearly_by_std_fraction(
+        load_paper_result_observations(args.db, conference_only=True)
+    )
+    write_csv(conference_summaries, conference_dir / "std_reporting_over_time.csv")
+    write_report(conference_summaries, conference_dir / "report.md")
+    write_figure(conference_summaries, conference_dir / "std_reporting_over_time.pdf")
+    write_yearly_percentage_figure(
+        conference_yearly_summaries,
+        conference_dir / "std_reporting_yearly_percentage_from_2017.pdf",
+    )
+    write_threshold_yearly_percentage_figure(
+        conference_threshold_summaries,
+        conference_dir / "std_reporting_yearly_percentage_gt30_from_2017.pdf",
     )
     for summary in summaries:
         print(

@@ -14,6 +14,7 @@ from typing import Any
 from backend.model_name_resolution import normalize_model_name_for_resolution
 from backend.models import Dataset, DatasetVariant, Result
 from backend.results_parser import result_is_leaderboard_eligible
+from backend.venue import is_conference_publication_venue
 
 NODE_TASKS = frozenset({"node_classification", "node_regression"})
 HETEROPHILY_BENCHMARKS = frozenset({"Heterophilic Graphs", "Heterophily Benchmark"})
@@ -191,7 +192,9 @@ def _benchmark_group_label(dataset: Any) -> str:
     return benchmark_name
 
 
-def compare_results(results: Iterable[Result], *, min_papers: int = 10) -> list[dict[str, Any]]:
+def compare_results(
+    results: Iterable[Result], *, min_papers: int = 10, conference_only: bool = False
+) -> list[dict[str, Any]]:
     """Build one descriptive comparison row per eligible dataset.
 
     The reference is the best eligible plain MLP. The comparison population is
@@ -201,6 +204,10 @@ def compare_results(results: Iterable[Result], *, min_papers: int = 10) -> list[
     """
     grouped: defaultdict[tuple[str, str], list[Any]] = defaultdict(list)
     for result in results:
+        if conference_only and not is_conference_publication_venue(
+            getattr(getattr(result, "paper", None), "venue", "")
+        ):
+            continue
         if is_comparison_eligible(result):
             dataset = result.dataset_variant.dataset
             grouped[(dataset.name, result.metric_name)].append(result)

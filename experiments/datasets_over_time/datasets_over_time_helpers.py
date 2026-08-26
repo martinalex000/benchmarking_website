@@ -21,6 +21,8 @@ import numpy as np
 import pandas as pd
 from matplotlib.transforms import ScaledTranslation
 
+from backend.venue import is_conference_publication_venue
+
 # --- Database introspection ---
 
 
@@ -148,7 +150,8 @@ def fetch_data_by_dataset(DB_PATH, datasets, start_date=None, end_date=None):
             d.name            AS dataset_name,
             p.published_date  AS paper_timestamp,
             r.paper_id,
-            p.title           AS paper_title
+            p.title           AS paper_title,
+            p.venue           AS paper_venue
         FROM results r
         JOIN dataset_variants dv ON r.dataset_variant_id = dv.id
         JOIN datasets d          ON dv.dataset_id        = d.id
@@ -201,7 +204,8 @@ def fetch_data_by_benchmarkgroup(DB_PATH, benchmark_names, start_date=None, end_
             b.name            AS benchmark_name,
             p.published_date  AS paper_timestamp,
             r.paper_id,
-            p.title           AS paper_title
+            p.title           AS paper_title,
+            p.venue           AS paper_venue
         FROM results r
         JOIN dataset_variants dv ON r.dataset_variant_id = dv.id
         JOIN datasets d          ON dv.dataset_id        = d.id
@@ -212,6 +216,14 @@ def fetch_data_by_benchmarkgroup(DB_PATH, benchmark_names, start_date=None, end_
     df = pd.read_sql_query(sql, conn, params=params)
     conn.close()
     return df
+
+
+def filter_conference_papers(df: pd.DataFrame) -> pd.DataFrame:
+    """Keep rows whose source paper has conference-publication evidence."""
+    if "paper_venue" not in df.columns:
+        raise ValueError("DataFrame must contain paper_venue for conference filtering")
+    mask = df["paper_venue"].map(is_conference_publication_venue)
+    return df.loc[mask].copy()
 
 
 # --- Aggregation & plotting ---
@@ -325,6 +337,7 @@ def plot_stacked_bar_charts(pivot_cnt, plot_name, PLOT_DIR):
     None
         The figure is saved to disk; nothing is returned.
     """
+    PLOT_DIR.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(7, 4.8))
 
     prop_cycle = plt.rcParams["axes.prop_cycle"]
@@ -377,6 +390,7 @@ def plot_stacked_bar_charts(pivot_cnt, plot_name, PLOT_DIR):
 
 def plot_line_charts(pivot_cnt, plot_name, PLOT_DIR, ylabel="Number of papers", start_years=None):
     """Draw one line per group and period."""
+    PLOT_DIR.mkdir(parents=True, exist_ok=True)
     fig, ax = plt.subplots(figsize=(7, 4.8))
 
     prop_cycle = plt.rcParams["axes.prop_cycle"]

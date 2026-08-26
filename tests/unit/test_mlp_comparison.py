@@ -86,6 +86,19 @@ def test_compare_results_requires_both_coverage_thresholds() -> None:
     assert len(compare_results(results, min_papers=1)) == 1
 
 
+def test_compare_results_can_restrict_to_conference_papers() -> None:
+    results = [_result("MLP", 0.5, "mlp-paper", baseline=True)]
+    results.extend(_result(f"Method-{i}", 0.6, f"paper-{i}") for i in range(2))
+    results[0].paper.venue = "NeurIPS 2024"
+    results[1].paper.venue = "NeurIPS 2024"
+    results[2].paper.venue = "arXiv.org"
+
+    comparisons = compare_results(results, min_papers=1, conference_only=True)
+
+    assert len(comparisons) == 1
+    assert comparisons[0]["paper_count"] == 1
+
+
 def test_comparison_ties_use_combined_std_and_zero_for_missing_std() -> None:
     mlp = _result("MLP", 0.5, "mlp-paper", baseline=True, std=0.02)
 

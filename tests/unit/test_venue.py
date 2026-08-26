@@ -9,6 +9,7 @@ from backend.venue import (
     conference_export_fields,
     export_published_venue,
     is_arxiv_only_venue,
+    is_conference_publication_venue,
     is_untrusted_s2_publication_venue,
     is_untrusted_venue,
     normalize_conference_short,
@@ -45,6 +46,19 @@ def test_is_arxiv_only_venue_detects_arxiv_labels(venue: str):
 )
 def test_is_arxiv_only_venue_keeps_real_venues(venue: str):
     assert not is_arxiv_only_venue(venue)
+
+
+@pytest.mark.parametrize(
+    ("venue", "expected"),
+    [
+        ("NeurIPS 2024", True),
+        ("arXiv.org", False),
+        ("Trans. Mach. Learn. Res.", False),
+        ("Accepted at the ICLR 2026 GRaM Workshop", False),
+    ],
+)
+def test_is_conference_publication_venue(venue: str, expected: bool):
+    assert is_conference_publication_venue(venue) is expected
 
 
 @pytest.mark.parametrize(
