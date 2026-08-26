@@ -25,9 +25,14 @@ from backend.config import cfg
 DEFAULT_DEPLOY_PATH = "/var/www/graphbench"
 REMOTE_ARCHIVE_NAME = "deploy"
 BUILD_ARCHIVE_SUBDIR = "deploy-archives"
+# Keep deployment usable with the older OpenSSH clients common on workstations.
 SSH_OPTS = [
     "-o",
     "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=no",
+    "-o",
+    "UserKnownHostsFile=/dev/null",
     "-o",
     "ConnectTimeout=60",
     "-o",
@@ -36,8 +41,6 @@ SSH_OPTS = [
     "ServerAliveCountMax=3",
     "-o",
     "ClearAllForwardings=yes",
-    "-o",
-    "WarnWeakCrypto=no",
 ]
 DEPLOY_FILE_MODE = 0o755
 GITHUB_PAGES_BRANCH_DEFAULT = "main"
@@ -49,6 +52,9 @@ GITHUB_PAGES_SSH_KEY_DEFAULT = Path.home() / ".ssh" / "graphlearningbenchmarks"
 JPEGOPTIM_MARKER = ".jpegoptim"
 MAX_IMAGE_SHORT_EDGE = 768
 IMAGE_SUFFIXES = frozenset({".png", ".jpg", ".jpeg", ".webp"})
+RCLONE_IMAGE_PATTERNS = tuple(f"*{suffix}" for suffix in sorted(IMAGE_SUFFIXES)) + tuple(
+    f"*{suffix.upper()}" for suffix in sorted(IMAGE_SUFFIXES)
+)
 FIGURES_NAME_RE = re.compile(r"^-(\d{12})-figures\.tar\.zst$")
 EXPORT_NAME_RE = re.compile(r"^-(\d{12})-export\.tar\.zst$")
 INCREMENT_NAME_RE = re.compile(r"^-(\d{12})-increment\.tar\.zst$")
@@ -816,8 +822,11 @@ def list_staging_archives(names: list[str]) -> tuple[str | None, str]:
     return figures_name, increment_name
 
 
-def require_build_tools() -> None:
-    for cmd in ("ssh", "rsync", "tar", "zstd", "uv"):
+def require_build_tools(*, remote: bool = False) -> None:
+    commands = ["tar", "zstd", "uv"]
+    if remote:
+        commands[0:0] = ["ssh", "rsync"]
+    for cmd in commands:
         require_cmd(cmd)
     tar_help = subprocess.run(["tar", "--help"], capture_output=True, text=True, check=False)
     if "--zstd" not in tar_help.stdout + tar_help.stderr:
@@ -825,12 +834,182 @@ def require_build_tools() -> None:
 
 
 def require_deploy_tools() -> None:
-    for cmd in ("ssh", "rsync", "tar", "zstd"):
+    for cmd in ("rclone", "sftp", "tar", "zstd"):
         require_cmd(cmd)
 
 
 def ssh_dest_for(host: str, user: str) -> str:
     return f"{user}@{host}" if user else host
+
+
+def resolve_sftp_endpoint(ssh_dest: str) -> tuple[str, str, int]:
+    """Resolve an SSH alias for rclone's SFTP backend without connecting."""
+    ssh_config = Path.home() / ".ssh" / "config"
+    command = ["ssh"]
+    if ssh_config.is_file():
+        command.extend(["-F", str(ssh_config)])
+    command.extend(["-G", ssh_dest])
+    result = subprocess.run(
+        command,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode:
+        detail = result.stderr.strip() or "unknown SSH configuration error"
+        sys.exit(f"ERROR: Could not resolve SSH destination {ssh_dest}: {detail}")
+
+    values: dict[str, str] = {}
+    for line in result.stdout.splitlines():
+        key, _, value = line.partition(" ")
+        if key and value and key not in values:
+            values[key] = value.strip()
+
+    try:
+        host = values["hostname"]
+        user = values["user"]
+        port = int(values.get("port", "22"))
+    except (KeyError, ValueError):
+        sys.exit(f"ERROR: Incomplete SSH configuration for {ssh_dest}.")
+
+    return host, user, port
+
+
+def rclone_config(ssh_dest: str) -> Path:
+    """Create an ephemeral rclone SFTP config that never attempts shell commands."""
+    host, user, port = resolve_sftp_endpoint(ssh_dest)
+    config = [
+        "[deploy]",
+        "type = sftp",
+        f"host = {host}",
+        f"user = {user}",
+        f"port = {port}",
+        "shell_type = none",
+        "disable_hashcheck = true",
+    ]
+
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        prefix=".deploy-rclone-",
+        suffix=".conf",
+        delete=False,
+        encoding="utf-8",
+    ) as handle:
+        handle.write("\n".join(config) + "\n")
+    return Path(handle.name)
+
+
+def check_sftp_connectivity(ssh_dest: str) -> None:
+    """Validate the target with OpenSSH without starting a remote shell."""
+    ssh_config = Path.home() / ".ssh" / "config"
+    command = ["sftp"]
+    if ssh_config.is_file():
+        command.extend(["-F", str(ssh_config)])
+    command.extend([*SSH_OPTS, "-b", "-", ssh_dest])
+    print(f"Checking SFTP connectivity to {ssh_dest}...")
+    try:
+        subprocess.run(command, input="", text=True, check=True)
+    except subprocess.CalledProcessError:
+        print(f"Hint: Verify your SSH/SFTP setup with: sftp {ssh_dest}", file=sys.stderr)
+        sys.exit("ERROR: SFTP connectivity check failed.")
+
+
+def normalize_sftp_permissions(ssh_dest: str, deploy_path: str, sync_root: Path) -> None:
+    """Make every deployed path readable/traversable by the web server."""
+    directories = [sync_root, *sorted(path for path in sync_root.rglob("*") if path.is_dir())]
+    directories = [directory for directory in directories if any(directory.iterdir())]
+    if not directories:
+        return
+
+    remote_root = deploy_path.rstrip("/") or "/"
+    commands = []
+    for directory in directories:
+        relative = directory.relative_to(sync_root).as_posix()
+        remote_directory = posixpath.join(remote_root, relative) if relative != "." else remote_root
+        commands.append(f"chmod 755 {shlex.quote(remote_directory)}/*")
+    ssh_config = Path.home() / ".ssh" / "config"
+    command = ["sftp", "-q"]
+    if ssh_config.is_file():
+        command.extend(["-F", str(ssh_config)])
+    command.extend([*SSH_OPTS, "-b", "-", ssh_dest])
+    print(f"Normalizing remote permissions to 755 on {ssh_dest}:{deploy_path}...")
+    subprocess.run(
+        command,
+        input="\n".join([*commands, "bye", ""]),
+        text=True,
+        check=True,
+        stdout=subprocess.DEVNULL,
+    )
+
+
+def _rclone_sync_command(
+    config_path: Path,
+    source: Path,
+    destination: str,
+    *,
+    images: bool,
+) -> list[str]:
+    command = [
+        "rclone",
+        "--config",
+        str(config_path),
+        "sync",
+        "--sftp-shell-type",
+        "none",
+        "--sftp-disable-hashcheck",
+        "--progress",
+        "--stats-one-line",
+        "--stats=1s",
+    ]
+    if images:
+        command.append("--size-only")
+        for pattern in RCLONE_IMAGE_PATTERNS:
+            command.extend(["--include", pattern])
+    else:
+        command.append("--ignore-times")
+        for pattern in RCLONE_IMAGE_PATTERNS:
+            command.extend(["--exclude", pattern])
+    command.extend([str(source), destination])
+    return command
+
+
+def sync_deploy_tree(
+    project_dir: Path,
+    ssh_dest: str,
+    deploy_path: str,
+    figures_archive: Path | None,
+    increment_archive: Path,
+) -> None:
+    """Reconstruct the site locally and synchronize it through SFTP."""
+    if not figures_archive or not figures_archive.is_file():
+        sys.exit("ERROR: SFTP deploy needs a local figures archive to reconstruct the site.")
+
+    with tempfile.TemporaryDirectory(prefix=".deploy-sync-", dir=project_dir) as sync_dir:
+        sync_root = Path(sync_dir)
+        for archive in (figures_archive, increment_archive):
+            subprocess.run(
+                ["tar", "-C", sync_root, "--zstd", "-xf", str(archive)],
+                check=True,
+            )
+
+        config_path = rclone_config(ssh_dest)
+        try:
+            destination = f"deploy:{deploy_path}"
+            for images in (True, False):
+                label = "images" if images else "non-image files"
+                print(f"Synchronizing {label} to SFTP target {ssh_dest}:{deploy_path}...")
+                subprocess.run(
+                    _rclone_sync_command(
+                        config_path,
+                        sync_root,
+                        destination,
+                        images=images,
+                    ),
+                    check=True,
+                )
+            normalize_sftp_permissions(ssh_dest, deploy_path, sync_root)
+        finally:
+            config_path.unlink(missing_ok=True)
 
 
 def build_work_parent(project_dir: Path) -> Path:
@@ -1093,19 +1272,18 @@ def prepare_hugo_content(
     persist_export_snapshot(project_dir, host_id)
 
 
-def run_local_server(project_dir: Path) -> None:
-    """Export the current data and serve the Hugo site until interrupted."""
-    print("Exporting Hugo content from database...")
-    subprocess.run(
-        [sys.executable, "-m", "backend.export_to_hugo", "--skip-build"],
-        check=True,
-        cwd=project_dir,
-    )
+def run_local_server(project_dir: Path, *, skip_export: bool = False) -> None:
+    """Prepare and serve the Hugo site locally until interrupted."""
+    prepare_hugo_content(project_dir, local_host_id(), skip_export=skip_export)
 
     site_dir = project_dir / "site"
     print(f"Starting Hugo server in {site_dir}. Press Ctrl+C to stop.")
     try:
-        subprocess.run(["uv", "run", "hugo", "server"], check=True, cwd=site_dir)
+        subprocess.run(
+            ["nice", "-n", "3", "uv", "run", "hugo", "server"],
+            check=True,
+            cwd=site_dir,
+        )
     except KeyboardInterrupt:
         print("\nHugo server stopped.")
 
@@ -1478,6 +1656,23 @@ def main() -> None:
         help="Directory for deploy archives (required with --build-only).",
     )
     args = parser.parse_args()
+    source_host = socket.gethostname()
+    build_host = cfg.build_host.strip()
+    print(f"Deployment controller host: {source_host}")
+    print(f"Archive build host: {build_host or f'{source_host} (local)'}")
+    deploy_path = (cfg.deploy_path or DEFAULT_DEPLOY_PATH).rstrip("/")
+    if args.local:
+        target = "local Hugo server"
+    elif args.github_pages:
+        target = "GitHub Pages"
+    elif args.build_only:
+        target = "none (--build-only)"
+    else:
+        deploy_user = f"{cfg.deploy_user}@" if cfg.deploy_user else ""
+        target = f"{deploy_user}{cfg.deploy_host}:{deploy_path}"
+        if args.both:
+            target += " and GitHub Pages"
+    print(f"Deployment target: {target}")
 
     if args.upload_only and args.build_only:
         sys.exit("ERROR: --upload-only cannot be used with --build-only.")
@@ -1489,7 +1684,6 @@ def main() -> None:
             args.incremental,
             args.github_pages,
             args.both,
-            args.skip_export,
             args.upload_only,
             args.build_only,
             args.staging_dir,
@@ -1513,7 +1707,7 @@ def main() -> None:
 
     if args.local:
         require_cmd("uv")
-        run_local_server(cfg.base_dir)
+        run_local_server(cfg.base_dir, skip_export=args.skip_export)
         return
 
     if args.github_pages:
@@ -1545,29 +1739,14 @@ def main() -> None:
         sys.exit("ERROR: DEPLOY_PATH is empty. Set it in .env.")
 
     build_host, build_project_root = validate_build_host_settings()
-    require_deploy_tools() if args.upload_only else require_build_tools()
+    if args.upload_only:
+        require_deploy_tools()
+    else:
+        require_build_tools(remote=bool(build_host))
+        require_deploy_tools()
 
-    ssh_dest = ssh_dest_for(deploy_host, cfg.deploy_user)
-
-    print(f"Checking SSH connectivity to {ssh_dest}...")
-    try:
-        ssh_run(ssh_dest, "true")
-    except subprocess.CalledProcessError:
-        print(f"Hint: Verify your ssh config/keys with: ssh {ssh_dest}", file=sys.stderr)
-        sys.exit("ERROR: SSH connectivity check failed.")
-
-    remote_archive = ""
-    remote_deploy = ""
-    try:
-        remote_archive, remote_deploy = remote_paths(ssh_dest, deploy_path)
-        print(f"Remote archive dir: {remote_archive}")
-        print(f"Remote deploy dir: {remote_deploy}")
-        unpack_remotely(ssh_dest, remote_deploy, remote_archive, prepare=True)
-    except subprocess.CalledProcessError:
-        sys.exit(
-            f"ERROR: Remote deployment path is missing or not writable: {deploy_path} "
-            f"(resolved deploy dir: {remote_deploy or '?'})"
-        )
+    deploy_ssh_dest = ssh_dest_for(deploy_host, cfg.deploy_user)
+    check_sftp_connectivity(deploy_ssh_dest)
 
     if args.upload_only:
         (
@@ -1578,17 +1757,12 @@ def main() -> None:
             prefix,
             host_id,
         ) = find_local_deploy_archives(cfg.base_dir, full=full)
-        deploy_archives(
-            ssh_dest,
-            remote_archive,
-            remote_deploy,
-            full=full,
-            host_id=host_id,
-            figures_name=figures_name,
-            increment_name=increment_name,
-            prefix=prefix,
-            figures_archive=figures_archive,
-            increment_archive=increment_archive,
+        sync_deploy_tree(
+            cfg.base_dir,
+            deploy_ssh_dest,
+            deploy_path,
+            figures_archive,
+            increment_archive,
         )
         print("Deploy complete.")
         return
@@ -1683,17 +1857,12 @@ def main() -> None:
             figures_name,
         )
 
-        deploy_archives(
-            ssh_dest,
-            remote_archive,
-            remote_deploy,
-            full=full,
-            host_id=host_id,
-            figures_name=figures_name,
-            increment_name=increment_name,
-            prefix=prefix,
-            figures_archive=figures_archive,
-            increment_archive=increment_archive,
+        sync_deploy_tree(
+            cfg.base_dir,
+            deploy_ssh_dest,
+            deploy_path,
+            figures_archive,
+            increment_archive,
         )
 
     if args.both:
