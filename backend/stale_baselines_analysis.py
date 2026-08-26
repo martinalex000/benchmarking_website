@@ -31,7 +31,7 @@ from matplotlib.transforms import ScaledTranslation
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from backend.at_pub_timeline import clear_at_pub_caches
+from backend.at_pub_timeline import AtPubTimeline, clear_at_pub_caches
 from backend.export_to_hugo import (
     _global_ranks_cached,
     _model_key,
@@ -258,6 +258,38 @@ def _comparison_row(
     }
 
 
+def _conference_truth(results: list[Result], higher_is_better: bool) -> dict[str, Any]:
+    """Return the best conference-published result for each canonical model."""
+    best: dict[str, Result] = {}
+    for result in results:
+        model_key = _model_key(result.effective_model_name)
+        value = _finite(result.display_value)
+        if not model_key or value is None:
+            continue
+        incumbent = best.get(model_key)
+        if incumbent is None:
+            best[model_key] = result
+            continue
+        incumbent_value = _finite(incumbent.display_value)
+        if incumbent_value is None or (
+            value > incumbent_value if higher_is_better else value < incumbent_value
+        ):
+            best[model_key] = result
+    return {
+        model_key: {
+            "model": result.effective_model_name,
+            "model_key": model_key,
+            "value": float(result.display_value),
+            "std": _finite(result.display_std),
+            "arxiv_id": result.paper.arxiv_id if result.paper else "",
+            "title": result.paper.title if result.paper else "",
+            "date_iso": _date_text(result.paper.published_date if result.paper else ""),
+            "venue": result.paper.venue if result.paper else "",
+        }
+        for model_key, result in best.items()
+    }
+
+
 def load_analysis_rows(
     db_path: Path, *, conference_only: bool = False
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -269,6 +301,11 @@ def load_analysis_rows(
         with session_factory() as session:
             results = _primary_metric_results(session)
             baseline_results = [result for result in results if bool(result.is_baseline)]
+            conference_results = [
+                result
+                for result in results
+                if is_conference_publication_venue(result.paper.venue if result.paper else "")
+            ]
             if conference_only:
                 baseline_results = [
                     result
@@ -281,6 +318,7 @@ def load_analysis_rows(
             timeline_cache: dict[tuple[str, str, bool], Any] = {}
             truth_cache: dict[tuple[str, str, bool], dict[str, dict[str, Any]]] = {}
             sota_cache: dict[tuple[str, str, bool], dict[str, Any] | None] = {}
+            conference_rows_cache: dict[tuple[str, str], list[Result]] = {}
             for result in baseline_results:
                 reported = _finite(result.display_value)
                 if reported is None:
@@ -291,9 +329,30 @@ def load_analysis_rows(
                 higher = bool(result.higher_is_better)
                 cache_key = (dataset.name, metric, higher)
                 if cache_key not in truth_cache:
-                    _, global_rows, truth = _global_ranks_cached(session, *cache_key)
-                    truth_cache[cache_key] = truth
-                    sota_cache[cache_key] = global_rows[0] if global_rows else None
+                    if conference_only:
+                        dataset_results = conference_rows_cache.setdefault(
+                            (dataset.name, metric),
+                            [
+                                candidate
+                                for candidate in conference_results
+                                if candidate.dataset_variant.dataset.name == dataset.name
+                                and candidate.metric_name == metric
+                                and bool(candidate.higher_is_better) == higher
+                            ],
+                        )
+                        truth = _conference_truth(dataset_results, higher)
+                        truth_cache[cache_key] = truth
+                        sota_cache[cache_key] = (
+                            max(truth.values(), key=lambda row: row["value"])
+                            if higher and truth
+                            else min(truth.values(), key=lambda row: row["value"])
+                            if truth
+                            else None
+                        )
+                    else:
+                        _, global_rows, truth = _global_ranks_cached(session, *cache_key)
+                        truth_cache[cache_key] = truth
+                        sota_cache[cache_key] = global_rows[0] if global_rows else None
                 model_key = _model_key(result.effective_model_name)
                 today_truth = truth_cache[cache_key].get(model_key)
                 sota_truth = sota_cache[cache_key]
@@ -301,9 +360,14 @@ def load_analysis_rows(
                     skipped_no_truth += 1
                     continue
                 if cache_key not in timeline_cache:
-                    from backend.at_pub_timeline import at_pub_timeline
+                    if conference_only:
+                        timeline_cache[cache_key] = AtPubTimeline(
+                            conference_rows_cache[(dataset.name, metric)], higher
+                        )
+                    else:
+                        from backend.at_pub_timeline import at_pub_timeline
 
-                    timeline_cache[cache_key] = at_pub_timeline(session, *cache_key)
+                        timeline_cache[cache_key] = at_pub_timeline(session, *cache_key)
                 paper_date = _date_text(result.paper.published_date if result.paper else "")
                 prior_truth = timeline_cache[cache_key].best_for_model(
                     model_key,
