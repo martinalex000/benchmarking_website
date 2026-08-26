@@ -50,16 +50,22 @@
         {{ if $hasStructuralStats }}
         <section class="dataset-stat-group dataset-stat-group-structure">
           <h2 class="dataset-stat-heading">Structure</h2>
-          <div class="dataset-stats">
-            {{ with .Params.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
-            {{ with .Params.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
-            {{ with .Params.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
-            {{ with .Params.stats.num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes</span></div>{{ end }}
-            {{ with .Params.stats.extra_stats }}
-              {{ range $key, $value := . }}
-              <div class="stat-item"><span class="stat-value">{{ $value }}</span><span class="stat-label">{{ replace $key "_" " " | title }}</span></div>
+          <div class="dataset-stats dataset-stats-columns">
+            <div class="dataset-stat-column">
+              {{ with .Params.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
+              {{ with .Params.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
+              {{ with .Params.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
+            </div>
+            <div class="dataset-stat-column">
+              {{ with .Params.stats.num_classes }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Classes</span></div>{{ end }}
+              {{ with .Params.stats.extra_stats }}
+                {{ with .node_feature_dim }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Node Feature Dim</span></div>{{ end }}
+                {{ with .edge_feature_dim }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Edge Feature Dim</span></div>{{ end }}
+                {{ with .edge_homophily }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Homophily</span></div>{{ end }}
+                {{ if and (not .edge_homophily) .edge_homophily_min }}<div class="stat-item"><span class="stat-value">{{ .edge_homophily_min }}–{{ .edge_homophily_max }}</span><span class="stat-label">Homophily</span></div>{{ end }}
+                {{ if and (not .edge_homophily) (not .edge_homophily_min) .heterophily }}<div class="stat-item"><span class="stat-value">{{ .heterophily }}</span><span class="stat-label">Heterophily</span></div>{{ end }}
               {{ end }}
-            {{ end }}
+            </div>
           </div>
         </section>
         {{ end }}
@@ -174,15 +180,21 @@
       {{ if and $showAllVariants $hasVariantStats }}
       <section class="dataset-stat-group dataset-stat-group-structure">
         <h2 class="dataset-stat-heading">Variant Structure</h2>
-        <div class="dataset-stats">
-          {{ with $variant.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
-          {{ with $variant.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
-          {{ with $variant.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
-          {{ with $variant.stats.extra_stats }}
-            {{ range $key, $value := . }}
-            <div class="stat-item"><span class="stat-value">{{ $value }}</span><span class="stat-label">{{ replace $key "_" " " | title }}</span></div>
+        <div class="dataset-stats dataset-stats-columns">
+          <div class="dataset-stat-column">
+            {{ with $variant.stats.num_graphs }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Graphs</span></div>{{ end }}
+            {{ with $variant.stats.avg_nodes }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Nodes</span></div>{{ end }}
+            {{ with $variant.stats.avg_edges }}<div class="stat-item"><span class="stat-value">{{ lang.FormatNumberCustom 0 . "- . ," }}</span><span class="stat-label">Edges</span></div>{{ end }}
+          </div>
+          <div class="dataset-stat-column">
+            {{ with $variant.stats.extra_stats }}
+              {{ with .node_feature_dim }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Node Feature Dim</span></div>{{ end }}
+              {{ with .edge_feature_dim }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Edge Feature Dim</span></div>{{ end }}
+              {{ with .edge_homophily }}<div class="stat-item"><span class="stat-value">{{ . }}</span><span class="stat-label">Homophily</span></div>{{ end }}
+              {{ if and (not .edge_homophily) .edge_homophily_min }}<div class="stat-item"><span class="stat-value">{{ .edge_homophily_min }}–{{ .edge_homophily_max }}</span><span class="stat-label">Homophily</span></div>{{ end }}
+              {{ if and (not .edge_homophily) (not .edge_homophily_min) .heterophily }}<div class="stat-item"><span class="stat-value">{{ .heterophily }}</span><span class="stat-label">Heterophily</span></div>{{ end }}
             {{ end }}
-          {{ end }}
+          </div>
         </div>
       </section>
       {{ end }}

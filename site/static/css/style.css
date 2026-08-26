@@ -2441,6 +2441,20 @@ a.mini-badge-code:focus-visible,
   margin: 0;
   align-items: stretch;
 }
+.dataset-page .dataset-stat-group-structure .dataset-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 0.75rem;
+}
+.dataset-page .dataset-stat-group-structure {
+  min-width: 19rem;
+}
+.dataset-page .dataset-stat-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  min-width: 0;
+}
 .dataset-page .dataset-stat-group .stat-item:not(.stat-item-interactive) {
   display: flex;
   flex-direction: row-reverse;
@@ -2475,7 +2489,7 @@ a.mini-badge-code:focus-visible,
   letter-spacing: 0;
   font-size: 0.72rem;
   color: var(--gray-600);
-  white-space: nowrap;
+  white-space: normal;
 }
 .dataset-page .dataset-stat-group .stat-label::after {
   content: ":";
@@ -3553,6 +3567,9 @@ tr.row-global-top.row-best td { background: #e0f2fe; }
   }
   .dataset-page .dataset-stat-group {
     padding: 0.35rem 0.5rem;
+  }
+  .dataset-page .dataset-stat-group-structure {
+    min-width: 0;
   }
   /* Compact "label: value" list styling is shared with desktop; see base rules. */
   .dataset-page .dataset-stats .stat-item {
