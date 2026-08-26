@@ -390,8 +390,9 @@ def _upsert_seed_dataset(
         session.flush()
     else:
         for key, value in defaults.items():
-            if value is not None:
-                setattr(ds, key, value)
+            # Seed metadata is authoritative.  Clearing a value removed from
+            # YAML prevents stale statistics from surviving a correction.
+            setattr(ds, key, value)
     return ds
 
 
@@ -449,6 +450,11 @@ def seed(dry_run: bool = False) -> None:
                     "avg_edges": ds_data.get("avg_edges"),
                     "num_classes": ds_data.get("num_classes"),
                 }
+                ds_defaults["extra_stats"] = (
+                    json.dumps(ds_data["extra_stats"], ensure_ascii=False, sort_keys=True)
+                    if "extra_stats" in ds_data
+                    else None
+                )
                 ds = _upsert_seed_dataset(
                     session,
                     bm,
@@ -471,12 +477,21 @@ def seed(dry_run: bool = False) -> None:
                         "is_standard": 1 if v_data.get("is_standard", False) else 0,
                         "notes": v_data.get("notes"),
                     }
+                    v_defaults["extra_stats"] = (
+                        json.dumps(v_data["extra_stats"], ensure_ascii=False, sort_keys=True)
+                        if "extra_stats" in v_data
+                        else None
+                    )
                     v = _upsert(
                         session,
                         DatasetVariant,
                         {"name": v_data["name"], "dataset_id": ds.id},
                         v_defaults,
                     )
+                    for key, value in v_defaults.items():
+                        # Variant statistics are also seed-owned and must be
+                        # cleared when a YAML correction removes them.
+                        setattr(v, key, value)
                     logger.info("    Variant: %s (is_standard=%s)", v.name, v.is_standard)
 
                 for existing_variant in list(ds.variants):

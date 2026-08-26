@@ -30,6 +30,48 @@ def test_lrgb_datasets_include_canonical_statistics():
     }
 
 
+def test_ogb_statistics_use_graph_count_and_store_node_heterophily():
+    datasets = {dataset["name"]: dataset for dataset in _benchmarks()["OGB"]["datasets"]}
+
+    assert tuple(
+        datasets["ogbl-ppa"][field] for field in ("num_graphs", "avg_nodes", "avg_edges")
+    ) == (1, 576289, 30326273)
+    assert tuple(
+        datasets["ogbn-arxiv"][field]
+        for field in ("num_graphs", "avg_nodes", "avg_edges", "num_classes")
+    ) == (1, 169343, 1166243, 40)
+    assert datasets["ogbn-arxiv"]["extra_stats"]["heterophily"] == 0.34
+    assert datasets["ogbn-proteins"]["extra_stats"]["heterophily_min"] == 0.06
+    assert datasets["ogbn-papers100M"]["extra_stats"]["heterophily"] is None
+
+    required_detail_fields = {
+        "node_feature_dim",
+        "edge_feature_dim",
+        "avg_degree",
+        "clustering_coefficient",
+        "diameter",
+        "label_imbalance",
+    }
+    assert all(
+        required_detail_fields <= set(dataset["extra_stats"]) for dataset in datasets.values()
+    )
+    assert datasets["ogbg-molpcba"]["extra_stats"]["positive_label_rate"] == 0.014
+    assert datasets["ogbn-proteins"]["extra_stats"]["majority_class_fraction_max"] == 0.98
+    assert datasets["PCQM4Mv2"]["extra_stats"] == {
+        "node_feature_dim": 9,
+        "node_feature_type": "categorical atom features from RDKit",
+        "edge_feature_dim": 3,
+        "edge_feature_type": "categorical bond features from RDKit",
+        "avg_degree": 2.05,
+        "degree_convention": "reported in OGB-LSC Table 8 after standardizing graphs to undirected unlabeled graphs",
+        "clustering_coefficient": 0.011,
+        "diameter": 7.95,
+        "label_imbalance": "not applicable; the target is continuous HOMO-LUMO gap regression",
+        "target_unit": "eV",
+        "statistic_notes": "OGB-LSC Table 8 reports average degree, clustering coefficient, and diameter on standardized graphs; training molecules additionally have 3D coordinates",
+    }
+
+
 def test_heterophily_groups_have_curated_membership_and_sources():
     benchmarks = _benchmarks()
 

@@ -39,6 +39,14 @@ benchmarks:
     avg_nodes: 150.94
     avg_edges: 307.30
     num_classes: 10
+    extra_stats:
+      node_feature_dim: 9
+      edge_feature_dim: 3
+      avg_degree: 4.07
+      feature_type: 'OGB categorical atom features'
+      edge_feature_type: 'OGB categorical bond features'
+      label_imbalance: '10-label multi-label task; positive rates range from 1.9% to 62.7%'
+      statistic_notes: 'LRGB benchmark statistics; hydrogen atoms are omitted and labels are non-exclusive.'
     variants:
     - name: Standard split
       is_standard: true
@@ -71,6 +79,14 @@ benchmarks:
     avg_nodes: 150.94
     avg_edges: 307.30
     num_classes: 11
+    extra_stats:
+      node_feature_dim: 9
+      edge_feature_dim: 3
+      avg_degree: 4.07
+      feature_type: 'OGB categorical atom features'
+      edge_feature_type: 'OGB categorical bond features'
+      label_imbalance: '11 continuous graph-level structural targets; class imbalance is not applicable'
+      statistic_notes: 'LRGB benchmark statistics; structural targets are continuous and the molecular graph omits hydrogens.'
     variants:
     - name: Standard split
       is_standard: true
@@ -102,6 +118,14 @@ benchmarks:
     avg_nodes: 479.40
     avg_edges: 2710.48
     num_classes: 21
+    extra_stats:
+      node_feature_dim: 14
+      edge_feature_dim: 2
+      avg_degree: 11.31
+      feature_type: '12 RGB summary values plus 2D superpixel center-of-mass coordinates'
+      edge_feature_type: 'mean Sobel response and boundary-pixel count'
+      label_imbalance: 'semantic-segmentation labels are strongly dominated by background; official score is class-weighted macro F1'
+      statistic_notes: 'LRGB default compactness-30 region-boundary graph; alternate kNN and compactness variants have different topology.'
     variants:
     - name: Standard split
       is_standard: true
@@ -134,6 +158,14 @@ benchmarks:
     avg_nodes: 476.88
     avg_edges: 2693.67
     num_classes: 81
+    extra_stats:
+      node_feature_dim: 14
+      edge_feature_dim: 2
+      avg_degree: 11.30
+      feature_type: '12 RGB summary values plus 2D superpixel center-of-mass coordinates'
+      edge_feature_type: 'mean Sobel response and boundary-pixel count'
+      label_imbalance: '81 semantic labels have a long-tailed pixel/superpixel distribution; official score is class-weighted macro F1'
+      statistic_notes: 'LRGB default compactness-30 region-boundary graph; alternate graph constructions are not interchangeable.'
     variants:
     - name: Standard split
       is_standard: true
@@ -168,6 +200,14 @@ benchmarks:
     avg_nodes: 30.14
     avg_edges: 61.09
     num_classes: 1
+    extra_stats:
+      node_feature_dim: 9
+      edge_feature_dim: 3
+      avg_degree: 4.05
+      feature_type: 'OGB categorical atom features; explicit hydrogens are present in the contact artifact'
+      edge_feature_type: 'OGB categorical covalent-bond features'
+      label_imbalance: 'positive long-range contacts are sparse among candidate atom pairs; filtered ranking is used rather than binary accuracy'
+      statistic_notes: '3D coordinates define the contact labels but are not input features; candidates are non-covalent pairs within 3.5 Å and more than five covalent hops apart.'
     variants:
     - name: Standard split
       is_standard: true
@@ -207,8 +247,16 @@ benchmarks:
     domain: social
     pyg_url: https://graphbench.github.io/website/datasets.html
     num_graphs: 3
-    avg_nodes: 433000.0
-    avg_edges: 10000000.0
+    avg_nodes: null
+    avg_edges: null
+    extra_stats:
+      node_feature_dim: null
+      edge_feature_dim: 0
+      avg_degree: null
+      relation_graphs: 'quotes: 289,136/286,425/311,272 nodes and 3,075,967/3,815,996/4,525,872 edges across train/validation/test; replies: 470,816/464,867/569,424 nodes and 9,287,565/10,769,386/12,318,196 edges; reposts: 498,012/508,818/580,112 nodes and 12,049,951/14,658,114/17,261,865 edges'
+      feature_type: 'time-windowed language-model embeddings of user posts; exact dimension is implementation-dependent'
+      edge_feature_type: 'directed, timestamped interaction type and time'
+      statistic_notes: 'GraphBench Table 2 reports three separate temporal interaction graphs; there is no single canonical node or edge count for the aggregate BlueSky task.'
     variants:
     - name: Standard split
       is_standard: true
@@ -237,6 +285,10 @@ benchmarks:
     higher_is_better: true
     domain: hardware
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 1200000
+    avg_nodes: 125.9
+    avg_edges: 236.3
+    extra_stats: {node_feature_dim: null, edge_feature_dim: 0, avg_degree: 3.7, feature_type: 'and-inverter graph gate/input types; exact encoding is implementation-dependent', edge_feature_type: 'directed signal connections with complemented-edge polarity', statistic_notes: 'GraphBench Table 2 reports 1.2 million AIG samples with 125.9 average nodes and 236.3 average edges.'}
     variants:
     - name: Standard split
       is_standard: true
@@ -267,8 +319,16 @@ benchmarks:
     domain: hardware
     pyg_url: https://graphbench.github.io/website/datasets.html
     num_graphs: 93000
-    avg_nodes: 18.5
-    avg_edges: 43.0
+    avg_nodes: 14.2
+    avg_edges: 33.6
+    extra_stats:
+      node_feature_dim: 7
+      edge_feature_dim: 0
+      avg_degree: 4.73
+      component_size_statistics: '5 components: 73,000 graphs with 13 nodes/30 edges; 7 components: 14,000 with 17 nodes/42 edges; 10 components: 6,000 with 24 nodes/56 edges'
+      feature_type: 'component-type node encoding'
+      edge_feature_type: 'electrical connection/topology attributes'
+      statistic_notes: 'GraphBench Table 2 separates the 5-, 7-, and 10-component subsets; aggregate averages are weighted over 93,000 graphs.'
     variants:
     - name: Standard split
       is_standard: true
@@ -298,8 +358,16 @@ benchmarks:
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
     num_graphs: 208788
-    avg_nodes: 10400.5
-    avg_edges: 2054969.0
+    avg_nodes: 6418.7
+    avg_edges: 43198.5
+    extra_stats:
+      node_feature_dim: null
+      edge_feature_dim: 0
+      avg_degree: 13.46
+      representation_statistics: 'VG: 69,596 graphs, 1,323.96 variables/nodes and 38,791.52 clauses/edges on average; VCG: 69,596, 8,304.22 nodes and 45,402.51 edges; LCG: 69,596, 9,628.12 nodes and 45,402.05 edges'
+      feature_type: 'literal, variable, clause, and polarity encodings depend on graph representation'
+      label_imbalance: 'solver-choice and runtime targets are representation- and solver-dependent; no single class balance'
+      statistic_notes: 'GraphBench Table 2 reports three graph representations with 69,596 instances each; the aggregate count is 208,788.'
     variants:
     - name: Standard split
       is_standard: true
@@ -331,6 +399,12 @@ benchmarks:
     higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 300000
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      feature_type: 'no intrinsic node or edge features'
+      statistic_notes: 'GraphBench enumerates BA, ER, and RB generator families in small and large regimes; the catalog retains the six 50,000-instance populations as 300,000 graph instances, while optimization problem and protocol remain separate axes.'
     variants:
     - name: Standard split
       is_standard: true
@@ -362,6 +436,11 @@ benchmarks:
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 21420000
+    extra_stats:
+      node_feature_dim: null
+      edge_feature_dim: null
+      statistic_notes: 'Seven algorithms × three difficulty settings × 1,020,000 instances per setting; Table 2 gives 16-node train/validation and 128-node test regimes, with task-specific node/edge inputs.'
     variants:
     - name: Standard split
       is_standard: true
@@ -396,7 +475,14 @@ benchmarks:
     pyg_url: https://graphbench.github.io/website/datasets.html
     num_graphs: 93544
     avg_nodes: 4610.0
-    avg_edges: 7928.0
+    avg_edges: 59667.0
+    extra_stats:
+      node_feature_dim: null
+      edge_feature_dim: 0
+      avg_degree: 25.88
+      feature_type: 'two preceding weather states plus static grid/location metadata; selected variables are described in the benchmark'
+      edge_feature_type: 'unweighted mesh/grid connectivity'
+      statistic_notes: 'GraphBench Table 2 reports the 64×32 ERA5 representation with 4,610 average nodes and 59,667 average edges.'
     variants:
     - name: Standard split
       is_standard: true
@@ -426,6 +512,17 @@ benchmarks:
     higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 100000
+    avg_nodes: 500.0
+    avg_edges: 1992.0
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      avg_degree: 7.97
+      size_regimes: 'small: 50,000 graphs, 249.9 nodes, 991.6 edges; large: 50,000 graphs, 750.1 nodes, 2,992.4 edges'
+      feature_type: 'no intrinsic node features; topology is the optimization input'
+      label_imbalance: 'objective and decoded-solution targets vary by MIS, max-cut, or coloring protocol'
+      statistic_notes: 'GraphBench Table 2 reports separate small and large BA graph populations.'
     variants:
     - name: Standard split
       is_standard: true
@@ -455,6 +552,17 @@ benchmarks:
     higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 100000
+    avg_nodes: 500.0
+    avg_edges: 46956.8
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      avg_degree: 187.83
+      size_regimes: 'small: 50,000 graphs, 249.9 nodes, 9,463.5 edges; large: 50,000 graphs, 750.2 nodes, 84,450.1 edges'
+      feature_type: 'no intrinsic node features; topology is the optimization input'
+      label_imbalance: 'objective and decoded-solution targets vary by MIS, max-cut, or coloring protocol'
+      statistic_notes: 'GraphBench Table 2 reports separate small and large ER graph populations.'
     variants:
     - name: Standard split
       is_standard: true
@@ -485,6 +593,17 @@ benchmarks:
     higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 100000
+    avg_nodes: 634.4
+    avg_edges: 58330.45
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      avg_degree: 183.87
+      size_regimes: 'small: 50,000 graphs, 241.0 nodes, 9,016.1 edges; large: 50,000 graphs, 1,027.8 nodes, 102,644.8 edges'
+      feature_type: 'no intrinsic node features; topology is the optimization input'
+      label_imbalance: 'objective and decoded-solution targets vary by MIS, max-cut, or coloring protocol'
+      statistic_notes: 'GraphBench Table 2 reports separate small and large RB graph populations.'
     variants:
     - name: Standard split
       is_standard: true
@@ -513,6 +632,10 @@ benchmarks:
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 1020000
+    avg_nodes: 17.1
+    avg_edges: 33.37
+    extra_stats: {node_feature_dim: 0, edge_feature_dim: 1, avg_degree: 3.9, feature_type: 'no node features', edge_feature_type: 'random edge weights', statistic_notes: 'GraphBench Table 2 reports 16-node training/validation and 128-node test regimes; weighted aggregate is approximate.'}
     variants:
     - name: Standard split
       is_standard: true
@@ -548,6 +671,10 @@ benchmarks:
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 1020000
+    avg_nodes: 17.1
+    avg_edges: 20.08
+    extra_stats: {node_feature_dim: 0, edge_feature_dim: 0, avg_degree: 2.35, feature_type: 'no intrinsic features; topology only', edge_feature_type: 'none', label_imbalance: 'bridge edges are generally sparse; exact positive rates vary by generator and split', statistic_notes: 'GraphBench Table 2 reports 16-node training/validation and 128-node test regimes.'}
     variants:
     - name: Standard split
       is_standard: true
@@ -583,6 +710,10 @@ benchmarks:
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 1020000
+    avg_nodes: 17.1
+    avg_edges: 124.72
+    extra_stats: {node_feature_dim: 0, edge_feature_dim: 0, avg_degree: 14.59, feature_type: 'no intrinsic node features; topology only', edge_feature_type: 'none', label_imbalance: 'selected maximum-clique membership is sparse and optimum solutions may be non-unique', statistic_notes: 'GraphBench Table 2 reports 16-node training/validation and 128-node test regimes.'}
     variants:
     - name: Easy
       is_standard: true
@@ -616,6 +747,10 @@ benchmarks:
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 1020000
+    avg_nodes: 17.1
+    avg_edges: 23.46
+    extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 2.74, feature_type: 'bipartition indicator on nodes', edge_feature_type: 'none', label_imbalance: 'matching edges are a sparse subset; exact positive rates vary with graph generator', statistic_notes: 'GraphBench Table 2 reports 16-node training/validation and 128-node test regimes.'}
     variants:
     - name: Easy
       is_standard: true
@@ -649,6 +784,10 @@ benchmarks:
     higher_is_better: true
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 1020000
+    avg_nodes: 17.1
+    avg_edges: 25.9
+    extra_stats: {node_feature_dim: 1, edge_feature_dim: 1, avg_degree: 3.03, feature_type: 'terminal indicator on nodes', edge_feature_type: 'edge weights', label_imbalance: 'Steiner-tree edges are a sparse subset; exact positive rates vary with terminals and generator', statistic_notes: 'GraphBench Table 2 reports 16-node training/validation and 128-node test regimes.'}
     variants:
     - name: Easy
       is_standard: true
@@ -682,6 +821,10 @@ benchmarks:
     higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 1020000
+    avg_nodes: 17.1
+    avg_edges: 43.9
+    extra_stats: {node_feature_dim: null, edge_feature_dim: 0, avg_degree: 5.13, feature_type: 'task-specific DAG inputs; exact dimension is representation-dependent', edge_feature_type: 'directed unweighted DAG edges', statistic_notes: 'GraphBench Table 2 reports 16-node training/validation and 128-node test regimes.'}
     variants:
     - name: Easy
       is_standard: true
@@ -716,6 +859,10 @@ benchmarks:
     higher_is_better: false
     domain: algorithms
     pyg_url: https://graphbench.github.io/website/datasets.html
+    num_graphs: 1020000
+    avg_nodes: 17.1
+    avg_edges: 48.27
+    extra_stats: {node_feature_dim: 1, edge_feature_dim: 1, avg_degree: 5.64, feature_type: 'source/sink indicators', edge_feature_type: 'capacity', statistic_notes: 'GraphBench Table 2 reports 16-node training/validation and 64-node test regimes for Flow.'}
     variants:
     - name: Standard split
       is_standard: true
@@ -764,6 +911,18 @@ benchmarks:
     avg_nodes: 25.5
     avg_edges: 27.5
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: categorical atom features from RDKit
+      edge_feature_dim: 3
+      edge_feature_type: categorical bond features from RDKit
+      avg_degree: 2.157
+      degree_convention: derived as 2 × avg_edges / avg_nodes for canonical undirected graphs
+      clustering_coefficient: null
+      diameter: null
+      positive_label_rate: null
+      label_imbalance: exact positive rate is not reported in the OGB documentation; the HIV assay is highly imbalanced
+      statistic_notes: clustering coefficient and diameter are not reported in the canonical OGB/PyG metadata
     variants:
     - name: Standard split
       split_type: scaffold
@@ -801,6 +960,19 @@ benchmarks:
     avg_nodes: 26.0
     avg_edges: 28.1
     num_classes: 128
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: categorical atom features from RDKit
+      edge_feature_dim: 3
+      edge_feature_type: categorical bond features from RDKit
+      avg_degree: 2.162
+      degree_convention: derived as 2 × avg_edges / avg_nodes for canonical undirected graphs
+      clustering_coefficient: null
+      diameter: null
+      positive_label_rate: 0.014
+      label_coverage: null
+      label_imbalance: only about 1.4% of assigned labels are positive; unassigned molecule-task labels are NaN, not negative
+      statistic_notes: clustering coefficient and diameter are not reported in the canonical OGB/PyG metadata
     variants:
     - name: Standard split
       split_type: scaffold
@@ -839,6 +1011,18 @@ benchmarks:
     avg_nodes: 243.4
     avg_edges: 2266.1
     num_classes: 37
+    extra_stats:
+      node_feature_dim: null
+      node_feature_type: no intrinsic node features
+      edge_feature_dim: 7
+      edge_feature_type: STRING association confidence channels
+      avg_degree: 18.620
+      degree_convention: derived as 2 × avg_edges / avg_nodes for canonical undirected graphs
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: class distribution is not reported in the canonical OGB documentation
+      num_species: 1581
+      statistic_notes: clustering coefficient and diameter are not reported; graphs are sampled two-hop neighborhoods
     variants:
     - name: Standard split
       split_type: species
@@ -876,6 +1060,17 @@ benchmarks:
     avg_nodes: 125.2
     avg_edges: 124.2
     num_classes: 1
+    extra_stats:
+      node_feature_dim: null
+      node_feature_type: AST node type, attribute, depth, and preorder metadata
+      edge_feature_dim: null
+      edge_feature_type: AST, next-token, and inverse-edge relation metadata
+      avg_degree: 1.984
+      degree_convention: derived as 2 × avg_edges / avg_nodes for the augmented graph treated as undirected
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: not applicable; the target is a variable-length set of method-name subtokens
+      statistic_notes: no fixed numeric feature dimension is exposed because AST attributes are heterogeneous; clustering coefficient and diameter are not reported
     variants:
     - name: Standard split
       split_type: project
@@ -902,6 +1097,9 @@ benchmarks:
     - title: OGB node property prediction documentation
       url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-arxiv
       kind: official_documentation
+    - title: New Benchmarks for Learning on Non-Homophilous Graphs
+      arxiv_id: '2104.01404'
+      kind: statistics_source
     - title: Microsoft Academic Graph, When experts are not enough
       url: https://doi.org/10.1162/qss_a_00021
       kind: upstream_data_source
@@ -909,9 +1107,24 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html
-    num_graphs: 169343
-    avg_nodes: 1166243
-    num_classes: 1
+    num_graphs: 1
+    avg_nodes: 169343
+    avg_edges: 1166243
+    num_classes: 40
+    extra_stats:
+      node_feature_dim: 128
+      node_feature_type: averaged skip-gram title and abstract embeddings
+      edge_feature_dim: 0
+      edge_feature_type: none; publication year is node metadata
+      avg_degree: 6.887
+      degree_convention: derived as avg_edges / avg_nodes for the directed citation graph (average out-degree)
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: class distribution is not reported in the canonical OGB documentation
+      heterophily: 0.34
+      edge_homophily: 0.66
+      adjusted_homophily: 0.416
+      statistic_notes: clustering coefficient and diameter are not reported in the canonical OGB/PyG metadata
     variants:
     - name: Standard split
       split_type: fixed
@@ -937,6 +1150,9 @@ benchmarks:
     - title: OGB node property prediction documentation
       url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-proteins
       kind: official_documentation
+    - title: New Benchmarks for Learning on Non-Homophilous Graphs
+      arxiv_id: '2104.01404'
+      kind: statistics_source
     - title: STRING v11
       url: https://doi.org/10.1093/nar/gky1131
       kind: upstream_data_source
@@ -947,9 +1163,28 @@ benchmarks:
     higher_is_better: true
     domain: biology
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html
-    num_graphs: 132534
-    avg_nodes: 39561252
+    num_graphs: 1
+    avg_nodes: 132534
+    avg_edges: 39561252
     num_classes: 112
+    extra_stats:
+      node_feature_dim: 8
+      node_feature_type: incident-edge confidence means used as node inputs
+      edge_feature_dim: 8
+      edge_feature_type: STRING association confidence channels
+      avg_degree: 596.998
+      degree_convention: derived as 2 × avg_edges / avg_nodes for the canonical undirected graph
+      clustering_coefficient: null
+      diameter: null
+      majority_class_fraction_min: 0.527
+      majority_class_fraction_max: 0.98
+      label_imbalance: per-task majority class ranges from 52.7% to 98.0% across the 112 binary tasks
+      heterophily_min: 0.06
+      heterophily_max: 0.377
+      edge_homophily_min: 0.623
+      edge_homophily_max: 0.94
+      adjusted_homophily_min: 0.09
+      adjusted_homophily_max: 0.26
     variants:
     - name: Standard split
       is_standard: true
@@ -976,6 +1211,9 @@ benchmarks:
     - title: OGB node property prediction documentation
       url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-products
       kind: official_documentation
+    - title: New Benchmarks for Learning on Non-Homophilous Graphs
+      arxiv_id: '2104.01404'
+      kind: statistics_source
     - title: Cluster-GCN
       arxiv_id: '1905.07953'
       kind: processing_source
@@ -983,9 +1221,23 @@ benchmarks:
     higher_is_better: true
     domain: e_commerce
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html
-    num_graphs: 2449029
-    avg_nodes: 61859140
-    num_classes: 1
+    num_graphs: 1
+    avg_nodes: 2449029
+    avg_edges: 61859140
+    num_classes: 47
+    extra_stats:
+      node_feature_dim: 100
+      node_feature_type: PCA-reduced bag-of-words product-description features
+      edge_feature_dim: 0
+      edge_feature_type: none; co-purchase edges are unweighted
+      avg_degree: 50.517
+      degree_convention: derived as 2 × avg_edges / avg_nodes for the canonical undirected graph
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: class distribution is not reported in the canonical OGB documentation; the sales-rank split is 8% train, 2% validation, 90% test
+      heterophily: 0.19
+      edge_homophily: 0.81
+      adjusted_homophily: 0.459
     variants:
     - name: Standard split
       is_standard: true
@@ -1019,9 +1271,24 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBNodePropPredDataset.html
-    num_graphs: 111059956
-    avg_nodes: 1615685872
-    num_classes: 1
+    num_graphs: 1
+    avg_nodes: 111059956
+    avg_edges: 1615685872
+    num_classes: 172
+    extra_stats:
+      node_feature_dim: 128
+      node_feature_type: averaged skip-gram title and abstract embeddings
+      edge_feature_dim: 0
+      edge_feature_type: none; publication year is node metadata
+      avg_degree: 14.548
+      degree_convention: derived as avg_edges / avg_nodes for the directed citation graph (average out-degree)
+      clustering_coefficient: null
+      diameter: null
+      labeled_node_count: 1500000
+      label_coverage: 0.0135
+      label_imbalance: only approximately 1.5 million of 111 million nodes have arXiv labels; class distribution is not reported in the canonical OGB documentation
+      heterophily: null
+      statistic_notes: label coverage is derived from the OGB documentation's approximately 1.5 million labeled nodes; clustering coefficient and diameter are not reported
     variants:
     - name: Standard split
       is_standard: true
@@ -1046,6 +1313,9 @@ benchmarks:
     - title: OGB node property prediction documentation
       url: https://ogb.stanford.edu/docs/nodeprop/#ogbn-mag
       kind: official_documentation
+    - title: When Heterophily Meets Heterogeneity
+      url: https://jshun.csail.mit.edu/H2GB.pdf
+      kind: statistics_source
     - title: Microsoft Academic Graph, When experts are not enough
       url: https://doi.org/10.1162/qss_a_00021
       kind: upstream_data_source
@@ -1053,9 +1323,29 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGB_MAG.html
-    num_graphs: 1939743
-    avg_nodes: 21111007
-    num_classes: 1
+    num_graphs: 1
+    avg_nodes: 1939743
+    avg_edges: 21111007
+    num_classes: 349
+    extra_stats:
+      node_feature_dim: 128
+      node_feature_type: paper-only averaged skip-gram title and abstract embeddings
+      edge_feature_dim: 0
+      edge_feature_type: none; four typed relations are structural metadata
+      avg_degree: 10.883
+      degree_convention: derived as avg_edges / avg_nodes for the canonical heterogeneous directed graph
+      clustering_coefficient: null
+      diameter: null
+      num_node_types: 4
+      num_relation_types: 4
+      featureless_node_types: 3
+      label_imbalance: venue-label distribution is not reported in the canonical OGB documentation
+      heterophily: 0.9205
+      node_heterophily: 0.9539
+      adjusted_heterophily: 0.9312
+      metapath_heterophily: 0.8731
+      h2_index: 0.8773
+      statistic_notes: clustering coefficient and diameter are not reported; heterogeneous graph statistics depend on relation homogenization
     variants:
     - name: Standard split
       is_standard: true
@@ -1088,8 +1378,20 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
-    num_graphs: 235868
-    avg_nodes: 1285465
+    num_graphs: 1
+    avg_nodes: 235868
+    avg_edges: 1285465
+    extra_stats:
+      node_feature_dim: 128
+      node_feature_type: averaged word embeddings of author papers
+      edge_feature_dim: 2
+      edge_feature_type: collaboration year and yearly co-authored-paper count
+      avg_degree: 10.900
+      degree_convention: derived as 2 × avg_edges / avg_nodes for the undirected temporal multigraph
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: no fixed binary label distribution; evaluation ranks positives against 100000 sampled negatives per positive
+      statistic_notes: clustering coefficient and diameter are not reported in the canonical OGB/PyG metadata
     variants:
     - name: Standard split
       is_standard: true
@@ -1121,8 +1423,21 @@ benchmarks:
     higher_is_better: true
     domain: biology
     pyg_url: https://ogb.stanford.edu/docs/linkprop/#ogbl-ppa
-    num_graphs: 576289
-    avg_nodes: 30326273
+    num_graphs: 1
+    avg_nodes: 576289
+    avg_edges: 30326273
+    extra_stats:
+      node_feature_dim: 58
+      node_feature_type: one-hot species indicator
+      edge_feature_dim: 0
+      edge_feature_type: none; associations are unweighted in the standard artifact
+      avg_degree: 105.247
+      degree_convention: derived as 2 × avg_edges / avg_nodes for the canonical undirected graph
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: no fixed binary label distribution; each positive is ranked against 3000000 sampled negatives
+      num_species: 58
+      statistic_notes: clustering coefficient and diameter are not reported in the canonical OGB/PyG metadata
     variants:
     - name: Standard split
       is_standard: true
@@ -1154,8 +1469,20 @@ benchmarks:
     higher_is_better: true
     domain: biology
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
-    num_graphs: 4267
-    avg_nodes: 1334889
+    num_graphs: 1
+    avg_nodes: 4267
+    avg_edges: 1334889
+    extra_stats:
+      node_feature_dim: null
+      node_feature_type: no intrinsic node features
+      edge_feature_dim: 0
+      edge_feature_type: none; homogeneous unweighted interaction edges
+      avg_degree: 625.680
+      degree_convention: derived as 2 × avg_edges / avg_nodes for the canonical undirected graph
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: no fixed binary label distribution; each positive is ranked against approximately 100000 sampled negatives
+      statistic_notes: clustering coefficient and diameter are not reported in the canonical OGB/PyG metadata
     variants:
     - name: Standard split
       is_standard: true
@@ -1188,8 +1515,20 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
-    num_graphs: 2927963
-    avg_nodes: 30561187
+    num_graphs: 1
+    avg_nodes: 2927963
+    avg_edges: 30561187
+    extra_stats:
+      node_feature_dim: 128
+      node_feature_type: averaged skip-gram title and abstract embeddings
+      edge_feature_dim: 0
+      edge_feature_type: none; publication year is node metadata
+      avg_degree: 10.438
+      degree_convention: derived as avg_edges / avg_nodes for the directed citation graph (average out-degree)
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: no fixed binary label distribution; each held-out citation is ranked against 1000 sampled negatives
+      statistic_notes: clustering coefficient and diameter are not reported in the canonical OGB/PyG metadata
     variants:
     - name: Standard split
       is_standard: true
@@ -1221,8 +1560,21 @@ benchmarks:
     higher_is_better: true
     domain: knowledge_graphs
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
-    num_graphs: 2500604
-    avg_nodes: 17137181
+    num_graphs: 1
+    avg_nodes: 2500604
+    avg_edges: 17137181
+    extra_stats:
+      node_feature_dim: null
+      node_feature_type: no supplied node features; entity IDs are represented by learned embeddings
+      edge_feature_dim: null
+      edge_feature_type: 535 categorical relation types
+      avg_degree: 6.853
+      degree_convention: derived as avg_edges / avg_nodes for directed knowledge-graph triples (average out-degree)
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: no fixed binary label distribution; relation and entity frequencies are not summarized in the canonical OGB documentation
+      num_relation_types: 535
+      statistic_notes: clustering coefficient and diameter are not reported; relation multiplicity and direction are part of the task
     variants:
     - name: Standard split
       is_standard: true
@@ -1251,8 +1603,22 @@ benchmarks:
     higher_is_better: true
     domain: biology
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.OGBLinkPropPredDataset.html
-    num_graphs: 93773
-    avg_nodes: 5088434
+    num_graphs: 1
+    avg_nodes: 93773
+    avg_edges: 5088434
+    extra_stats:
+      node_feature_dim: null
+      node_feature_type: no unified molecular, sequence, or textual node features
+      edge_feature_dim: null
+      edge_feature_type: 51 categorical directed relation types
+      avg_degree: 54.263
+      degree_convention: derived as avg_edges / avg_nodes for directed knowledge-graph triples (average out-degree)
+      clustering_coefficient: null
+      diameter: null
+      label_imbalance: no fixed binary label distribution; same-type negative samples are used for evaluation
+      num_node_types: 5
+      num_relation_types: 51
+      statistic_notes: clustering coefficient and diameter are not reported; the graph combines heterogeneous biomedical sources
     variants:
     - name: Standard split
       is_standard: true
@@ -1286,6 +1652,20 @@ benchmarks:
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PCQM4Mv2.html
     num_graphs: 3746619
+    avg_nodes: 14.14
+    avg_edges: 14.56
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: categorical atom features from RDKit
+      edge_feature_dim: 3
+      edge_feature_type: categorical bond features from RDKit
+      avg_degree: 2.05
+      degree_convention: reported in OGB-LSC Table 8 after standardizing graphs to undirected unlabeled graphs
+      clustering_coefficient: 0.011
+      diameter: 7.95
+      label_imbalance: not applicable; the target is continuous HOMO-LUMO gap regression
+      target_unit: eV
+      statistic_notes: OGB-LSC Table 8 reports average degree, clustering coefficient, and diameter on standardized graphs; training molecules additionally have 3D coordinates
     variants:
     - name: Standard split
       is_standard: true
@@ -1329,6 +1709,15 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+    extra_stats:
+      node_feature_dim: 1433
+      edge_feature_dim: 0
+      avg_degree: 4.014
+      edge_homophily: 0.8252
+    num_graphs: 1
+    avg_nodes: 2708
+    avg_edges: 5429
+    num_classes: 7
     variants:
     - name: Planetoid split
       is_standard: true
@@ -1367,6 +1756,17 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.ZINC.html
+    extra_stats:
+      node_feature_dim: 28
+      node_feature_type: 'categorical heavy-atom type'
+      edge_feature_dim: 4
+      edge_feature_type: 'categorical bond type'
+      avg_degree: 2.151
+      statistic_notes: '12k subset used by Benchmarking Graph Neural Networks; the full ZINC release has 249,456 graphs'
+    num_graphs: 12000
+    avg_nodes: 23.16
+    avg_edges: 24.915
+    num_classes: None
     variants:
     - name: Subset (12k)
       is_standard: false
@@ -1411,6 +1811,18 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+    extra_stats:
+      node_feature_dim: 3703
+      node_feature_type: 'sparse binary bag-of-words paper features'
+      edge_feature_dim: 0
+      edge_feature_type: 'citation links; no edge attributes'
+      avg_degree: 2.845
+      edge_homophily: 0.7062
+      statistic_notes: 'PyG exposes 9,104 bidirected edge entries; this record stores 4,732 unique undirected citation links'
+    num_graphs: 1
+    avg_nodes: 3327
+    avg_edges: 4732
+    num_classes: 6
     variants:
     - name: Planetoid split
       split_type: fixed
@@ -1446,6 +1858,18 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Planetoid.html
+    extra_stats:
+      node_feature_dim: 500
+      node_feature_type: 'sparse TF-IDF paper features'
+      edge_feature_dim: 0
+      edge_feature_type: 'citation links; no edge attributes'
+      avg_degree: 4.497
+      edge_homophily: 0.7924
+      statistic_notes: 'PyG exposes 88,648 bidirected edge entries; this record stores 44,338 unique undirected citation links'
+    num_graphs: 1
+    avg_nodes: 19717
+    avg_edges: 44338
+    num_classes: 3
     variants:
     - name: Planetoid split
       split_type: fixed
@@ -1481,6 +1905,18 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
+    extra_stats:
+      node_feature_dim: 6805
+      node_feature_type: 'sparse paper-keyword features aggregated per author'
+      edge_feature_dim: 0
+      edge_feature_type: 'co-authorship links; no edge attributes'
+      avg_degree: 8.932
+      edge_homophily: 0.832
+      statistic_notes: 'PyG exposes 163,788 bidirected edge entries; this record stores 81,894 unique undirected links'
+    num_graphs: 1
+    avg_nodes: 18333
+    avg_edges: 81894
+    num_classes: 15
     variants:
     - name: Standard split
       split_type: fixed
@@ -1514,6 +1950,18 @@ benchmarks:
     higher_is_better: true
     domain: citation_networks
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Coauthor.html
+    extra_stats:
+      node_feature_dim: 8415
+      node_feature_type: 'sparse paper-keyword features aggregated per author'
+      edge_feature_dim: 0
+      edge_feature_type: 'co-authorship links; no edge attributes'
+      avg_degree: 14.378
+      edge_homophily: 0.9153
+      statistic_notes: 'PyG exposes 495,924 bidirected edge entries; this record stores 247,962 unique undirected links'
+    num_graphs: 1
+    avg_nodes: 34493
+    avg_edges: 247962
+    num_classes: 5
     variants:
     - name: Standard split
       is_standard: true
@@ -1547,6 +1995,18 @@ benchmarks:
     higher_is_better: true
     domain: e_commerce
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
+    extra_stats:
+      node_feature_dim: 767
+      node_feature_type: 'sparse bag-of-words product-review features'
+      edge_feature_dim: 0
+      edge_feature_type: 'co-purchase links; no edge attributes'
+      avg_degree: 35.758
+      edge_homophily: 0.7853
+      statistic_notes: 'PyG exposes 491,722 bidirected edge entries; this record stores 245,861 unique undirected links'
+    num_graphs: 1
+    avg_nodes: 13752
+    avg_edges: 245861
+    num_classes: 10
     variants:
     - name: Standard split
       is_standard: true
@@ -1580,6 +2040,18 @@ benchmarks:
     higher_is_better: true
     domain: e_commerce
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
+    extra_stats:
+      node_feature_dim: 745
+      node_feature_type: 'sparse bag-of-words product-review features'
+      edge_feature_dim: 0
+      edge_feature_type: 'co-purchase links; no edge attributes'
+      avg_degree: 31.132
+      edge_homophily: 0.8365
+      statistic_notes: 'PyG exposes 238,162 bidirected edge entries; this record stores 119,081 unique undirected links'
+    num_graphs: 1
+    avg_nodes: 7650
+    avg_edges: 119081
+    num_classes: 8
     variants:
     - name: Standard split
       is_standard: true
@@ -1613,6 +2085,17 @@ benchmarks:
     higher_is_better: true
     domain: social
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Reddit.html
+    extra_stats:
+      node_feature_dim: 602
+      node_feature_type: 'averaged post text features'
+      edge_feature_dim: 0
+      edge_feature_type: 'post interaction links; no edge attributes'
+      avg_degree: 99.655
+      statistic_notes: 'The standard GraphSAGE artifact is a single graph with unique undirected links'
+    num_graphs: 1
+    avg_nodes: 232965
+    avg_edges: 11606919
+    num_classes: 41
     variants:
     - name: Standard split
       is_standard: true
@@ -1646,6 +2129,17 @@ benchmarks:
     higher_is_better: true
     domain: biology
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.PPI.html
+    extra_stats:
+      node_feature_dim: 50
+      node_feature_type: 'positional gene sets, motif gene sets, and immunological signatures'
+      edge_feature_dim: 0
+      edge_feature_type: 'protein interaction links; no edge attributes'
+      label_imbalance: '121-label multi-label task; no single binary class fraction'
+      statistic_notes: '20 protein-interaction graphs; averages are from the PyG dataset table'
+    num_graphs: 20
+    avg_nodes: 2245.3
+    avg_edges: 61318.4
+    num_classes: 121
     variants:
     - name: Standard split
       is_standard: true
@@ -1684,8 +2178,16 @@ benchmarks:
       is_standard: true
     num_graphs: 1
     avg_nodes: 11701
-    avg_edges: 297350
+    avg_edges: 216123
     num_classes: 10
+    extra_stats:
+      node_feature_dim: 300
+      node_feature_type: 'average of pretrained GloVe article-text embeddings'
+      edge_feature_dim: 0
+      edge_feature_type: 'Wikipedia hyperlinks; no edge attributes'
+      edge_homophily: 0.74
+      label_imbalance: 'the 10 article categories are not perfectly balanced; exact fractions are not retained in PyG metadata'
+      statistic_notes: 'The Wiki-CS paper and PyG module document 216,123 unique hyperlink edges; 297,350 in the old seed was incorrect'
   - name: AQSOL
     task_type: graph_regression
     short_description: >-
@@ -1715,6 +2217,17 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.AQSOL.html
+    extra_stats:
+      node_feature_dim: 65
+      node_feature_type: 'categorical heavy-atom type'
+      edge_feature_dim: 5
+      edge_feature_type: 'categorical bond type'
+      avg_degree: 2.036
+      statistic_notes: 'The benchmark artifact filters AqSolDB to 9,823 molecules with valid features and at least one bond'
+    num_graphs: 9823
+    avg_nodes: 17.57
+    avg_edges: 17.88
+    num_classes: None
     variants:
     - name: Standard split
       is_standard: true
@@ -1758,6 +2271,12 @@ benchmarks:
     avg_nodes: 17.93
     avg_edges: 19.79
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 7
+      node_feature_type: 'categorical atom label'
+      edge_feature_dim: 4
+      edge_feature_type: 'categorical bond label'
+      statistic_notes: 'TUDataset reports 188 graphs, 17.93 nodes, and 19.79 undirected edges per graph'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -1796,6 +2315,13 @@ benchmarks:
     avg_nodes: 39.06
     avg_edges: 72.82
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 3
+      node_feature_type: 'categorical amino-acid node label'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge labels or attributes'
+      additional_node_attr_dim: 1
+      statistic_notes: 'TUDataset also exposes one continuous node attribute; default PyG features are the 3 node labels'
     variants:
     - name: 10-fold CV
       split_type: ten_fold
@@ -1830,6 +2356,12 @@ benchmarks:
     higher_is_better: true
     domain: biology
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    extra_stats:
+      node_feature_dim: 82
+      node_feature_type: 'categorical protein node label'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge labels or attributes'
+      statistic_notes: 'The TU benchmark reports 82 node labels; graph-level counts use 1,178 graphs, 284.32 nodes, and 715.66 edges'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -1871,6 +2403,12 @@ benchmarks:
     avg_nodes: 29.87
     avg_edges: 32.30
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 37
+      node_feature_type: 'categorical atom label'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge labels or attributes'
+      statistic_notes: 'The TU benchmark reports 37 node labels and 4,110 graphs'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -1904,6 +2442,12 @@ benchmarks:
     higher_is_better: true
     domain: social
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    extra_stats:
+      node_feature_dim: 0
+      node_feature_type: 'no intrinsic node features'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge attributes in the standard TU artifact'
+      statistic_notes: 'The TU benchmark reports 5,000 graphs, 74.49 nodes, and 2,457.78 undirected edges per graph'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -1941,6 +2485,12 @@ benchmarks:
     higher_is_better: true
     domain: social
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    extra_stats:
+      node_feature_dim: 0
+      node_feature_type: 'no intrinsic node features'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge attributes in the standard TU artifact'
+      statistic_notes: 'The TU benchmark reports 1,000 graphs, 19.77 nodes, and 96.53 undirected edges per graph'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -1978,6 +2528,12 @@ benchmarks:
     higher_is_better: true
     domain: social
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    extra_stats:
+      node_feature_dim: 0
+      node_feature_type: 'no intrinsic node features'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge attributes in the standard TU artifact'
+      statistic_notes: 'The TU benchmark reports 1,500 graphs, 13.00 nodes, and 65.94 undirected edges per graph'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -2020,6 +2576,12 @@ benchmarks:
     avg_nodes: 429.63
     avg_edges: 497.75
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 0
+      node_feature_type: 'no intrinsic node features'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge attributes in the standard TU artifact'
+      statistic_notes: 'The TU benchmark reports 2,000 graphs, 429.63 nodes, and 497.75 undirected edges per graph'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -2057,6 +2619,12 @@ benchmarks:
     avg_nodes: 508.52
     avg_edges: 594.87
     num_classes: 5
+    extra_stats:
+      node_feature_dim: 0
+      node_feature_type: 'no intrinsic node features'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge attributes in the standard TU artifact'
+      statistic_notes: 'The TU benchmark reports 4,999 graphs, 508.52 nodes, and 594.87 undirected edges per graph'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -2094,6 +2662,12 @@ benchmarks:
     avg_nodes: 429.63
     avg_edges: 497.75
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 0
+      node_feature_type: 'no intrinsic node features'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge attributes in the standard TU artifact'
+      statistic_notes: 'RDT-B is the standard REDDIT-BINARY artifact under an alternate catalog alias'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -2128,6 +2702,13 @@ benchmarks:
     higher_is_better: true
     domain: biology
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.TUDataset.html
+    extra_stats:
+      node_feature_dim: 3
+      node_feature_type: 'categorical enzyme node label'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge labels or attributes'
+      additional_node_attr_dim: 18
+      statistic_notes: 'TUDataset reports 18 additional continuous node attributes; default PyG features are the 3 node labels'
     variants:
     - name: 10-fold CV
       is_standard: true
@@ -2171,6 +2752,16 @@ benchmarks:
     higher_is_better: true
     domain: computer_vision
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    extra_stats:
+      node_feature_dim: 3
+      node_feature_type: 'pixel intensity plus 2D superpixel coordinates'
+      edge_feature_dim: 1
+      edge_feature_type: 'Euclidean distance between superpixels'
+      statistic_notes: 'The benchmark paper reports 70,000 graphs; split-specific PyG tables may report only the train partition'
+    num_graphs: 70000
+    avg_nodes: 70.57
+    avg_edges: 564.53
+    num_classes: 10
     variants:
     - name: Standard split
       is_standard: true
@@ -2204,6 +2795,16 @@ benchmarks:
     higher_is_better: true
     domain: computer_vision
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    extra_stats:
+      node_feature_dim: 5
+      node_feature_type: 'RGB intensity plus 2D superpixel coordinates'
+      edge_feature_dim: 1
+      edge_feature_type: 'Euclidean distance between superpixels'
+      statistic_notes: 'The benchmark paper reports 60,000 graphs; split-specific PyG tables may report only the train partition'
+    num_graphs: 60000
+    avg_nodes: 117.63
+    avg_edges: 941.07
+    num_classes: 10
     variants:
     - name: Standard split
       is_standard: true
@@ -2237,6 +2838,16 @@ benchmarks:
     higher_is_better: true
     domain: synthetic
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    extra_stats:
+      node_feature_dim: 7
+      node_feature_type: 'synthetic cluster features with one labeled seed per cluster'
+      edge_feature_dim: 0
+      edge_feature_type: 'unweighted SBM edges'
+      statistic_notes: 'The benchmark paper reports 12,000 graphs and 4,301.72 average edge entries'
+    num_graphs: 12000
+    avg_nodes: 117.2
+    avg_edges: 4301.72
+    num_classes: 6
     variants:
     - name: Standard split
       is_standard: true
@@ -2270,6 +2881,16 @@ benchmarks:
     higher_is_better: true
     domain: synthetic
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    extra_stats:
+      node_feature_dim: 3
+      node_feature_type: 'categorical synthetic node attributes'
+      edge_feature_dim: 0
+      edge_feature_type: 'unweighted SBM edges'
+      statistic_notes: 'The benchmark paper reports 14,000 graphs and 4,749.15 average edge entries'
+    num_graphs: 14000
+    avg_nodes: 117.47
+    avg_edges: 4749.15
+    num_classes: 2
     variants:
     - name: Standard split
       is_standard: true
@@ -2303,6 +2924,18 @@ benchmarks:
     higher_is_better: true
     domain: synthetic
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    extra_stats:
+      node_feature_dim: 2
+      node_feature_type: '2D coordinates sampled in the unit square'
+      edge_feature_dim: 1
+      edge_feature_type: 'Euclidean distance'
+      positive_label_rate: 0.04
+      label_imbalance: 'only tour edges are positive in a sparse 25-nearest-neighbor graph; the exact rate varies with graph size'
+      statistic_notes: 'Binary edge classification; the benchmark paper uses F1 for the positive class'
+    num_graphs: 12000
+    avg_nodes: 275.76
+    avg_edges: 6894.04
+    num_classes: 2
     variants:
     - name: Standard split
       is_standard: true
@@ -2336,6 +2969,18 @@ benchmarks:
     higher_is_better: true
     domain: synthetic
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.GNNBenchmarkDataset.html
+    extra_stats:
+      node_feature_dim: 0
+      node_feature_type: 'anonymous nodes'
+      edge_feature_dim: 0
+      edge_feature_type: 'unweighted 4-regular graph edges'
+      label_imbalance: 'class-balanced: 15 graphs for each of 10 isomorphism classes'
+      diameter: 10
+      statistic_notes: 'Each graph is a 41-node 4-regular circular skip-link graph'
+    num_graphs: 150
+    avg_nodes: 41.0
+    avg_edges: 164.0
+    num_classes: 10
     variants:
     - name: Standard split
       is_standard: true
@@ -2383,6 +3028,19 @@ benchmarks:
     higher_is_better: true
     domain: web
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+    extra_stats:
+      node_feature_dim: 1703
+      node_feature_type: 'sparse bag-of-words webpage features'
+      edge_feature_dim: 0
+      edge_feature_type: 'webpage hyperlinks; no edge attributes'
+      edge_homophily: 0.11
+      heterophily: 0.89
+      label_imbalance: 'very strong class imbalance; one class contains a single node'
+      statistic_notes: 'Geom-GCN/WebKB preprocessing; exact edge counts can vary across cleaned versions'
+    num_graphs: 1
+    avg_nodes: 183
+    avg_edges: 309
+    num_classes: 5
     variants:
     - name: Standard split
       is_standard: true
@@ -2416,6 +3074,19 @@ benchmarks:
     higher_is_better: true
     domain: web
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+    extra_stats:
+      node_feature_dim: 1703
+      node_feature_type: 'sparse bag-of-words webpage features'
+      edge_feature_dim: 0
+      edge_feature_type: 'webpage hyperlinks; no edge attributes'
+      edge_homophily: 0.21
+      heterophily: 0.79
+      label_imbalance: 'strong class imbalance; class counts are reported in the heterophily benchmark appendix'
+      statistic_notes: 'Geom-GCN/WebKB preprocessing; exact edge counts can vary across cleaned versions'
+    num_graphs: 1
+    avg_nodes: 251
+    avg_edges: 499
+    num_classes: 5
     variants:
     - name: Standard split
       is_standard: true
@@ -2449,6 +3120,19 @@ benchmarks:
     higher_is_better: true
     domain: web
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WebKB.html
+    extra_stats:
+      node_feature_dim: 1703
+      node_feature_type: 'sparse bag-of-words webpage features'
+      edge_feature_dim: 0
+      edge_feature_type: 'webpage hyperlinks; no edge attributes'
+      edge_homophily: 0.3
+      heterophily: 0.7
+      label_imbalance: 'strong class imbalance; class counts are reported in the heterophily benchmark appendix'
+      statistic_notes: 'Geom-GCN/WebKB preprocessing; exact edge counts can vary across cleaned versions'
+    num_graphs: 1
+    avg_nodes: 183
+    avg_edges: 295
+    num_classes: 5
     variants:
     - name: Standard split
       is_standard: true
@@ -2482,6 +3166,18 @@ benchmarks:
     higher_is_better: true
     domain: social
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Actor.html
+    extra_stats:
+      node_feature_dim: 931
+      node_feature_type: 'sparse bag-of-words actor co-occurrence features'
+      edge_feature_dim: 0
+      edge_feature_type: 'actor co-occurrence links; no edge attributes'
+      edge_homophily: 0.22
+      heterophily: 0.78
+      statistic_notes: 'The LINKX paper calls this dataset Film; the PyG loader calls it Actor'
+    num_graphs: 1
+    avg_nodes: 7600
+    avg_edges: 29926
+    num_classes: 5
     variants:
     - name: Standard split
       is_standard: true
@@ -2515,6 +3211,15 @@ benchmarks:
     higher_is_better: true
     domain: web
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html
+    extra_stats:
+      node_feature_dim: 2325
+      node_feature_type: 'sparse Wikipedia noun features'
+      edge_feature_dim: 0
+      edge_feature_type: 'Wikipedia hyperlinks; no edge attributes'
+      edge_homophily: 0.23
+      heterophily: 0.77
+      label_imbalance: 'five traffic-based classes; duplicate nodes create train-test leakage in the original artifact'
+      statistic_notes: 'WikipediaNetwork preprocessing; duplicate-node filtering produces a different benchmark'
     variants:
     - name: Standard split
       is_standard: true
@@ -2555,6 +3260,15 @@ benchmarks:
     higher_is_better: true
     domain: web
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.WikipediaNetwork.html
+    extra_stats:
+      node_feature_dim: 2089
+      node_feature_type: 'sparse Wikipedia noun features'
+      edge_feature_dim: 0
+      edge_feature_type: 'Wikipedia hyperlinks; no edge attributes'
+      edge_homophily: 0.22
+      heterophily: 0.78
+      label_imbalance: 'five traffic-based classes; duplicate nodes create train-test leakage in the original artifact'
+      statistic_notes: 'WikipediaNetwork preprocessing; duplicate-node filtering produces a different benchmark'
     variants:
     - name: Standard split
       is_standard: true
@@ -2608,6 +3322,24 @@ benchmarks:
     higher_is_better: true
     domain: web
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    extra_stats:
+      node_feature_dim: 300
+      node_feature_type: 'fastText word embeddings'
+      edge_feature_dim: 0
+      edge_feature_type: 'unweighted word-order/dependency edges'
+      avg_degree: 2.91
+      clustering_coefficient: 0.29
+      avg_local_clustering: 0.39
+      diameter: 6824
+      edge_homophily: 0.05
+      adjusted_homophily: -0.05
+      label_informativeness: 0.11
+      heterophily: 0.95
+      statistic_notes: 'All graph statistics are from Table 2 of the heterophily benchmark paper'
+    num_graphs: 1
+    avg_nodes: 22662
+    avg_edges: 32927
+    num_classes: 18
     variants:
     - name: Standard split
       is_standard: true
@@ -2642,6 +3374,24 @@ benchmarks:
     higher_is_better: true
     domain: e_commerce
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    extra_stats:
+      node_feature_dim: 300
+      node_feature_type: 'fastText product-description embeddings'
+      edge_feature_dim: 0
+      edge_feature_type: 'unweighted co-purchase edges'
+      avg_degree: 7.6
+      clustering_coefficient: 0.32
+      avg_local_clustering: 0.58
+      diameter: 46
+      edge_homophily: 0.38
+      adjusted_homophily: 0.14
+      label_informativeness: 0.04
+      heterophily: 0.62
+      statistic_notes: 'Largest connected component of the 5-core; all graph statistics are from Table 2 of the heterophily benchmark paper'
+    num_graphs: 1
+    avg_nodes: 24492
+    avg_edges: 93050
+    num_classes: 5
     variants:
     - name: Standard split
       is_standard: true
@@ -2675,6 +3425,26 @@ benchmarks:
     higher_is_better: true
     domain: synthetic
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    extra_stats:
+      node_feature_dim: 7
+      node_feature_type: 'one-hot neighboring-mine count plus unknown-feature flag'
+      edge_feature_dim: 0
+      edge_feature_type: 'unweighted 8-neighbor grid edges'
+      avg_degree: 7.88
+      clustering_coefficient: 0.43
+      avg_local_clustering: 0.44
+      diameter: 99
+      edge_homophily: 0.68
+      adjusted_homophily: 0.01
+      label_informativeness: 0.0
+      heterophily: 0.32
+      positive_label_rate: 0.2
+      label_imbalance: '20% of grid cells are mines; features are hidden for 50% of nodes'
+      statistic_notes: 'Synthetic 100×100 grid; all graph statistics are from Table 2 of the heterophily benchmark paper'
+    num_graphs: 1
+    avg_nodes: 10000
+    avg_edges: 39402
+    num_classes: 2
     variants:
     - name: Standard split
       is_standard: true
@@ -2712,6 +3482,22 @@ benchmarks:
     avg_nodes: 11758
     avg_edges: 519000
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 10
+      node_feature_type: 'worker profile and task-performance features'
+      edge_feature_dim: 0
+      edge_feature_type: 'unweighted same-task worker edges'
+      avg_degree: 88.28
+      clustering_coefficient: 0.23
+      avg_local_clustering: 0.53
+      diameter: 11
+      edge_homophily: 0.59
+      adjusted_homophily: 0.09
+      label_informativeness: 0.01
+      heterophily: 0.41
+      positive_label_rate: 0.22
+      label_imbalance: 'about 22% of tolokers are banned'
+      statistic_notes: 'All graph statistics are from Table 2 of the heterophily benchmark paper'
     variants:
     - name: Standard split
       is_standard: true
@@ -2745,6 +3531,26 @@ benchmarks:
     higher_is_better: true
     domain: social
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.HeterophilousGraphDataset.html
+    extra_stats:
+      node_feature_dim: 301
+      node_feature_type: '300-dimensional fastText user-description mean plus missing-description flag'
+      edge_feature_dim: 0
+      edge_feature_type: 'unweighted answer relationships'
+      avg_degree: 6.28
+      clustering_coefficient: 0.02
+      avg_local_clustering: 0.03
+      diameter: 16
+      edge_homophily: 0.84
+      adjusted_homophily: 0.02
+      label_informativeness: 0.0
+      heterophily: 0.16
+      positive_label_rate: 0.97
+      label_imbalance: '97% of users are active; the active class is positive'
+      statistic_notes: 'All graph statistics are from Table 2 of the heterophily benchmark paper'
+    num_graphs: 1
+    avg_nodes: 48921
+    avg_edges: 153540
+    num_classes: 2
     variants:
     - name: Standard split
       is_standard: true
@@ -2796,6 +3602,15 @@ benchmarks:
     avg_nodes: 41554
     avg_edges: 1362229
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 5
+      edge_feature_dim: 0
+      edge_homophily: 0.47
+      adjusted_homophily: 0.046
+      heterophily: 0.53
+      feature_type: 'Facebook100 demographic attributes'
+      edge_feature_type: 'unweighted social-network links'
+      statistic_notes: 'LINKX Table 5 reports 41,554 nodes, 1,362,229 edges, 5 attributes, and homophily 0.47.'
   - name: Pokec
     task_type: node_classification
     short_description: >-
@@ -2830,9 +3645,18 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
-    avg_nodes: 662143
-    avg_edges: 13806079
+    avg_nodes: 1632803
+    avg_edges: 30622564
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 65
+      edge_feature_dim: 0
+      edge_homophily: 0.445
+      adjusted_homophily: 0.0
+      heterophily: 0.555
+      feature_type: 'Pokec user attributes'
+      edge_feature_type: 'unweighted social-network links'
+      statistic_notes: 'LINKX Table 5 reports 1,632,803 nodes and 30,622,564 edges; this is the full Pokec artifact, not a filtered subgraph.'
   - name: snap-patents
     task_type: node_classification
     short_description: >-
@@ -2867,9 +3691,18 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
-    avg_nodes: 2745480
-    avg_edges: 12800500
+    avg_nodes: 2923922
+    avg_edges: 13975788
     num_classes: 5
+    extra_stats:
+      node_feature_dim: 269
+      edge_feature_dim: 0
+      edge_homophily: 0.073
+      adjusted_homophily: 0.1
+      heterophily: 0.927
+      feature_type: 'patent metadata and grant-time attributes'
+      edge_feature_type: 'unweighted patent citation links'
+      statistic_notes: 'LINKX Table 5 reports 2,923,922 nodes and 13,975,788 edges for snap-patents.'
   - name: twitch-gamers
     task_type: node_classification
     short_description: >-
@@ -2907,6 +3740,15 @@ benchmarks:
     avg_nodes: 168114
     avg_edges: 6797557
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 7
+      edge_feature_dim: 0
+      edge_homophily: 0.545
+      adjusted_homophily: 0.09
+      heterophily: 0.455
+      feature_type: 'streaming-language indicator and Twitch user metadata'
+      edge_feature_type: 'unweighted mutual-follower links'
+      statistic_notes: 'LINKX Table 5 and the Twitch Gamers source report 168,114 nodes and 6,797,557 edges.'
   - name: arxiv-year
     task_type: node_classification
     short_description: >-
@@ -2945,6 +3787,15 @@ benchmarks:
     avg_nodes: 169343
     avg_edges: 1166243
     num_classes: 5
+    extra_stats:
+      node_feature_dim: 128
+      edge_feature_dim: 0
+      edge_homophily: 0.222
+      adjusted_homophily: 0.272
+      heterophily: 0.778
+      feature_type: 'OGB-arXiv paper representations'
+      edge_feature_type: 'unweighted citation links'
+      statistic_notes: 'LINKX Table 5 reports 169,343 nodes, 1,166,243 edges, 128 attributes, and five publication-year classes.'
 - name: MoleculeNet
   arxiv_id: '1703.00564'
   url: https://arxiv.org/abs/1703.00564
@@ -2980,6 +3831,17 @@ benchmarks:
     higher_is_better: true
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: 'binary blood-brain-barrier assay with missing labels; exact positive rate is not reported in PyG metadata'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 2050
+    avg_nodes: 23.9
+    avg_edges: 25.8
+    num_classes: 1
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3013,6 +3875,17 @@ benchmarks:
     higher_is_better: true
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: '12-task multi-label toxicity assays with substantial missingness and task-specific imbalance'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 7831
+    avg_nodes: 18.6
+    avg_edges: 19.3
+    num_classes: 12
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3046,6 +3919,17 @@ benchmarks:
     higher_is_better: true
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: '617-task multi-label toxicity assays with substantial missingness and task-specific imbalance'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 8597
+    avg_nodes: 18.7
+    avg_edges: 19.2
+    num_classes: 617
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3079,6 +3963,17 @@ benchmarks:
     higher_is_better: true
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: 'binary BACE-1 activity assay; exact positive rate is not reported in PyG metadata'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 1513
+    avg_nodes: 34.1
+    avg_edges: 36.85
+    num_classes: 1
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3112,6 +4007,17 @@ benchmarks:
     higher_is_better: true
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: '27-task multi-label adverse-reaction data with missingness and task-specific imbalance'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 1427
+    avg_nodes: 33.6
+    avg_edges: 35.35
+    num_classes: 27
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3145,6 +4051,17 @@ benchmarks:
     higher_is_better: true
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: 'two-task clinical toxicity/FDA status data with task-specific imbalance'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 1484
+    avg_nodes: 26.1
+    avg_edges: 27.75
+    num_classes: 2
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3178,6 +4095,17 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: 'not applicable; measured aqueous solubility is a continuous regression target'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 1128
+    avg_nodes: 13.3
+    avg_edges: 13.7
+    num_classes: 1
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3211,6 +4139,17 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: 'not applicable; experimental hydration free energy is a continuous regression target'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 642
+    avg_nodes: 8.7
+    avg_edges: 8.4
+    num_classes: 1
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3244,6 +4183,17 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MoleculeNet.html
+    extra_stats:
+      node_feature_dim: 9
+      node_feature_type: 'categorical RDKit atom features in the PyG loader'
+      edge_feature_dim: 3
+      edge_feature_type: 'categorical RDKit bond features in the PyG loader'
+      label_imbalance: 'not applicable; experimental logD is a continuous regression target'
+      statistic_notes: 'Average edge count is half of the PyG bidirected edge-entry table'
+    num_graphs: 4200
+    avg_nodes: 27.0
+    avg_edges: 29.5
+    num_classes: 1
     variants:
     - name: Scaffold split
       is_standard: true
@@ -3282,6 +4232,17 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM9.html
+    extra_stats:
+      node_feature_dim: 11
+      node_feature_type: 'categorical atom features plus geometry-derived inputs'
+      edge_feature_dim: 0
+      edge_feature_type: 'no intrinsic edge features; neighbor graphs are preprocessing choices'
+      target_units: 'multiple physical units, including eV, Debye, GHz, and Å³'
+      statistic_notes: 'PyG QM9 loader statistics; graph edges are not intrinsic to the stored molecular object'
+    num_graphs: 130831
+    avg_nodes: 18.0
+    avg_edges: 37.3
+    num_classes: 19
     variants:
     - name: Standard split
       split_type: random
@@ -3316,6 +4277,17 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.QM7b.html
+    extra_stats:
+      node_feature_dim: 0
+      node_feature_type: 'no node feature matrix in the base PyG QM7b object'
+      edge_feature_dim: 0
+      edge_feature_type: 'no edge features; molecular geometry is supplied separately'
+      target_units: 'multiple electronic and thermodynamic units'
+      statistic_notes: 'PyG QM7b loader statistics; the base object does not provide node features'
+    num_graphs: 7211
+    avg_nodes: 15.4
+    avg_edges: 245.0
+    num_classes: 14
     variants:
     - name: Standard split
       is_standard: true
@@ -3348,6 +4320,14 @@ benchmarks:
     higher_is_better: false
     domain: chemistry
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.MD17.html
+    extra_stats:
+      node_feature_dim: 1
+      node_feature_type: 'atomic number per atom plus Cartesian positions'
+      edge_feature_dim: 0
+      edge_feature_type: 'no intrinsic edges; RadiusGraph or another neighbor construction is a model choice'
+      num_targets: 2
+      target_units: 'kcal/mol and kcal/mol/Å'
+      statistic_notes: 'MD17 is a parameterized family of molecule trajectories, not one fixed graph collection; PyG reports separate counts per molecule and revision'
     variants:
     - name: Standard split
       is_standard: true
@@ -3397,16 +4377,26 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 26128
+    avg_edges: 239566
     num_classes: 4
+    extra_stats:
+      node_feature_dim: 334
+      edge_feature_dim: 0
+      num_node_types: 4
+      num_edge_types: 6
+      target_node_type: author
+      feature_type: 'type-specific; target author features are 334-dimensional'
+      statistic_notes: 'HGB release: 26,128 nodes and 239,566 typed edges; Table 1 of Lv et al. (2021).'
   - name: IMDB
     task_type: node_classification
     short_description: >-
-      Heterogeneous IMDB graph — classify movie nodes (3 genres).
+      Heterogeneous IMDB graph — classify movie nodes (5 genres).
     detailed_description:
       task: >-
-        Heterogeneous IMDB graph — classify movie nodes (3 genres). The primary catalog metric is Micro-F1.
+        Heterogeneous IMDB graph — classify movie nodes (5 genres). The primary catalog metric is Micro-F1.
       data: >-
-        Heterogeneous IMDB graph — classify movie nodes (3 genres). The cataloged artifact reports 1 graphs, 3 target classes or tasks.
+        Heterogeneous IMDB graph — classify movie nodes (5 genres). The cataloged artifact reports 1 graphs, 5 target classes or tasks.
       features: >-
         Inputs are typed graphs with relation-specific edges and type-specific feature matrices where available. Some node types lack native features, so learned embeddings or propagated features are modeling choices rather than measured attributes.
       splits_and_evaluation: >-
@@ -3421,7 +4411,7 @@ benchmarks:
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.IMDB.html
       kind: implementation_documentation
     description: >-
-      **3-class node classification** Heterogeneous IMDB graph — classify movie nodes (3 genres). Uses
+      **5-label node classification** Heterogeneous IMDB graph — classify movie nodes (5 genres). Uses
       typed nodes, typed relations, and available type-specific features. Evaluated by Micro-F1.
     primary_metric: Micro-F1
     higher_is_better: true
@@ -3431,7 +4421,18 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
-    num_classes: 3
+    avg_nodes: 21420
+    avg_edges: 86642
+    num_classes: 5
+    extra_stats:
+      node_feature_dim: 3066
+      edge_feature_dim: 0
+      num_node_types: 4
+      num_edge_types: 6
+      target_node_type: movie
+      feature_type: 'type-specific; target movie features are 3066-dimensional'
+      label_type: multi-label
+      statistic_notes: 'HGB release: 21,420 nodes and 86,642 typed edges; 28% of movie nodes have more than one label.'
   - name: ACM
     task_type: node_classification
     short_description: >-
@@ -3466,7 +4467,17 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 10942
+    avg_edges: 547872
     num_classes: 3
+    extra_stats:
+      node_feature_dim: 1902
+      edge_feature_dim: 0
+      num_node_types: 4
+      num_edge_types: 8
+      target_node_type: paper
+      feature_type: 'type-specific; target paper features are 1902-dimensional'
+      statistic_notes: 'HGB release preserves ACM citation and reference edges; Table 1 of Lv et al. (2021).'
   - name: Freebase
     task_type: node_classification
     short_description: >-
@@ -3500,6 +4511,18 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
+    num_graphs: 1
+    avg_nodes: 180098
+    avg_edges: 1057688
+    num_classes: 7
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      num_node_types: 8
+      num_edge_types: 36
+      target_node_type: book
+      feature_type: 'no native features retained for the target task; one-hot/learned type embeddings are preprocessing choices'
+      statistic_notes: 'HGB release samples eight Freebase entity genres; Table 1 of Lv et al. (2021).'
   - name: RCDD
     task_type: link_prediction
     short_description: >-
@@ -3533,6 +4556,19 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
+    num_graphs: 1
+    avg_nodes: 13806619
+    avg_edges: 157814864
+    num_classes: 2
+    extra_stats:
+      node_feature_dim: 256
+      edge_feature_dim: 0
+      num_node_types: 7
+      num_edge_types: 7
+      target_node_type: item
+      feature_type: 'target item features are 256-dimensional; typed nodes and relations'
+      edge_type: categorical_relation
+      statistic_notes: 'RCDD statistics from the HGB-backed benchmark table in HeterSEED (2026): 13,806,619 nodes and 157,814,864 typed edges.'
 - name: Knowledge Graphs
   arxiv_id: '1707.01476'
   url: https://arxiv.org/abs/1707.01476
@@ -3574,8 +4610,17 @@ benchmarks:
       notes: Toutanova & Chen 2015 split. Also reports Hits@1, Hits@3, Hits@10.
     num_graphs: 1
     avg_nodes: 14541
-    avg_edges: 272115
+    avg_edges: 310116
     num_classes: 237
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      edge_type: categorical_relation
+      num_relation_types: 237
+      train_edges: 272115
+      validation_edges: 17535
+      test_edges: 20466
+      statistic_notes: 'Total triples across the standard split: 310,116 = 272,115 train + 17,535 validation + 20,466 test; PyG edge counts must not be mistaken for the training-only graph.'
   - name: WN18RR
     task_type: link_prediction
     short_description: >-
@@ -3613,6 +4658,15 @@ benchmarks:
     avg_nodes: 40943
     avg_edges: 93003
     num_classes: 11
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      edge_type: categorical_relation
+      num_relation_types: 11
+      train_edges: 86835
+      validation_edges: 3034
+      test_edges: 3134
+      statistic_notes: 'WordNet18RR has 93,003 total triples and removes the inverse-relation leakage affecting WN18.'
   - name: WN18
     task_type: link_prediction
     short_description: >-
@@ -3646,6 +4700,19 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
+    num_graphs: 1
+    avg_nodes: 40943
+    avg_edges: 151442
+    num_classes: 18
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      edge_type: categorical_relation
+      num_relation_types: 18
+      train_edges: 141442
+      validation_edges: 5000
+      test_edges: 5000
+      statistic_notes: 'WN18 contains 151,442 total triples and is a legacy benchmark with severe inverse-relation leakage; use WN18RR for a cleaner comparison.'
 - name: Hypergraph Benchmarks
   arxiv_id: '2106.13264'
   url: https://arxiv.org/abs/2106.13264
@@ -3685,7 +4752,19 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 1718
+    avg_edges: 83105
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 100
+      edge_feature_dim: 0
+      edge_count_semantics: hyperedges
+      avg_node_degree: 427.237
+      avg_hyperedge_size: 8.656
+      median_hyperedge_size: 5
+      clique_expansion_homophily: 0.555
+      feature_type: 'synthetic Gaussian features, dimension 100'
+      statistic_notes: 'Congress bills/co-sponsorship release: 1,718 nodes and 83,105 hyperedges.'
   - name: Deezer
     task_type: node_classification
     short_description: >-
@@ -3722,8 +4801,14 @@ benchmarks:
       is_standard: true
     num_graphs: 1
     avg_nodes: 28281
-    avg_edges: 1650703
+    avg_edges: 185504
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 128
+      edge_feature_dim: 0
+      avg_degree: 13.11
+      feature_type: 'artist-preference features'
+      statistic_notes: 'This is the ordinary Deezer Europe friendship graph, not a hypergraph; PyG reports 28,281 nodes, 185,504 edges, 128 features, and 2 classes.'
   - name: House
     task_type: node_classification
     short_description: >-
@@ -3754,7 +4839,19 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 1290
+    avg_edges: 340
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 100
+      edge_feature_dim: 0
+      edge_count_semantics: hyperedges
+      avg_node_degree: 9.181
+      avg_hyperedge_size: 34.73
+      median_hyperedge_size: 40
+      clique_expansion_homophily: 0.509
+      feature_type: 'synthetic Gaussian features, dimension 100'
+      statistic_notes: 'House committee hypergraph: 1,290 nodes and 340 hyperedges in AllSet; the raw committee source can contain 341 before deduplication.'
   - name: Senate
     task_type: node_classification
     short_description: >-
@@ -3785,7 +4882,19 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 282
+    avg_edges: 315
     num_classes: 2
+    extra_stats:
+      node_feature_dim: 100
+      edge_feature_dim: 0
+      edge_count_semantics: hyperedges
+      avg_node_degree: 19.177
+      avg_hyperedge_size: 17.168
+      median_hyperedge_size: 19
+      clique_expansion_homophily: 0.498
+      feature_type: 'synthetic Gaussian features, dimension 100'
+      statistic_notes: 'Senate committee hypergraph: 282 nodes and 315 hyperedges; the Cornell source reports mean hyperedge size 17.2.'
   - name: Walmart
     task_type: node_classification
     short_description: >-
@@ -3816,7 +4925,19 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 88860
+    avg_edges: 69906
     num_classes: 11
+    extra_stats:
+      node_feature_dim: 100
+      edge_feature_dim: 0
+      edge_count_semantics: hyperedges
+      avg_node_degree: 5.184
+      avg_hyperedge_size: 6.589
+      median_hyperedge_size: 5
+      clique_expansion_homophily: 0.53
+      feature_type: 'synthetic Gaussian features, dimension 100'
+      statistic_notes: 'Walmart purchase hypergraph: 88,860 products and 69,906 hyperedges in the AllSet release.'
   - name: BAT
     task_type: node_classification
     short_description: >-
@@ -3849,6 +4970,11 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 131
     num_classes: 4
+    extra_stats:
+      node_feature_dim: null
+      edge_feature_dim: null
+      edge_count_semantics: hyperedges
+      statistic_notes: 'The catalog has 131 nodes and four classes, but the cited AllSet paper does not publish a BAT row or canonical hyperedge/feature counts. Missing values are intentionally not treated as zero.'
   - name: UAT
     task_type: node_classification
     short_description: >-
@@ -3881,6 +5007,11 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 1190
     num_classes: 4
+    extra_stats:
+      node_feature_dim: null
+      edge_feature_dim: null
+      edge_count_semantics: hyperedges
+      statistic_notes: 'The catalog has 1,190 nodes and four classes, but the cited AllSet paper does not publish a UAT row or canonical hyperedge/feature counts. Missing values are intentionally not treated as zero.'
   - name: EAT
     task_type: node_classification
     short_description: >-
@@ -3913,33 +5044,35 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 399
     num_classes: 4
+    extra_stats:
+      node_feature_dim: null
+      edge_feature_dim: null
+      edge_count_semantics: hyperedges
+      statistic_notes: 'The catalog has 399 nodes and four classes, but the cited AllSet paper does not publish an EAT row or canonical hyperedge/feature counts. Missing values are intentionally not treated as zero.'
   - name: AMAP
     task_type: node_classification
     short_description: >-
-      Amazon Photography co-purchase hypergraph node classification (8 categories).
+      Amazon Photography co-purchase graph node classification (8 categories).
     detailed_description:
       task: >-
-        Amazon Photography co-purchase hypergraph node classification (8 categories). The primary catalog metric is F1.
+        Amazon Photography co-purchase graph node classification (8 categories). The primary catalog metric is Accuracy.
       data: >-
-        Amazon Photography co-purchase hypergraph node classification (8 categories). The cataloged artifact reports 1 graphs, 8 target classes or tasks.
+        Amazon Photography co-purchase graph node classification (8 categories). The cataloged artifact reports 1 graph and 8 target classes.
       features: >-
-        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+        Nodes are products, edges are co-purchase links, and node features are sparse bag-of-words review features from the PyG Amazon-Photo release.
       splits_and_evaluation: >-
         The catalog records these protocols or variants: Standard split. Evaluation uses F1 (higher is better). Exact masks or folds must come from the cited release.
       quirks_and_pitfalls: >-
-        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+        This is an ordinary graph in the PyG release, not an incidence hypergraph; treating each co-purchase edge as a hyperedge changes the dataset.
     sources:
-    - title: Hypergraph Benchmarks benchmark
-      arxiv_id: '2106.13264'
-      kind: benchmark_or_upstream_source
     - title: PyTorch Geometric AMAP loader documentation
       url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
       kind: implementation_documentation
     description: >-
-      **8-class node classification** Amazon Photography co-purchase hypergraph node classification (8
-      categories). Uses node-hyperedge incidence and the released node features. Clique expansion
-      changes the input by discarding hyperedge identity. Evaluated by F1.
-    primary_metric: F1
+      **8-class node classification** Amazon Photography co-purchase graph node classification (8
+      categories). Uses the PyG sparse product features and ordinary co-purchase links. Evaluated by
+      Accuracy.
+    primary_metric: Accuracy
     higher_is_better: true
     domain: e_commerce
     pyg_url: https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.datasets.Amazon.html
@@ -3947,7 +5080,15 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 7650
+    avg_edges: 119081
     num_classes: 8
+    extra_stats:
+      node_feature_dim: 745
+      edge_feature_dim: 0
+      edge_count_semantics: ordinary_graph_edges
+      feature_type: 'Amazon co-purchase node features'
+      statistic_notes: 'AMAP is the Amazon Photography graph artifact (7,650 nodes, 119,081 undirected edges in the PyG Amazon release); it is not a hypergraph.'
   - name: Cora-CA
     task_type: node_classification
     short_description: >-
@@ -3978,7 +5119,19 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 2708
+    avg_edges: 1072
     num_classes: 7
+    extra_stats:
+      node_feature_dim: 1433
+      edge_feature_dim: 0
+      edge_count_semantics: hyperedges
+      avg_node_degree: 1.693
+      avg_hyperedge_size: 4.277
+      median_hyperedge_size: 3
+      clique_expansion_homophily: 0.803
+      feature_type: bag_of_words
+      statistic_notes: 'AllSet supplementary table: 2,708 nodes, 1,072 hyperedges, and 1,433-dimensional document features.'
   - name: DBLP-CA
     task_type: node_classification
     short_description: >-
@@ -4009,36 +5162,48 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
+    avg_nodes: 41302
+    avg_edges: 22363
+    num_classes: 6
+    extra_stats:
+      node_feature_dim: 1425
+      edge_feature_dim: 0
+      edge_count_semantics: hyperedges
+      avg_node_degree: 2.411
+      avg_hyperedge_size: 4.452
+      median_hyperedge_size: 3
+      clique_expansion_homophily: 0.869
+      feature_type: bag_of_words
+      statistic_notes: 'AllSet supplementary table: 41,302 nodes, 22,363 hyperedges, and 1,425-dimensional document features.'
   - name: LEN
     task_type: node_classification
     short_description: >-
-      Labeled Entity Network — large-scale coordinated campaign detection graph for online social
-      media analysis (node classification, 2 classes).
+      Legacy Labeled Entity Network entry; the upstream release and graph semantics are not identified.
     detailed_description:
       task: >-
-        Labeled Entity Network — large-scale coordinated campaign detection graph for online social media analysis (node classification, 2 classes). The primary catalog metric is Accuracy.
+        The catalog retains a two-class node-classification entry, but the upstream paper or release is not identified well enough to verify its graph counts and feature schema.
       data: >-
-        Labeled Entity Network — large-scale coordinated campaign detection graph for online social media analysis (node classification, 2 classes). The cataloged artifact reports 2 target classes or tasks.
+        No authoritative dataset artifact is currently linked; the entry should not be used for numerical comparisons until its provenance is resolved.
       features: >-
-        The release represents higher-order membership with a node-hyperedge incidence relation and supplies node features where available. Some source datasets have no measured features and use documented synthetic features; clique expansion is an alternative representation that discards hyperedge identity.
+        Feature and edge semantics are unknown because the upstream release has not been identified.
       splits_and_evaluation: >-
         The catalog records these protocols or variants: Standard split. Evaluation uses Accuracy (higher is better). Exact masks or folds must come from the cited release.
       quirks_and_pitfalls: >-
-        Do not silently replace incidence propagation with clique expansion or merge distinct releases sharing a short name. Random synthetic features, split seeds, hyperedge multiplicity, and isolated-node handling can dominate results and must be reported.
+        Do not silently substitute another LEN or social-media graph with the same abbreviation.
     sources:
-    - title: Hypergraph Benchmarks benchmark
-      arxiv_id: '2106.13264'
-      kind: benchmark_or_upstream_source
     description: >-
-      **2-class node classification** Labeled Entity Network — large-scale coordinated campaign
-      detection graph for online social media analysis (node classification, 2 classes). Uses
-      node-hyperedge incidence and the released node features. Evaluated by Accuracy.
+      **2-class node classification** legacy Labeled Entity Network entry with unresolved upstream
+      provenance. Evaluated by Accuracy only as a catalog placeholder.
     primary_metric: Accuracy
     higher_is_better: true
     domain: social
     variants:
     - name: Standard split
       is_standard: true
+    extra_stats:
+      node_feature_dim: null
+      edge_feature_dim: null
+      statistic_notes: 'Upstream release unresolved: no authoritative node, edge, feature, diameter, or class-balance statistics are stored.'
     num_classes: 2
 - name: Other Graph Benchmarks
   arxiv_id: null
@@ -4082,7 +5247,15 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 5000
+    avg_nodes: 1410.3
+    avg_edges: 2859.9
     num_classes: 5
+    extra_stats:
+      node_feature_dim: 0
+      edge_feature_dim: 0
+      avg_degree: 4.06
+      label_imbalance: balanced
+      statistic_notes: 'MalNet-Tiny contains 1,000 graphs in each of five families; each graph has at most 5,000 nodes.'
   - name: ShapeNet-Part
     task_type: node_classification
     short_description: >-
@@ -4112,16 +5285,26 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
+    num_graphs: 16881
+    avg_nodes: 2048
+    avg_edges: 0
+    extra_stats:
+      node_feature_dim: 6
+      edge_feature_dim: 0
+      feature_type: '3D point coordinates plus surface normals; position-only loaders expose dimension 3'
+      num_object_categories: 16
+      num_part_labels: 50
+      statistic_notes: 'ShapeNet-Part has 16,881 shapes; the common benchmark samples 2,048 points per shape. Point-cloud samples have no intrinsic edges; k-NN/radius edges are preprocessing choices.'
     num_classes: 50
   - name: 20News
-    task_type: graph_classification
+    task_type: node_classification
     short_description: >-
-      Predict one of 20 newsgroup topics on text-derived document graphs.
+      Predict one of four newsgroup topics on the AllSet text hypergraph.
     detailed_description:
       task: >-
-        20 Newsgroups text classification represented as a graph (nodes = documents, edges = TF-IDF similarity). 20 classes. The primary catalog metric is Accuracy.
+        20 Newsgroups text classification represented as a hypergraph (nodes = documents, hyperedges = document groups). Four classes. The primary catalog metric is Accuracy.
       data: >-
-        20 Newsgroups text classification represented as a graph (nodes = documents, edges = TF-IDF similarity). 20 classes. The cataloged artifact reports 20 target classes or tasks.
+        20 Newsgroups text classification represented as a hypergraph (nodes = documents, hyperedges = document groups). Four classes. The cataloged artifact reports 1 graph and 4 target classes.
       features: >-
         Input construction is dataset-specific and follows the cited release: program call graphs, 3D point coordinates, text-derived vectors, product attributes, or movie metadata. Added edges, neighborhood graphs, and feature normalization are preprocessing choices.
       splits_and_evaluation: >-
@@ -4132,8 +5315,11 @@ benchmarks:
     - title: 20 Newsgroups corpus documentation
       url: https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_20newsgroups.html
       kind: benchmark_or_upstream_source
+    - title: AllSet hypergraph benchmark paper
+      arxiv_id: '2106.13264'
+      kind: implementation_documentation
     description: >-
-      **20-class graph classification** on text-derived document graphs, predicting one of 20
+      **4-class node classification** on the AllSet 20News text hypergraph, predicting one of four
       newsgroup topics. Evaluated by Accuracy.
     primary_metric: Accuracy
     higher_is_better: true
@@ -4141,7 +5327,16 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-    num_classes: 20
+    num_graphs: 1
+    avg_nodes: 16242
+    avg_edges: 100
+    num_classes: 4
+    extra_stats:
+      node_feature_dim: 100
+      edge_feature_dim: 0
+      edge_count_semantics: hyperedges
+      feature_type: tfidf
+      statistic_notes: 'AllSet/DHG 20News release: 16,242 document nodes, 100 hyperedges, 100-dimensional TF-IDF features, and 4 classes; this is not the 20-category scikit-learn corpus count.'
   - name: Amazon2M
     task_type: node_classification
     short_description: >-
@@ -4171,8 +5366,15 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1
-    avg_nodes: 2000000
-    avg_edges: 61000000
+    avg_nodes: 2449029
+    avg_edges: 61859140
+    num_classes: 47
+    extra_stats:
+      node_feature_dim: 100
+      edge_feature_dim: 0
+      feature_type: bag_of_words
+      avg_degree: 50.52
+      statistic_notes: 'Cluster-GCN release: 2,449,029 products, 61,859,140 co-purchase edges, 47 top-level classes, and 100-dimensional product-description features.'
   - name: MovieLens Film
     task_type: node_classification
     short_description: >-
@@ -4205,7 +5407,16 @@ benchmarks:
       notes: MovieLens/IMDb film graph used by Bruna et al. 2016.
     num_graphs: 1
     avg_nodes: 18352
+    avg_edges: 1104162
     num_classes: 9
+    extra_stats:
+      node_feature_dim: 1000
+      edge_feature_dim: 0
+      feature_type: bag_of_words_from_IMDb_plot_summaries
+      avg_degree: 120.33
+      diameter: 8
+      label_imbalance: 'multi-label; class frequencies range from 10.4% to 46.3%'
+      statistic_notes: 'Column Networks film-genre graph: 18,352 movies after filtering missing plot summaries; relations are same-actor and same-director.'
 - name: Algorithmic Graph Tasks
   arxiv_id: '2312.16560'
   url: https://arxiv.org/abs/2312.16560
@@ -4246,6 +5457,12 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 7040
+    extra_stats:
+      node_feature_dim: 2
+      edge_feature_dim: 0
+      node_count_range: '25--35'
+      feature_type: 'one random normal feature plus a binary source-node indicator'
+      statistic_notes: 'Synthetic algorithmic benchmark; fixed split is 5,120/640/1,280 graphs.'
   - name: Eccentricity
     task_type: node_regression
     short_description: >-
@@ -4278,6 +5495,12 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 7040
+    extra_stats:
+      node_feature_dim: 1
+      edge_feature_dim: 0
+      node_count_range: '25--35'
+      feature_type: 'one random normal feature per node'
+      statistic_notes: 'Synthetic algorithmic benchmark; eccentricity is the maximum shortest-path distance to another node.'
 - name: HSG-12M
   arxiv_id: '2506.08618'
   url: https://arxiv.org/abs/2506.08618
@@ -4325,6 +5548,16 @@ benchmarks:
       is_standard: true
     num_graphs: 11601681
     num_classes: 1401
+    avg_nodes: 13.8
+    avg_edges: 28.9
+    extra_stats:
+      node_feature_dim: 4
+      edge_feature_dim: 6
+      feature_type: '2D complex-plane coordinates, spectral potential, and density of states'
+      edge_feature_type: 'curved length, straight-line distance, midpoint coordinates, average spectral potential, and average DOS'
+      label_imbalance: balanced
+      edge_semantics: spatial_multigraph
+      statistic_notes: 'The reference conversion uses 4 node features and 6 fixed-size edge-summary features; parallel geometrically distinct edges are retained.'
   - name: HSG-topology
     task_type: graph_classification
     short_description: >-
@@ -4365,6 +5598,14 @@ benchmarks:
       is_standard: true
     num_graphs: 1812325
     num_classes: 1401
+    extra_stats:
+      node_feature_dim: 4
+      edge_feature_dim: 6
+      feature_type: 'same spatial node representation as HSG-12M'
+      edge_feature_type: 'same six-dimensional spatial edge summaries as HSG-12M'
+      label_imbalance: 'largest/smallest class ratio 660.2'
+      edge_semantics: spatial_multigraph
+      statistic_notes: 'Topology variant keeps one representative per connectivity isomorphism class within each polynomial class.'
 - name: DualEquiNet RNA Benchmarks
   arxiv_id: '2506.19862'
   url: https://arxiv.org/abs/2506.19862
@@ -4408,6 +5649,13 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 4082
+    avg_nodes: 363
+    extra_stats:
+      edge_feature_dim: 0
+      node_count_range: '107--130 nucleotides; 363 atoms on average'
+      num_targets: 3
+      feature_type: 'RNA nucleotide identity plus predicted 3D atomic coordinates'
+      statistic_notes: 'DualEquiNet Table: 4,082 sequences; residue-level reactivity/degradation targets; structures are predicted with RhoFold.'
   - name: Ribonanza
     task_type: node_regression
     short_description: >-
@@ -4440,6 +5688,13 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 2260
+    avg_nodes: 531
+    extra_stats:
+      edge_feature_dim: 0
+      node_count_range: 'about 177 nucleotides; 531 atoms on average'
+      num_targets: 2
+      feature_type: 'RNA nucleotide identity plus predicted 3D atomic coordinates'
+      statistic_notes: 'DualEquiNet Table: 2,260 sequences; residue-level DMS and 2A3 reactivity targets.'
   - name: Tc-Ribo
     task_type: graph_regression
     short_description: >-
@@ -4469,6 +5724,13 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 355
+    avg_nodes: 216
+    extra_stats:
+      edge_feature_dim: 0
+      node_count_range: '66--75 nucleotides; 216 atoms on average'
+      num_targets: 1
+      feature_type: 'RNA nucleotide identity plus predicted 3D atomic coordinates'
+      statistic_notes: 'DualEquiNet Table: 355 sequences; graph-level tetracycline switching-factor target.'
   - name: TorsionAngle
     task_type: node_regression
     short_description: >-
@@ -4503,6 +5765,13 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1018
+    avg_nodes: 249
+    extra_stats:
+      edge_feature_dim: 0
+      node_count_range: '10--400 nucleotides; 249 atoms on average'
+      num_targets: 7
+      feature_type: 'RNA nucleotide identity plus predicted 3D atomic coordinates'
+      statistic_notes: 'DualEquiNet Table: 1,018 RNASolo structures; seven circular torsion-angle targets per nucleotide.'
 - name: CosmoBench
   arxiv_id: '2507.03707'
   url: https://arxiv.org/abs/2507.03707
@@ -4542,6 +5811,14 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 32752
+    avg_nodes: 5000
+    extra_stats:
+      node_feature_dim: 3
+      edge_feature_dim: 3
+      feature_type: '3D halo positions; velocity is an additional target/metadata field'
+      edge_feature_type: 'normalized pairwise distance and two geometric dot products on radius-graph edges'
+      box_size: '1000 cMpc/h'
+      statistic_notes: 'Quijote contains 32,752 point clouds after excluding 16 failed halo-finder simulations; coarse clouds contain the 5,000 most massive halos.'
   - name: CAMELS-SAM
     task_type: graph_regression
     short_description: >-
@@ -4571,6 +5848,14 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1000
+    avg_nodes: 5000
+    extra_stats:
+      node_feature_dim: 3
+      edge_feature_dim: 3
+      feature_type: '3D galaxy positions; velocities are available as prediction targets/metadata'
+      edge_feature_type: 'radius-graph geometric features'
+      box_size: '100 cMpc/h'
+      statistic_notes: 'Coarse CAMELS-SAM clouds contain 5,000 galaxies; fine clouds retain up to 19,000 points. The benchmark uses 60/20/20 splits.'
   - name: CS-Trees
     task_type: graph_regression
     short_description: >-
@@ -4600,6 +5885,13 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 24996
+    extra_stats:
+      node_feature_dim: 4
+      edge_feature_dim: 0
+      node_count_range: '121--37,865 after trimming'
+      feature_type: 'halo mass, concentration, maximum circular velocity, and scale factor'
+      label_imbalance: balanced_by_cosmological_parameter_choice
+      statistic_notes: 'Directed merger trees are trimmed by halo-mass thresholds; graph edges encode progenitor-to-descendant relationships, not radius-graph neighborhoods.'
   - name: CS-Trees-200
     task_type: graph_classification
     short_description: >-
@@ -4629,6 +5921,12 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 200
+    extra_stats:
+      node_feature_dim: 4
+      edge_feature_dim: 0
+      feature_type: 'halo mass, concentration, maximum circular velocity, and scale factor'
+      node_task: 'binary classification of virtual unresolved merger nodes'
+      statistic_notes: 'This variant selects the 200 largest CS-Trees, coarsens temporal resolution, and appends virtual nodes; the paper does not report a single average node or edge count.'
 - name: ECHO Benchmark
   arxiv_id: '2512.17762'
   url: https://arxiv.org/abs/2512.17762
@@ -4668,6 +5966,16 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 10080
+    avg_nodes: 83.69
+    avg_edges: 211.63
+    extra_stats:
+      node_feature_dim: 2
+      edge_feature_dim: 0
+      avg_degree: 2.53
+      diameter: 28.5
+      num_targets: 3
+      feature_type: 'uniform random scalar; SSSP additionally has a binary source indicator'
+      statistic_notes: 'ECHO Table: 10,080 synthetic graphs spanning line, ladder, grid, tree, caterpillar, and lobster topologies with target diameters 17--40.'
   - name: ECHO-Charge
     task_type: node_regression
     short_description: >-
@@ -4676,7 +5984,7 @@ benchmarks:
       task: >-
         ECHO charge propagation task — predicting charge distribution on physical graphs. The primary catalog metric is MAE.
       data: >-
-        ECHO charge propagation task — predicting charge distribution on physical graphs. The cataloged artifact reports 170,000 graphs.
+        ECHO charge propagation task — predicting charge distribution on physical graphs. The cataloged artifact reports 170,367 graphs.
       features: >-
         Each synthetic or physical graph supplies local node/edge state and a target created by controlled long-range propagation. The exact signal channels and propagation parameters are part of the named ECHO task and should not be mixed across variants.
       splits_and_evaluation: >-
@@ -4696,7 +6004,18 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-    num_graphs: 170000
+    avg_nodes: 72.49
+    avg_edges: 151.32
+    num_graphs: 170367
+    extra_stats:
+      node_feature_dim: 2
+      edge_feature_dim: 2
+      avg_degree: 2.09
+      diameter: 23.54
+      num_targets: 1
+      feature_type: 'atomic number and distance from center of mass'
+      edge_feature_type: 'bond type and bond length'
+      statistic_notes: 'ECHO-Charge exact count from the paper table: 170,367 molecular graphs; target is DFT-level partial atomic charges.'
   - name: ECHO-Energy
     task_type: graph_regression
     short_description: >-
@@ -4705,7 +6024,7 @@ benchmarks:
       task: >-
         ECHO energy propagation task — predicting energy distribution on physical graphs. The primary catalog metric is MAE.
       data: >-
-        ECHO energy propagation task — predicting energy distribution on physical graphs. The cataloged artifact reports 196,000 graphs.
+        ECHO energy propagation task — predicting energy distribution on physical graphs. The cataloged artifact reports 196,528 graphs.
       features: >-
         Each synthetic or physical graph supplies local node/edge state and a target created by controlled long-range propagation. The exact signal channels and propagation parameters are part of the named ECHO task and should not be mixed across variants.
       splits_and_evaluation: >-
@@ -4725,7 +6044,18 @@ benchmarks:
     variants:
     - name: Standard split
       is_standard: true
-    num_graphs: 196000
+    num_graphs: 196528
+    avg_nodes: 73.73
+    avg_edges: 153.84
+    extra_stats:
+      node_feature_dim: 2
+      edge_feature_dim: 2
+      avg_degree: 2.09
+      diameter: 23.61
+      num_targets: 1
+      feature_type: 'atomic number and distance from center of mass'
+      edge_feature_type: 'bond type and bond length'
+      statistic_notes: 'ECHO-Energy exact count from the paper table: 196,528 molecular graphs; target is DFT-level total energy.'
 - name: City-Networks
   arxiv_id: '2503.09008'
   url: https://arxiv.org/abs/2503.09008
@@ -4767,6 +6097,17 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 114000
     avg_edges: 183000
+    extra_stats:
+      node_feature_dim: 37
+      edge_feature_dim: 25
+      avg_degree: 3.2
+      clustering_coefficient: 0.03
+      transitivity: 0.03
+      diameter: 121
+      edge_homophily: 0.70
+      feature_type: 'OpenStreetMap junction features plus averaged incident-road features; 37 dimensions after one-hot encoding and aggregation'
+      edge_feature_type: 'road length, speed limit, one-way, reversed, lanes, and road type; 25 dimensions after one-hot encoding'
+      statistic_notes: 'City-Networks Table 1: largest connected component of the undirected Paris road graph; counts and topology statistics are rounded.'
     variants:
     - name: Standard split
       is_standard: true
@@ -4803,6 +6144,17 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 184000
     avg_edges: 263000
+    extra_stats:
+      node_feature_dim: 37
+      edge_feature_dim: 25
+      avg_degree: 2.9
+      clustering_coefficient: 0.04
+      transitivity: 0.04
+      diameter: 123
+      edge_homophily: 0.75
+      feature_type: 'OpenStreetMap junction features plus averaged incident-road features; 37 dimensions after one-hot encoding and aggregation'
+      edge_feature_type: 'road length, speed limit, one-way, reversed, lanes, and road type; 25 dimensions after one-hot encoding'
+      statistic_notes: 'City-Networks Table 1: largest connected component of the undirected Shanghai road graph; counts and topology statistics are rounded.'
     variants:
     - name: Standard split
       is_standard: true
@@ -4839,6 +6191,17 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 241000
     avg_edges: 343000
+    extra_stats:
+      node_feature_dim: 37
+      edge_feature_dim: 25
+      avg_degree: 2.8
+      clustering_coefficient: 0.04
+      transitivity: 0.05
+      diameter: 171
+      edge_homophily: 0.75
+      feature_type: 'OpenStreetMap junction features plus averaged incident-road features; 37 dimensions after one-hot encoding and aggregation'
+      edge_feature_type: 'road length, speed limit, one-way, reversed, lanes, and road type; 25 dimensions after one-hot encoding'
+      statistic_notes: 'City-Networks Table 1: largest connected component of the undirected Los Angeles road graph; counts and topology statistics are rounded.'
     variants:
     - name: Standard split
       is_standard: true
@@ -4875,6 +6238,17 @@ benchmarks:
     num_graphs: 1
     avg_nodes: 569000
     avg_edges: 759000
+    extra_stats:
+      node_feature_dim: 37
+      edge_feature_dim: 25
+      avg_degree: 2.7
+      clustering_coefficient: 0.04
+      transitivity: 0.05
+      diameter: 404
+      edge_homophily: 0.76
+      feature_type: 'OpenStreetMap junction features plus averaged incident-road features; 37 dimensions after one-hot encoding and aggregation'
+      edge_feature_type: 'road length, speed limit, one-way, reversed, lanes, and road type; 25 dimensions after one-hot encoding'
+      statistic_notes: 'City-Networks Table 1: largest connected component of the undirected London road graph; counts and topology statistics are rounded.'
     variants:
     - name: Standard split
       is_standard: true
@@ -4900,7 +6274,7 @@ benchmarks:
       task: >-
         Long-Range Ising Model benchmark for per-node energy prediction on periodic 2D grid graphs with controllable long-range interactions. The primary catalog metric is log-MSE.
       data: >-
-        Long-Range Ising Model benchmark for per-node energy prediction on periodic 2D grid graphs with controllable long-range interactions. The cataloged artifact reports 100,000 graphs.
+        Long-Range Ising Model benchmark for per-node energy prediction on periodic 2D grid graphs with controllable long-range interactions. The cataloged artifact reports 10,000 graphs.
       features: >-
         Nodes occupy a periodic two-dimensional grid and carry spin/state inputs. Edges or interaction terms encode distance-dependent Ising couplings; the release controls interaction range and system size.
       splits_and_evaluation: >-
@@ -4922,58 +6296,89 @@ benchmarks:
     higher_is_better: false
     domain: physics
     pyg_url: https://lrim-graphbenchmark.com/
-    num_graphs: 100000
+    num_graphs: 10000
+    extra_stats:
+      node_feature_dim: 1
+      edge_feature_dim: 0
+      avg_degree: 4
+      feature_type: 'Ising spin in {-1,+1}'
+      edge_feature_type: 'none; long-range interaction is represented in the target-generation physics, while the graph topology is a 4-neighbor periodic lattice'
+      statistic_notes: 'The LRIM paper reports 1,000 graphs for each of the ten size/difficulty variants, an 80/10/10 split, and five graph sizes from 256 to 65,536 nodes.'
     variants:
     - name: LRIM-16-hard
       is_standard: true
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 256
       avg_edges: 512
+      extra_stats:
+        node_feature_dim: 1
+        edge_feature_dim: 0
+        avg_degree: 4
+        diameter: 16
+        avg_shortest_path: 8.03
+        avg_effective_resistance: 0.49
+        sigma: 0.6
     - name: LRIM-16-easy
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 256
       avg_edges: 512
+      extra_stats:
+        node_feature_dim: 1
+        edge_feature_dim: 0
+        avg_degree: 4
+        diameter: 16
+        avg_shortest_path: 8.03
+        avg_effective_resistance: 0.49
+        sigma: 1.6
     - name: LRIM-32-hard
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 1024
       avg_edges: 2048
+      extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 4, diameter: 32, avg_shortest_path: 16.01, avg_effective_resistance: 0.60, sigma: 0.6}
     - name: LRIM-32-easy
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 1024
       avg_edges: 2048
+      extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 4, diameter: 32, avg_shortest_path: 16.01, avg_effective_resistance: 0.60, sigma: 1.6}
     - name: LRIM-64-hard
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 4096
       avg_edges: 8192
+      extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 4, diameter: 64, avg_shortest_path: 32.01, avg_effective_resistance: 0.71, sigma: 0.6}
     - name: LRIM-64-easy
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 4096
       avg_edges: 8192
+      extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 4, diameter: 64, avg_shortest_path: 32.01, avg_effective_resistance: 0.71, sigma: 1.6}
     - name: LRIM-128-hard
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 16384
       avg_edges: 32768
+      extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 4, diameter: 128, avg_shortest_path: 64.00, avg_effective_resistance: 0.82, sigma: 0.6}
     - name: LRIM-128-easy
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 16384
       avg_edges: 32768
+      extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 4, diameter: 128, avg_shortest_path: 64.00, avg_effective_resistance: 0.82, sigma: 1.6}
     - name: LRIM-256-hard
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 65536
       avg_edges: 131072
+      extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 4, diameter: 256, avg_shortest_path: 128.00, avg_effective_resistance: 0.93, sigma: 0.6}
     - name: LRIM-256-easy
       is_standard: false
-      num_graphs: 10000
+      num_graphs: 1000
       avg_nodes: 65536
       avg_edges: 131072
+      extra_stats: {node_feature_dim: 1, edge_feature_dim: 0, avg_degree: 4, diameter: 256, avg_shortest_path: 128.00, avg_effective_resistance: 0.93, sigma: 1.6}
 - name: Power Flow Benchmarks
   arxiv_id: '2601.01387'
   url: https://arxiv.org/abs/2601.01387
@@ -5017,6 +6422,15 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 1000000
+    extra_stats:
+      node_feature_dim: 7
+      edge_feature_dim: 3
+      node_count_range: '36--41 buses in the non-LTS training regime; base case is IEEE 39-bus'
+      edge_count_range: 'branch count varies with topology slicing; base case has 46 branches'
+      feature_type: 'active/reactive power, voltage magnitude, reactive bounds, self-admittance, and bus-type encoding'
+      edge_feature_type: 'branch admittance, tap-ratio, and topology-derived branch attributes'
+      sample_semantics: 'operating-point samples/subgraphs, not independent graph topologies'
+      statistic_notes: 'Case I expands 5,000 selected operating scenarios into one million training samples and uses 100,000-sample evaluation/generalization sets.'
   - name: Case 2
     task_type: graph_regression
     short_description: >-
@@ -5052,3 +6466,11 @@ benchmarks:
     - name: Standard split
       is_standard: true
     num_graphs: 750000
+    extra_stats:
+      node_feature_dim: 7
+      edge_feature_dim: 3
+      node_count_range: '300--690 buses across operational/generalization samples'
+      feature_type: 'active/reactive power, voltage magnitude, reactive bounds, self-admittance, and bus-type encoding'
+      edge_feature_type: 'branch admittance, tap-ratio, and topology-derived branch attributes'
+      sample_semantics: 'operating-point samples/subgraphs, not independent graph topologies'
+      statistic_notes: 'Case II uses 500,000 training samples, 100,000 test samples, and about 150,000 generalization samples from 366 days of provincial-grid data.'

@@ -820,7 +820,7 @@ def _summary_num_classes(dataset: Dataset) -> int | None:
     return raw_count
 
 
-def _extra_stats_dict(raw: str | None) -> dict[str, float | int]:
+def _extra_stats_dict(raw: str | None) -> dict[str, float | int | str]:
     if not raw:
         return {}
     try:
@@ -829,9 +829,9 @@ def _extra_stats_dict(raw: str | None) -> dict[str, float | int]:
         return {}
     if not isinstance(loaded, dict):
         return {}
-    out: dict[str, float | int] = {}
+    out: dict[str, float | int | str] = {}
     for key, value in loaded.items():
-        if isinstance(value, (int, float)) and not isinstance(value, bool):
+        if isinstance(value, (int, float, str)) and not isinstance(value, bool):
             out[str(key)] = value
     return out
 
