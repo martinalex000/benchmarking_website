@@ -20,19 +20,19 @@ UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python \
 Generated files are written to `experiments/prescreen_validation/output/` and ignored by Git:
 
 - `summary.md` and `summary.json` contain aggregate counts with explicit denominators;
-- `manual_review.md` contains the abstracts and evidence for a deterministic 10-paper sample;
+- `manual_review.md` contains the abstracts and evidence for the cumulative manual sample;
 - `review_cohort.csv` has blank manual-label columns;
 - `rejected_rerun_candidates.txt` lists rejected sample papers that could optionally be forced
   through the rest of the pipeline.
 
-The default manual cohort contains three high-priority suspicious rejections, two ordinary rejected controls,
-three accepted papers with zero raw extracted rows, and two accepted positive controls. Increase it
-with `--sample-size`; the proportions remain approximately 30/20/30/20.
+By default, the experiment extends the existing list until it contains at least 10 rejected papers
+from the `specific` screening tier, 10 rejected papers from the generic `graph` tier, and 10
+accepted papers whose raw extraction artifact has zero result rows. Existing papers—including the
+two original positive controls—remain in their current order. Existing CSV fields and manual text
+are preserved; rerunning the command only appends missing papers.
 
-Suspicious rejections are prioritized by evidence strength. A rejected paper that already has
-positive downstream extraction rows ranks ahead of a local full-text dataset match, which ranks
-ahead of an abstract-only catalog-name match. This deliberately prevents common-word dataset names
-from dominating the small manual cohort.
+The three targets can be changed independently with `--rejected-specific-target`,
+`--rejected-graph-target`, and `--accepted-zero-target`.
 
 ## Interpretation
 

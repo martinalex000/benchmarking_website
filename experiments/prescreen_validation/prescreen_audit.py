@@ -302,66 +302,61 @@ def classify_cohorts(rows: list[AuditPaper]) -> dict[str, list[AuditPaper]]:
     return dict(cohorts)
 
 
-def _allocate_sample_size(sample_size: int) -> dict[str, int]:
-    """Allocate a roughly 30/20/30/20 percent review cohort."""
-    if sample_size < 4:
-        raise ValueError("sample size must be at least 4")
-    names = (
-        "rejected_suspicious",
-        "rejected_control",
-        "accepted_zero_artifact_results",
-        "accepted_positive_control",
-    )
-    weights = (0.3, 0.2, 0.3, 0.2)
-    allocation = {
-        name: int(sample_size * weight) for name, weight in zip(names, weights, strict=True)
-    }
-    for name in names:
-        if allocation[name] == 0:
-            allocation[name] = 1
-    while sum(allocation.values()) < sample_size:
-        name = max(
-            names, key=lambda item: weights[names.index(item)] * sample_size - allocation[item]
-        )
-        allocation[name] += 1
-    while sum(allocation.values()) > sample_size:
-        name = max(names, key=lambda item: allocation[item] - 1)
-        allocation[name] -= 1
-    return allocation
+_REVIEW_CATEGORIES = (
+    "rejected_specific",
+    "rejected_graph",
+    "accepted_zero_artifact_results",
+)
 
 
-def select_review_cohort(
-    cohorts: dict[str, list[AuditPaper]], sample_size: int, seed: int
+def review_category(row: AuditPaper) -> str | None:
+    """Return the target review category represented by a paper."""
+    if row.decision == "rejected" and row.matched_tier in {"specific", "graph"}:
+        return f"rejected_{row.matched_tier}"
+    if row.decision == "accepted" and row.downstream.artifact_result_count == 0:
+        return "accepted_zero_artifact_results"
+    return None
+
+
+def select_review_additions(
+    rows: list[AuditPaper],
+    existing_ids: set[str],
+    targets: dict[str, int],
+    seed: int,
 ) -> list[AuditPaper]:
-    """Select a deterministic stratified sample for manual review."""
-    allocation = _allocate_sample_size(sample_size)
-    selected: list[AuditPaper] = []
-    for offset, (cohort, count) in enumerate(allocation.items()):
-        candidates = sorted(cohorts.get(cohort, []), key=lambda row: row.arxiv_id)
-        if len(candidates) < count:
-            raise ValueError(f"cohort {cohort!r} has {len(candidates)} papers; need {count}")
-        rng = random.Random(seed + offset)
-        if cohort == "rejected_suspicious":
-            # Direct downstream contradictions are substantially stronger leads than
-            # catalog-name grep hits. Randomize only within equal evidence scores.
-            def evidence_score(row: AuditPaper, *, _rng: random.Random = rng) -> tuple[int, float]:
-                score = 0
-                score += 1_000 * int((row.downstream.artifact_result_count or 0) > 0)
-                score += 500 * int((row.downstream.stored_result_count or 0) > 0)
-                score += 100 * int(row.downstream.artifact_result_count == 0)
-                score += 50 * int(row.full_text_available)
-                score += 10 * len(row.abstract_exact_case_mentions)
-                score += 5 * len(row.abstract_dataset_mentions)
-                score += 2 * len(row.screener_datasets)
-                return score, _rng.random()
-
-            chosen = sorted(candidates, key=evidence_score, reverse=True)[:count]
-        else:
-            chosen = rng.sample(candidates, count)
+    """Append deterministic papers until each category reaches its target."""
+    rows_by_id = {row.arxiv_id: row for row in rows}
+    existing_counts = Counter(
+        category
+        for arxiv_id in existing_ids
+        if (row := rows_by_id.get(arxiv_id)) is not None
+        if (category := review_category(row)) is not None
+    )
+    additions: list[AuditPaper] = []
+    selected_ids = set(existing_ids)
+    for offset, category in enumerate(_REVIEW_CATEGORIES):
+        target = targets[category]
+        if target < 0:
+            raise ValueError(f"target for {category!r} must be non-negative")
+        needed = max(0, target - existing_counts[category])
+        candidates = sorted(
+            (
+                row
+                for row in rows
+                if row.arxiv_id not in selected_ids and review_category(row) == category
+            ),
+            key=lambda row: row.arxiv_id,
+        )
+        if len(candidates) < needed:
+            raise ValueError(
+                f"category {category!r} has {len(candidates)} unused papers; need {needed}"
+            )
+        chosen = random.Random(seed + offset).sample(candidates, needed)
         for row in chosen:
-            row.cohort = cohort
-        selected.extend(chosen)
-    return selected
+            row.cohort = category
+            selected_ids.add(row.arxiv_id)
+        additions.extend(chosen)
+    return additions
 
 
 def summarize(rows: list[AuditPaper], cohorts: dict[str, list[AuditPaper]]) -> dict[str, Any]:
@@ -493,19 +488,10 @@ def _format_list(values: list[str]) -> str:
     return ", ".join(values) if values else "none"
 
 
-def render_review(selected: list[AuditPaper], seed: int) -> str:
-    """Render the paper-level evidence needed for a blind manual decision."""
-    lines = [
-        "# Manual pre-screening review cohort",
-        "",
-        f"Deterministic sample seed: `{seed}`. Review the abstract before using the existing decision "
-        "and downstream evidence. Record labels in `review_cohort.csv`.",
-        "",
-        "Manual question: **Does this abstract justify sending the paper to full extraction because "
-        "it indicates benchmark results or a new benchmark?** Dataset mention alone is insufficient.",
-        "",
-    ]
-    for index, row in enumerate(selected, start=1):
+def render_review_sections(selected: list[AuditPaper], start_index: int = 1) -> str:
+    """Render paper sections without the document header or footer."""
+    lines: list[str] = []
+    for index, row in enumerate(selected, start=start_index):
         downstream = row.downstream
         lines.extend(
             [
@@ -532,85 +518,168 @@ def render_review(selected: list[AuditPaper], seed: int) -> str:
                 "",
             ]
         )
-    lines.extend(
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def _review_footer() -> str:
+    return (
+        "\n".join(
+            [
+                "## Optional rejected-paper downstream check",
+                "",
+                "After manual abstract review, a rejected paper can be forced through the remaining pipeline "
+                "with the command below. This experiment does not run it automatically because it makes local "
+                "paper/database changes and uses model calls.",
+                "",
+                "```bash",
+                "UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/process_papers.py "
+                "<ARXIV_ID> --skip-screen --skip-export",
+                "```",
+            ]
+        )
+        + "\n"
+    )
+
+
+def render_review(selected: list[AuditPaper], seed: int) -> str:
+    """Render a new paper-level review document."""
+    header = "\n".join(
         [
-            "## Optional rejected-paper downstream check",
+            "# Manual pre-screening review cohort",
             "",
-            "After manual abstract review, a rejected paper can be forced through the remaining pipeline "
-            "with the command below. This experiment does not run it automatically because it makes local "
-            "paper/database changes and uses model calls.",
+            f"Deterministic sample seed: `{seed}`. Review the abstract before using the existing "
+            "decision and downstream evidence. Record labels in `review_cohort.csv`.",
             "",
-            "```bash",
-            "UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python scripts/process_papers.py "
-            "<ARXIV_ID> --skip-screen --skip-export",
-            "```",
+            "Manual question: **Does this abstract justify sending the paper to full extraction "
+            "because it indicates benchmark results or a new benchmark?** Dataset mention alone "
+            "is insufficient.",
+            "",
         ]
     )
-    return "\n".join(lines) + "\n"
+    return header + render_review_sections(selected) + "\n" + _review_footer()
+
+
+def extend_review_markdown(path: Path, additions: list[AuditPaper], seed: int) -> None:
+    """Append paper sections while preserving all existing manual text."""
+    if not path.exists():
+        path.write_text(render_review(additions, seed), encoding="utf-8")
+        return
+    if not additions:
+        return
+
+    existing = path.read_text(encoding="utf-8")
+    start_index = len(re.findall(r"(?m)^## \d+\. arXiv:", existing)) + 1
+    new_sections = render_review_sections(additions, start_index=start_index).rstrip()
+    marker = "## Optional rejected-paper downstream check"
+    marker_index = existing.find(marker)
+    if marker_index >= 0:
+        before = existing[:marker_index].rstrip()
+        after = existing[marker_index:].lstrip()
+        extended = f"{before}\n\n{new_sections}\n\n{after}"
+    else:
+        extended = f"{existing.rstrip()}\n\n{new_sections}\n"
+    path.write_text(extended, encoding="utf-8")
+
+
+_REVIEW_FIELDNAMES = [
+    "arxiv_id",
+    "cohort",
+    "title",
+    "decision",
+    "matched_tier",
+    "confidence",
+    "screener_datasets",
+    "abstract_dataset_mentions",
+    "full_text_dataset_mentions",
+    "extraction_status",
+    "artifact_result_count",
+    "stored_result_count",
+    "manual_should_pass",
+    "manual_has_benchmark_results",
+    "manual_notes",
+]
+
+
+def load_existing_review_rows(path: Path) -> tuple[list[dict[str, str]], list[str]]:
+    """Load manual rows and retain any extra reviewer-created columns."""
+    if not path.exists():
+        return [], list(_REVIEW_FIELDNAMES)
+    with path.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        rows = [dict(row) for row in reader]
+        fieldnames = list(reader.fieldnames or _REVIEW_FIELDNAMES)
+    for fieldname in _REVIEW_FIELDNAMES:
+        if fieldname not in fieldnames:
+            fieldnames.append(fieldname)
+    return rows, fieldnames
+
+
+def _review_csv_row(row: AuditPaper) -> dict[str, Any]:
+    return {
+        "arxiv_id": row.arxiv_id,
+        "cohort": row.cohort,
+        "title": row.title,
+        "decision": row.decision,
+        "matched_tier": row.matched_tier,
+        "confidence": row.confidence,
+        "screener_datasets": "; ".join(row.screener_datasets),
+        "abstract_dataset_mentions": "; ".join(row.abstract_dataset_mentions),
+        "full_text_dataset_mentions": "; ".join(row.full_text_dataset_mentions),
+        "extraction_status": row.downstream.extraction_status,
+        "artifact_result_count": row.downstream.artifact_result_count,
+        "stored_result_count": row.downstream.stored_result_count,
+        "manual_should_pass": "",
+        "manual_has_benchmark_results": "",
+        "manual_notes": "",
+    }
+
+
+def extend_review_csv(path: Path, additions: list[AuditPaper]) -> list[dict[str, str]]:
+    """Append new rows without altering existing manual field values."""
+    existing_rows, fieldnames = load_existing_review_rows(path)
+    existing_ids = {str(row.get("arxiv_id") or "").strip() for row in existing_rows}
+    new_rows = [_review_csv_row(row) for row in additions if row.arxiv_id not in existing_ids]
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(existing_rows)
+        writer.writerows(new_rows)
+    return [*existing_rows, *new_rows]
 
 
 def write_outputs(
     output_dir: Path,
     summary: dict[str, Any],
-    selected: list[AuditPaper],
+    additions: list[AuditPaper],
     seed: int,
     dataset_count: int,
+    review_counts: dict[str, int],
 ) -> None:
-    """Write aggregate and manual-review artifacts."""
+    """Write aggregates and extend manual-review artifacts."""
     output_dir.mkdir(parents=True, exist_ok=True)
+    review_csv = output_dir / "review_cohort.csv"
+    existing_rows, _ = load_existing_review_rows(review_csv)
     payload = {
         "generated_at": datetime.now(UTC).isoformat(),
         "sample_seed": seed,
         "canonical_dataset_count": dataset_count,
+        "review_cohort": {
+            "existing_rows": len(existing_rows),
+            "added_rows": len(additions),
+            "final_rows": len(existing_rows) + len(additions),
+            "category_counts": review_counts,
+        },
         **summary,
     }
     (output_dir / "summary.json").write_text(
         json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     (output_dir / "summary.md").write_text(render_summary(summary), encoding="utf-8")
-    (output_dir / "manual_review.md").write_text(render_review(selected, seed), encoding="utf-8")
-
-    fieldnames = [
-        "arxiv_id",
-        "cohort",
-        "title",
-        "decision",
-        "matched_tier",
-        "confidence",
-        "screener_datasets",
-        "abstract_dataset_mentions",
-        "full_text_dataset_mentions",
-        "extraction_status",
-        "artifact_result_count",
-        "stored_result_count",
-        "manual_should_pass",
-        "manual_has_benchmark_results",
-        "manual_notes",
+    extend_review_markdown(output_dir / "manual_review.md", additions, seed)
+    final_rows = extend_review_csv(review_csv, additions)
+    rejected_ids = [
+        str(row["arxiv_id"]) for row in final_rows if str(row.get("decision") or "") == "rejected"
     ]
-    with (output_dir / "review_cohort.csv").open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fieldnames)
-        writer.writeheader()
-        for row in selected:
-            writer.writerow(
-                {
-                    "arxiv_id": row.arxiv_id,
-                    "cohort": row.cohort,
-                    "title": row.title,
-                    "decision": row.decision,
-                    "matched_tier": row.matched_tier,
-                    "confidence": row.confidence,
-                    "screener_datasets": "; ".join(row.screener_datasets),
-                    "abstract_dataset_mentions": "; ".join(row.abstract_dataset_mentions),
-                    "full_text_dataset_mentions": "; ".join(row.full_text_dataset_mentions),
-                    "extraction_status": row.downstream.extraction_status,
-                    "artifact_result_count": row.downstream.artifact_result_count,
-                    "stored_result_count": row.downstream.stored_result_count,
-                    "manual_should_pass": "",
-                    "manual_has_benchmark_results": "",
-                    "manual_notes": "",
-                }
-            )
-    rejected_ids = [row.arxiv_id for row in selected if row.decision == "rejected"]
     (output_dir / "rejected_rerun_candidates.txt").write_text(
         "\n".join(rejected_ids) + ("\n" if rejected_ids else ""), encoding="utf-8"
     )
@@ -626,9 +695,32 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
     add_artifact_evidence(downstream, args.papers_dir, set(decisions))
     rows = build_audit_rows(decisions, queue_papers, downstream, matcher, args.papers_dir)
     cohorts = classify_cohorts(rows)
-    selected = select_review_cohort(cohorts, args.sample_size, args.random_seed)
+    review_csv = args.output_dir / "review_cohort.csv"
+    existing_review_rows, _ = load_existing_review_rows(review_csv)
+    existing_ids = {str(row.get("arxiv_id") or "").strip() for row in existing_review_rows}
+    targets = {
+        "rejected_specific": args.rejected_specific_target,
+        "rejected_graph": args.rejected_graph_target,
+        "accepted_zero_artifact_results": args.accepted_zero_target,
+    }
+    additions = select_review_additions(rows, existing_ids, targets, args.random_seed)
+    rows_by_id = {row.arxiv_id: row for row in rows}
+    final_ids = [*existing_ids, *(row.arxiv_id for row in additions)]
+    review_counts = Counter(
+        category
+        for arxiv_id in final_ids
+        if (row := rows_by_id.get(arxiv_id)) is not None
+        if (category := review_category(row)) is not None
+    )
     summary = summarize(rows, cohorts)
-    write_outputs(args.output_dir, summary, selected, args.random_seed, len(names))
+    write_outputs(
+        args.output_dir,
+        summary,
+        additions,
+        args.random_seed,
+        len(names),
+        {category: review_counts[category] for category in _REVIEW_CATEGORIES},
+    )
     return summary
 
 
@@ -648,7 +740,9 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=_PROJECT_ROOT / "experiments/prescreen_validation/output",
     )
-    parser.add_argument("--sample-size", type=int, default=10)
+    parser.add_argument("--rejected-specific-target", type=int, default=10)
+    parser.add_argument("--rejected-graph-target", type=int, default=10)
+    parser.add_argument("--accepted-zero-target", type=int, default=10)
     parser.add_argument("--random-seed", type=int, default=20260826)
     return parser
 
