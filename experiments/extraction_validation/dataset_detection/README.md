@@ -30,3 +30,14 @@ alone.
 
 Rerunning the command preserves every existing CSV row and Markdown note. It only appends papers
 when a cohort is below its target and only copies missing PDFs.
+
+After completing the manual annotations, compare them with the current database:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python \
+  experiments/extraction_validation/dataset_detection/evaluate_review.py
+```
+
+This writes the ignored local outputs `evaluation_report.md` and `evaluation_results.json`. The
+evaluation keeps partial, uncertain, and protocol-qualified annotations separate from strict
+precision and recall rather than coercing them into binary labels.
