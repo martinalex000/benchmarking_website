@@ -29,6 +29,65 @@ if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
 
+# These catalog labels are ordinary words, places, organizations, or generic task names.
+# Exact grep hits are too ambiguous to serve as evidence that a benchmark dataset was used.
+_GENERIC_DATASET_NAMES = frozenset(
+    {
+        "ACM",
+        "Actor",
+        "Algorithmic Reasoning",
+        "BA graph",
+        "BAT",
+        "BlueSky",
+        "Bridges",
+        "CLUSTER",
+        "COLLAB",
+        "Case 1",
+        "Case 2",
+        "Chameleon",
+        "Chip Design",
+        "Combinatorial Optimization",
+        "Congress",
+        "Cornell",
+        "COVID",
+        "CSL",
+        "D&D",
+        "EAT",
+        "Eccentricity",
+        "Electronic Circuits",
+        "ER graph",
+        "Film",
+        "Flow",
+        "House",
+        "LEN",
+        "London",
+        "Los Angeles",
+        "MST",
+        "Max Clique",
+        "Max Matching",
+        "Minesweeper",
+        "PATTERN",
+        "PROTEINS",
+        "Paris",
+        "Questions",
+        "RB graph",
+        "SAT Solving",
+        "Senate",
+        "Shanghai",
+        "SSSP",
+        "Squirrel",
+        "Steiner Trees",
+        "TSP",
+        "Texas",
+        "Topological Sorting",
+        "UAT",
+        "Walmart",
+        "Weather Forecasting",
+        "Wisconsin",
+    }
+)
+
+
 @dataclass(frozen=True)
 class ScreeningDecision:
     """One completed pre-screening decision."""
@@ -135,6 +194,12 @@ def load_dataset_names(seed_path: Path) -> list[str]:
         if isinstance(dataset, dict)
     }
     return sorted((name for name in names if name), key=str.casefold)
+
+
+def exclude_generic_dataset_names(names: list[str]) -> list[str]:
+    """Return dataset labels specific enough to use as lexical evidence."""
+    generic = {name.casefold() for name in _GENERIC_DATASET_NAMES}
+    return [name for name in names if name.casefold() not in generic]
 
 
 def load_decisions(path: Path) -> dict[str, ScreeningDecision]:
@@ -258,10 +323,14 @@ def build_audit_rows(
     rows: list[AuditPaper] = []
     for arxiv_id, decision in decisions.items():
         paper = queue_papers[arxiv_id]
+        downstream_evidence = downstream.get(arxiv_id, DownstreamEvidence())
         mentions, exact_mentions = matcher.find(f"{paper.title}\n{paper.abstract}")
         full_text_mentions: list[str] = []
         full_text_available = False
-        if decision.decision == "rejected":
+        needs_full_text_grep = decision.decision == "rejected" or (
+            decision.decision == "accepted" and downstream_evidence.stored_result_count == 0
+        )
+        if needs_full_text_grep:
             full_text_path = papers_dir / arxiv_id / "latex" / "expanded.tex"
             if full_text_path.is_file():
                 full_text_available = True
@@ -281,7 +350,7 @@ def build_audit_rows(
                 abstract_exact_case_mentions=exact_mentions,
                 full_text_available=full_text_available,
                 full_text_dataset_mentions=full_text_mentions,
-                downstream=downstream.get(arxiv_id, DownstreamEvidence()),
+                downstream=downstream_evidence,
             )
         )
     return rows
@@ -369,10 +438,22 @@ def summarize(rows: list[AuditPaper], cohorts: dict[str, list[AuditPaper]]) -> d
         row for row in accepted if row.downstream.artifact_result_count is not None
     ]
     accepted_with_db = [row for row in accepted if row.downstream.stored_result_count is not None]
+    accepted_with_zero_stored = [
+        row for row in accepted_with_db if row.downstream.stored_result_count == 0
+    ]
+    zero_stored_with_full_text = [
+        row for row in accepted_with_zero_stored if row.full_text_available
+    ]
     stored_zero_statuses = Counter(
         row.downstream.extraction_status or "unknown"
         for row in accepted_with_db
         if row.downstream.stored_result_count == 0
+    )
+    abstract_match_frequencies = Counter(
+        name for row in accepted_with_zero_stored for name in row.abstract_dataset_mentions
+    )
+    full_text_match_frequencies = Counter(
+        name for row in zero_stored_with_full_text for name in row.full_text_dataset_mentions
     )
     return {
         "screening": {
@@ -383,10 +464,10 @@ def summarize(rows: list[AuditPaper], cohorts: dict[str, list[AuditPaper]]) -> d
         "rejected_evidence": {
             "denominator": len(rejected),
             "screener_reported_dataset": sum(bool(row.screener_datasets) for row in rejected),
-            "canonical_name_in_title_or_abstract": sum(
+            "specific_dataset_name_in_title_or_abstract": sum(
                 bool(row.abstract_dataset_mentions) for row in rejected
             ),
-            "canonical_name_with_exact_case": sum(
+            "specific_dataset_name_with_exact_case": sum(
                 bool(row.abstract_exact_case_mentions) for row in rejected
             ),
             "local_full_text_available": sum(row.full_text_available for row in rejected),
@@ -411,10 +492,24 @@ def summarize(rows: list[AuditPaper], cohorts: dict[str, list[AuditPaper]]) -> d
             "positive_raw_artifact_results": sum(
                 (row.downstream.artifact_result_count or 0) > 0 for row in accepted_with_artifact
             ),
-            "zero_stored_results": sum(
-                row.downstream.stored_result_count == 0 for row in accepted_with_db
-            ),
+            "zero_stored_results": len(accepted_with_zero_stored),
             "zero_stored_results_by_extraction_status": dict(sorted(stored_zero_statuses.items())),
+            "zero_stored_dataset_grep": {
+                "denominator": len(accepted_with_zero_stored),
+                "title_or_abstract_match": sum(
+                    bool(row.abstract_dataset_mentions) for row in accepted_with_zero_stored
+                ),
+                "local_full_text_available": len(zero_stored_with_full_text),
+                "local_full_text_match": sum(
+                    bool(row.full_text_dataset_mentions) for row in zero_stored_with_full_text
+                ),
+                "title_abstract_or_full_text_match": sum(
+                    bool(row.abstract_dataset_mentions or row.full_text_dataset_mentions)
+                    for row in accepted_with_zero_stored
+                ),
+                "top_title_or_abstract_names": dict(abstract_match_frequencies.most_common(15)),
+                "top_full_text_names": dict(full_text_match_frequencies.most_common(15)),
+            },
             "artifact_parse_errors": sum(bool(row.downstream.artifact_error) for row in accepted),
         },
         "cohort_sizes": {name: len(values) for name, values in sorted(cohorts.items())},
@@ -429,11 +524,24 @@ def render_summary(summary: dict[str, Any]) -> str:
     """Render aggregate findings with caveats close to each proxy."""
     rejected = summary["rejected_evidence"]
     accepted = summary["accepted_downstream"]
+    zero_grep = accepted["zero_stored_dataset_grep"]
+    matching = summary["dataset_name_matching"]
+    abstract_top = ", ".join(
+        f"{name} ({count})" for name, count in zero_grep["top_title_or_abstract_names"].items()
+    )
+    full_text_top = ", ".join(
+        f"{name} ({count})" for name, count in zero_grep["top_full_text_names"].items()
+    )
+    excluded_names = ", ".join(f"`{name}`" for name in matching["excluded_general_names"])
     lines = [
         "# Pre-screening audit summary",
         "",
-        "This is a diagnostic experiment, not an accuracy estimate. Dataset-name matches are review "
-        "leads rather than proof that a paper reports comparable benchmark results.",
+        "This is a diagnostic experiment, not an accuracy estimate. Dataset-name matches are "
+        "review leads rather than proof that a paper reports comparable benchmark results. The "
+        f"grep uses {matching['searched_name_count']} specific catalog names and excludes "
+        f"{matching['excluded_general_name_count']} ambiguous labels such as `Questions` and `Flow`.",
+        "",
+        f"Excluded ambiguous labels: {excluded_names}.",
         "",
         "## Screening corpus",
         "",
@@ -450,12 +558,12 @@ def render_summary(summary: dict[str, Any]) -> str:
             "",
             f"- Screener nevertheless named a dataset: {rejected['screener_reported_dataset']:,} "
             f"({_percentage(rejected['screener_reported_dataset'], rejected['denominator'])})",
-            f"- Canonical dataset name in title/abstract: "
-            f"{rejected['canonical_name_in_title_or_abstract']:,} "
-            f"({_percentage(rejected['canonical_name_in_title_or_abstract'], rejected['denominator'])})",
-            f"- Canonical name with exact catalog casing: "
-            f"{rejected['canonical_name_with_exact_case']:,} "
-            f"({_percentage(rejected['canonical_name_with_exact_case'], rejected['denominator'])})",
+            f"- Non-generic dataset name in title/abstract: "
+            f"{rejected['specific_dataset_name_in_title_or_abstract']:,} "
+            f"({_percentage(rejected['specific_dataset_name_in_title_or_abstract'], rejected['denominator'])})",
+            f"- Non-generic name with exact catalog casing: "
+            f"{rejected['specific_dataset_name_with_exact_case']:,} "
+            f"({_percentage(rejected['specific_dataset_name_with_exact_case'], rejected['denominator'])})",
             f"- Prioritized suspicious rejections: {rejected['prioritized_as_suspicious']:,}",
             f"- Rejected papers with a local extraction artifact: "
             f"{rejected['with_local_extraction_artifact']:,}; with positive raw rows: "
@@ -476,6 +584,27 @@ def render_summary(summary: dict[str, Any]) -> str:
             f"- Database has zero stored result rows: {accepted['zero_stored_results']:,} "
             f"({_percentage(accepted['zero_stored_results'], accepted['with_database_paper'])} "
             "of joined papers)",
+            "",
+            "### Dataset-name grep for accepted papers with zero stored results",
+            "",
+            f"Denominator: {zero_grep['denominator']:,} accepted papers with zero database rows.",
+            "",
+            f"- Non-generic name in title/abstract: {zero_grep['title_or_abstract_match']:,} "
+            f"({_percentage(zero_grep['title_or_abstract_match'], zero_grep['denominator'])})",
+            f"- Local LaTeX full text available: {zero_grep['local_full_text_available']:,} "
+            f"({_percentage(zero_grep['local_full_text_available'], zero_grep['denominator'])})",
+            f"- Non-generic name in available full text: {zero_grep['local_full_text_match']:,} "
+            f"({_percentage(zero_grep['local_full_text_match'], zero_grep['local_full_text_available'])} "
+            "of available full texts)",
+            f"- Match in title/abstract or available full text: "
+            f"{zero_grep['title_abstract_or_full_text_match']:,} "
+            f"({_percentage(zero_grep['title_abstract_or_full_text_match'], zero_grep['denominator'])})",
+            f"- Most frequent title/abstract matches: {abstract_top or 'none'}",
+            f"- Most frequent full-text matches: {full_text_top or 'none'}",
+            "",
+            "Match counts are paper counts; one paper may contain several names. Full-text matches "
+            "can occur in related work or citations and do not establish that an extractable result "
+            "was reported.",
             "",
             "Zero raw rows are the cleaner signal for a possible screening false positive. Zero stored "
             "rows can instead be caused by parsing, protocol rejection, quarantine, or unresolved datasets.",
@@ -688,7 +817,8 @@ def write_outputs(
 def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
     """Run the read-only audit and write its outputs."""
     names = load_dataset_names(args.seed_data)
-    matcher = DatasetMatcher(names)
+    searched_names = exclude_generic_dataset_names(names)
+    matcher = DatasetMatcher(searched_names)
     decisions = load_decisions(args.results)
     queue_papers = load_queue_papers(args.queue, set(decisions))
     downstream = load_database_evidence(args.database)
@@ -713,6 +843,13 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
         if (category := review_category(row)) is not None
     )
     summary = summarize(rows, cohorts)
+    excluded_names = sorted(set(names) - set(searched_names), key=str.casefold)
+    summary["dataset_name_matching"] = {
+        "canonical_name_count": len(names),
+        "searched_name_count": len(searched_names),
+        "excluded_general_name_count": len(excluded_names),
+        "excluded_general_names": excluded_names,
+    }
     write_outputs(
         args.output_dir,
         summary,

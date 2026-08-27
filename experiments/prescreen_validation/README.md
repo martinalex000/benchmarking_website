@@ -7,7 +7,8 @@ It combines four kinds of evidence:
 
 1. the actual accepted/rejected decisions in `papers/screening/results.yaml`;
 2. titles and abstracts from `papers/screening/queue.sqlite3`;
-3. exact canonical dataset-name matches from `config/seed_data.yaml`;
+3. exact dataset-name matches from `config/seed_data.yaml`, after excluding ambiguous ordinary
+   terms, places, and generic task labels such as `Questions` and `Flow`;
 4. downstream raw extraction artifacts and stored database results, when available.
 
 Run it from the repository root:
@@ -33,6 +34,11 @@ are preserved; rerunning the command only appends missing papers.
 
 The three targets can be changed independently with `--rejected-specific-target`,
 `--rejected-graph-target`, and `--accepted-zero-target`.
+
+The summary also greps locally available LaTeX full text for accepted papers that have zero stored
+database results. It reports full-text availability separately, so a paper without local LaTeX is
+not interpreted as a negative match. The excluded lexical terms are listed in `summary.json` and
+defined explicitly in `prescreen_audit.py` for review.
 
 ## Interpretation
 

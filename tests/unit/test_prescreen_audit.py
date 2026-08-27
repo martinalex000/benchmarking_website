@@ -2,7 +2,11 @@ from experiments.prescreen_validation.prescreen_audit import (
     AuditPaper,
     DatasetMatcher,
     DownstreamEvidence,
+    QueuePaper,
+    ScreeningDecision,
+    build_audit_rows,
     classify_cohorts,
+    exclude_generic_dataset_names,
     extend_review_csv,
     extend_review_markdown,
     load_existing_review_rows,
@@ -49,6 +53,13 @@ def test_dataset_matcher_uses_boundaries_and_tracks_exact_case() -> None:
     assert exact == ["Amazon-Photo", "QM9"]
 
 
+def test_generic_dataset_names_are_excluded_from_grep_vocabulary() -> None:
+    assert exclude_generic_dataset_names(["Cora", "Flow", "QM9", "Questions"]) == [
+        "Cora",
+        "QM9",
+    ]
+
+
 def test_classification_separates_review_strata() -> None:
     rows = [
         _row("1", "rejected", exact_mentions=["Cora"]),
@@ -86,6 +97,61 @@ def test_summary_keeps_raw_and_stored_zero_counts_separate() -> None:
     assert summary["accepted_downstream"]["zero_raw_artifact_results"] == 1
     assert summary["accepted_downstream"]["zero_stored_results"] == 1
     assert summary["rejected_evidence"]["prioritized_as_suspicious"] == 1
+
+
+def test_summary_reports_zero_stored_result_dataset_grep() -> None:
+    abstract_match = _row("1", "accepted", mentions=["Cora"], artifact_results=0)
+    abstract_match.downstream = DownstreamEvidence(stored_result_count=0, artifact_result_count=0)
+    full_text_match = _row("2", "accepted", artifact_results=4)
+    full_text_match.full_text_available = True
+    full_text_match.full_text_dataset_mentions = ["QM9"]
+    full_text_match.downstream = DownstreamEvidence(stored_result_count=0, artifact_result_count=4)
+    positive_stored = _row("3", "accepted", mentions=["ZINC"], artifact_results=2)
+    positive_stored.downstream = DownstreamEvidence(stored_result_count=5, artifact_result_count=2)
+
+    summary = summarize(
+        [abstract_match, full_text_match, positive_stored],
+        classify_cohorts([abstract_match, full_text_match, positive_stored]),
+    )
+    grep = summary["accepted_downstream"]["zero_stored_dataset_grep"]
+
+    assert grep["denominator"] == 2
+    assert grep["title_or_abstract_match"] == 1
+    assert grep["local_full_text_available"] == 1
+    assert grep["local_full_text_match"] == 1
+    assert grep["title_abstract_or_full_text_match"] == 2
+
+
+def test_zero_stored_result_papers_get_full_text_grep(tmp_path) -> None:
+    decisions = {
+        arxiv_id: ScreeningDecision(
+            arxiv_id=arxiv_id,
+            decision="accepted",
+            matched_tier="specific",
+            datasets_mentioned=(),
+            confidence=1.0,
+            reason="reason",
+        )
+        for arxiv_id in ("zero", "positive")
+    }
+    queue = {
+        arxiv_id: QueuePaper(arxiv_id=arxiv_id, title="Title", abstract="Abstract")
+        for arxiv_id in decisions
+    }
+    for arxiv_id in decisions:
+        latex = tmp_path / arxiv_id / "latex"
+        latex.mkdir(parents=True)
+        (latex / "expanded.tex").write_text("Results on Cora", encoding="utf-8")
+    downstream = {
+        "zero": DownstreamEvidence(stored_result_count=0),
+        "positive": DownstreamEvidence(stored_result_count=4),
+    }
+
+    rows = build_audit_rows(decisions, queue, downstream, DatasetMatcher(["Cora"]), tmp_path)
+    by_id = {row.arxiv_id: row for row in rows}
+
+    assert by_id["zero"].full_text_dataset_mentions == ["Cora"]
+    assert by_id["positive"].full_text_available is False
 
 
 def test_review_additions_only_fill_missing_category_targets() -> None:
