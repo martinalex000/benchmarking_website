@@ -35,6 +35,10 @@ are preserved; rerunning the command only appends missing papers.
 The three targets can be changed independently with `--rejected-specific-target`,
 `--rejected-graph-target`, and `--accepted-zero-target`.
 
+Prompt corrections can make historical screening decisions obsolete. Such paper IDs are recorded
+explicitly in `_OBSOLETE_SCREENING_DECISION_IDS`; they are excluded from aggregate screening
+statistics and cannot be selected for the review cohort again.
+
 The summary also greps locally available LaTeX full text for accepted papers that have zero stored
 database results. It reports full-text availability separately, so a paper without local LaTeX is
 not interpreted as a negative match. The excluded lexical terms are listed in `summary.json` and

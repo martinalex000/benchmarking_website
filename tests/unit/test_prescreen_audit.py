@@ -189,6 +189,25 @@ def test_review_additions_only_fill_missing_category_targets() -> None:
     }
 
 
+def test_review_additions_skip_obsolete_screening_decisions() -> None:
+    excluded = _row("excluded", "rejected")
+    replacement = _row("replacement", "rejected")
+
+    additions = select_review_additions(
+        [excluded, replacement],
+        existing_ids=set(),
+        targets={
+            "rejected_specific": 1,
+            "rejected_graph": 0,
+            "accepted_zero_artifact_results": 0,
+        },
+        seed=7,
+        excluded_ids=frozenset({"excluded"}),
+    )
+
+    assert [row.arxiv_id for row in additions] == ["replacement"]
+
+
 def test_review_csv_extension_preserves_manual_fields(tmp_path) -> None:
     path = tmp_path / "review.csv"
     path.write_text(

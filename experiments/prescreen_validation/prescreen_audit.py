@@ -377,6 +377,13 @@ _REVIEW_CATEGORIES = (
     "accepted_zero_artifact_results",
 )
 
+# Historical screening decisions can become obsolete after prompt corrections and reprocessing.
+_OBSOLETE_SCREENING_DECISION_IDS = frozenset(
+    {
+        "2502.14546",  # Position paper: now accepted by the prompt and extracted with results.
+    }
+)
+
 
 def review_category(row: AuditPaper) -> str | None:
     """Return the target review category represented by a paper."""
@@ -392,6 +399,7 @@ def select_review_additions(
     existing_ids: set[str],
     targets: dict[str, int],
     seed: int,
+    excluded_ids: frozenset[str] = frozenset(),
 ) -> list[AuditPaper]:
     """Append deterministic papers until each category reaches its target."""
     rows_by_id = {row.arxiv_id: row for row in rows}
@@ -412,7 +420,9 @@ def select_review_additions(
             (
                 row
                 for row in rows
-                if row.arxiv_id not in selected_ids and review_category(row) == category
+                if row.arxiv_id not in selected_ids
+                and row.arxiv_id not in excluded_ids
+                and review_category(row) == category
             ),
             key=lambda row: row.arxiv_id,
         )
@@ -549,6 +559,12 @@ def render_summary(summary: dict[str, Any]) -> str:
     ]
     for decision, count in summary["screening"]["decisions"].items():
         lines.append(f"- {decision.title()}: {count:,}")
+    excluded_decisions = summary["screening"].get("excluded_obsolete_decision_ids", [])
+    if excluded_decisions:
+        lines.append(
+            "- Obsolete historical decisions excluded: "
+            + ", ".join(f"arXiv:{arxiv_id}" for arxiv_id in excluded_decisions)
+        )
     lines.extend(
         [
             "",
@@ -824,16 +840,26 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
     downstream = load_database_evidence(args.database)
     add_artifact_evidence(downstream, args.papers_dir, set(decisions))
     rows = build_audit_rows(decisions, queue_papers, downstream, matcher, args.papers_dir)
-    cohorts = classify_cohorts(rows)
     review_csv = args.output_dir / "review_cohort.csv"
     existing_review_rows, _ = load_existing_review_rows(review_csv)
-    existing_ids = {str(row.get("arxiv_id") or "").strip() for row in existing_review_rows}
+    existing_ids = {
+        arxiv_id
+        for row in existing_review_rows
+        if (arxiv_id := str(row.get("arxiv_id") or "").strip())
+        and arxiv_id not in _OBSOLETE_SCREENING_DECISION_IDS
+    }
     targets = {
         "rejected_specific": args.rejected_specific_target,
         "rejected_graph": args.rejected_graph_target,
         "accepted_zero_artifact_results": args.accepted_zero_target,
     }
-    additions = select_review_additions(rows, existing_ids, targets, args.random_seed)
+    additions = select_review_additions(
+        rows,
+        existing_ids,
+        targets,
+        args.random_seed,
+        excluded_ids=_OBSOLETE_SCREENING_DECISION_IDS,
+    )
     rows_by_id = {row.arxiv_id: row for row in rows}
     final_ids = [*existing_ids, *(row.arxiv_id for row in additions)]
     review_counts = Counter(
@@ -842,7 +868,13 @@ def run_experiment(args: argparse.Namespace) -> dict[str, Any]:
         if (row := rows_by_id.get(arxiv_id)) is not None
         if (category := review_category(row)) is not None
     )
-    summary = summarize(rows, cohorts)
+    audited_rows = [row for row in rows if row.arxiv_id not in _OBSOLETE_SCREENING_DECISION_IDS]
+    audited_cohorts = classify_cohorts(audited_rows)
+    summary = summarize(audited_rows, audited_cohorts)
+    summary["screening"]["excluded_obsolete_decision_count"] = len(_OBSOLETE_SCREENING_DECISION_IDS)
+    summary["screening"]["excluded_obsolete_decision_ids"] = sorted(
+        _OBSOLETE_SCREENING_DECISION_IDS
+    )
     excluded_names = sorted(set(names) - set(searched_names), key=str.casefold)
     summary["dataset_name_matching"] = {
         "canonical_name_count": len(names),
