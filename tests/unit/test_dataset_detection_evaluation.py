@@ -63,3 +63,26 @@ def test_normalization_and_wilson_interval() -> None:
     assert interval is not None
     assert interval[0] == pytest.approx(0.7168, abs=0.0001)
     assert interval[1] == pytest.approx(0.9889, abs=0.0001)
+
+
+def test_report_names_llm_as_evaluated_system() -> None:
+    annotations = [
+        _annotation("2304.10074", 20, 1),
+        _annotation("2401.14155", 4, 2),
+    ]
+    database_evidence = {
+        "2304.10074": {evaluation._name_key("ogbl-collab"): _stored("ogbl-collab", "Table 2")},
+        "2401.14155": {evaluation._name_key("Amazon2M"): _stored("Amazon2M", "Table 2")},
+    }
+    result = evaluation.evaluate(
+        annotations,
+        database_evidence,
+        {"2304.10074": 20, "2401.14155": 4},
+    )
+
+    report = evaluation.render_report(result, "test-hash")
+
+    assert "System being evaluated:** the LLM-derived extraction" in report
+    assert "precision and recall below measure the LLM/database output, not the human" in report
+    assert "Candidate LLM false negative" in report
+    assert "Candidate LLM false positive" in report

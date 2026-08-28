@@ -457,6 +457,59 @@ def _list(values: list[str]) -> str:
     return ", ".join(values) if values else "none"
 
 
+def _discrepancy_checkboxes(item: dict[str, Any]) -> list[str]:
+    """Render editable checks with the evaluated system named explicitly."""
+    lines = ["", "#### Discrepancy checks", ""]
+    checkbox_count = 0
+    if item["strict_paper_label"] is not None:
+        for value in item["missing_datasets"]:
+            lines.append(
+                f"- [ ] **Candidate LLM false negative — paper-dataset pair:** `{value}`. "
+                "Manual reference: compatible and present. LLM/database output: absent. "
+                "Adjudication:"
+            )
+            checkbox_count += 1
+        for value in item["unexpected_datasets"]:
+            lines.append(
+                f"- [ ] **Candidate LLM false positive — paper-dataset pair:** `{value}`. "
+                "Manual reference: absent or incompatible. LLM/database output: present. "
+                "Adjudication:"
+            )
+            checkbox_count += 1
+        if item["table_refs_scored"]:
+            for value in item["missing_table_pairs"]:
+                lines.append(
+                    f"- [ ] **Candidate LLM false negative — dataset-table pair:** `{value}`. "
+                    "Manual reference: present. LLM/database output: absent. Adjudication:"
+                )
+                checkbox_count += 1
+            for value in item["unexpected_table_pairs"]:
+                lines.append(
+                    f"- [ ] **Candidate LLM false positive — dataset-table pair:** `{value}`. "
+                    "Manual reference: absent. LLM/database output: present. Adjudication:"
+                )
+                checkbox_count += 1
+        elif item["missing_table_pairs"]:
+            for value in item["missing_table_pairs"]:
+                lines.append(
+                    f"- [ ] **Unscored manual-only dataset-table pair:** `{value}`. "
+                    "The free-text manual mapping was incomplete, so this does not affect the reported "
+                    "LLM table precision or recall. Adjudication:"
+                )
+                checkbox_count += 1
+    else:
+        for value in item["qualified_annotation_missing"]:
+            lines.append(
+                f"- [ ] **Unscored manual-only paper-dataset pair:** `{value}`. "
+                "The manual compatibility judgment was qualified, so this is not counted as an LLM "
+                "false negative. Adjudication:"
+            )
+            checkbox_count += 1
+    if not checkbox_count:
+        lines.append("- No manual–LLM dataset or table discrepancy to adjudicate.")
+    return lines
+
+
 def render_report(result: dict[str, Any], annotation_hash: str) -> str:
     summary = result["summary"]
     paper = summary["paper_level"]
@@ -465,25 +518,56 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
     details = result["papers"]
 
     lines = [
-        "# Dataset-detection evaluation",
+        "# Evaluation of LLM dataset extraction against manual annotations",
+        "",
+        "> **Reference standard:** the manual annotations.  ",
+        "> **System being evaluated:** the LLM-derived extraction represented by the current database.  ",
+        "> **Important:** precision and recall below measure the LLM/database output, not the human reviewer.",
+        "",
+        "Operationally, “LLM/database output” means an LLM-extracted result that survived downstream "
+        "normalization and protocol filtering and is currently stored. A discrepancy can therefore be "
+        "caused by the LLM itself or by later pipeline handling, but it is always counted against the "
+        "end-to-end LLM extraction outcome—not against the manual annotation.",
+        "",
+        "## Metric definitions",
+        "",
+        "- **LLM precision** = manually confirmed LLM-positive items / all LLM-positive items.",
+        "- **LLM recall** = manually annotated positive items recovered by the LLM/database / all "
+        "manual positive items.",
+        "- **Candidate LLM false negative (missing)** = present in the manual reference but absent "
+        "from the LLM/database output.",
+        "- **Candidate LLM false positive (unexpected)** = present in the LLM/database output but "
+        "absent or incompatible in the manual reference.",
+        "- “Candidate” means the item still needs the requested manual double-check. Each candidate "
+        "has an editable checkbox below.",
         "",
         "## Executive summary",
         "",
-        f"- Evaluated 20 manually reviewed papers against the current database: "
-        f"{summary['stored_result_rows']} stored result rows across "
-        f"{summary['stored_paper_dataset_pairs']} paper-dataset pairs.",
-        f"- Strict paper-level scoring covers {summary['strict_paper_count']} papers; "
-        f"{summary['qualified_paper_count']} ambiguous or protocol-qualified papers are reported separately.",
-        f"- Paper inclusion: precision {_percent(paper['precision'])}, recall {_percent(paper['recall'])}, "
+        f"- **LLM/database output:** {summary['stored_result_rows']} stored result rows across "
+        f"{summary['stored_paper_dataset_pairs']} paper-dataset pairs for the 20 reviewed papers. "
+        "The manual annotations do not contain result-row counts.",
+        f"- **Manual reference:** {summary['strict_paper_count']} papers have strict compatible/incompatible "
+        f"labels; {summary['qualified_paper_count']} ambiguous or protocol-qualified manual judgments are "
+        "reported but excluded from strict LLM metrics.",
+        f"- **LLM paper-inclusion performance:** precision {_percent(paper['precision'])}, "
+        f"recall {_percent(paper['recall'])}, "
         f"specificity {_percent(paper['specificity'])}, accuracy {_percent(paper['accuracy'])}.",
-        f"- Compatible dataset recovery: precision {_percent(dataset['precision'])}, "
+        f"- **LLM compatible-dataset performance:** precision {_percent(dataset['precision'])}, "
         f"recall {_percent(dataset['recall'])}, F1 {_percent(dataset['f1'])} "
-        f"({dataset['true_positive']} correct, {dataset['false_negative']} missing, "
-        f"{dataset['false_positive']} unexpected paper-dataset pairs).",
-        f"- Exact dataset-table association on {table['scored_paper_count']} fully interpretable papers: "
+        f"({dataset['true_positive']} manual–LLM matches; {dataset['false_negative']} manual-only candidate "
+        f"LLM false negatives; {dataset['false_positive']} LLM-only candidate false positives). "
+        f"The manual reference contains {dataset['true_positive'] + dataset['false_negative']} positive "
+        f"paper-dataset pairs; the LLM/database returned "
+        f"{dataset['true_positive'] + dataset['false_positive']} positive pairs.",
+        f"- **LLM exact dataset-table performance** on {table['scored_paper_count']} fully interpretable "
+        f"papers: "
         f"precision {_percent(table['precision'])}, recall {_percent(table['recall'])}, "
-        f"F1 {_percent(table['f1'])} ({table['true_positive']} exact, "
-        f"{table['false_negative']} missing, {table['false_positive']} unexpected pairs).",
+        f"F1 {_percent(table['f1'])} ({table['true_positive']} manual–LLM matches; "
+        f"{table['false_negative']} manual-only candidate LLM false negatives; "
+        f"{table['false_positive']} LLM-only candidate false positives). "
+        f"The manual reference contains {table['true_positive'] + table['false_negative']} positive "
+        f"dataset-table pairs; the LLM/database returned "
+        f"{table['true_positive'] + table['false_positive']} positive pairs.",
         f"- Descriptive 95% Wilson intervals: paper accuracy "
         f"{_interval(paper['accuracy_wilson_95'])}; dataset precision "
         f"{_interval(dataset['precision_wilson_95'])} and recall "
@@ -491,9 +575,10 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         f"{_interval(table['precision_wilson_95'])} and recall "
         f"{_interval(table['recall_wilson_95'])}.",
         "",
-        "The main weakness is recall and table association, not coarse paper detection. The database "
-        "usually recognizes that a paper contributes results, but frequently stores only a subset of "
-        "the compatible datasets or attaches results to a different table than the manual review.",
+        "The LLM's main weakness in this testbed is recall and table association, not coarse paper "
+        "detection. Relative to the manual reference, the LLM/database usually identifies that a paper "
+        "contributes results, but frequently returns only a subset of the compatible datasets or attaches "
+        "results to a different table.",
         "",
         "## Highest-priority discrepancies",
         "",
@@ -512,41 +597,46 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
     by_id = {item["arxiv_id"]: item for item in details}
     priority_explanations = {
         "2401.14155": (
-            "Strict false positive: four Amazon2M rows are stored from Table 2, which the manual "
-            "annotation identifies as a statistics table; the paper's experiments are anomaly detection "
-            "and were marked incompatible."
+            "Candidate LLM false positive: the LLM/database contains four Amazon2M rows from Table 2. "
+            "The manual reference identifies Table 2 as a statistics table and marks the anomaly-detection "
+            "experiments incompatible."
         ),
         "2010.05788": (
-            "Potential false negative requiring adjudication: the database has zero rows, while the "
-            "manual note says one MNIST value from Table 1 could be compatible."
+            "Potential LLM false negative requiring adjudication: the LLM/database has zero rows, while "
+            "the qualified manual note says one MNIST value from Table 1 could be compatible."
         ),
         "1905.12560": (
-            "Protocol risk requiring adjudication: 17 rows across CSL, COLLAB, MUTAG, and PROTEINS "
-            "are marked standard in the database, while the manual review questions the split, "
+            "Potential LLM/downstream protocol false positives: the LLM/database marks 17 rows across "
+            "CSL, COLLAB, MUTAG, and PROTEINS as standard, while the manual reference questions the split, "
             "cross-validation setup, and absence of a test set."
         ),
         "2403.07954": (
-            "Four compatible datasets are missing (Cora, CiteSeer, PubMed, Chameleon); Penn94 is "
-            "unexpected, and the stored Actor/Squirrel rows cite Table 1 instead of manual Table 2."
+            "Candidate LLM false negatives: four manual-compatible datasets are absent (Cora, CiteSeer, "
+            "PubMed, Chameleon). Candidate LLM false positives: Penn94 and the LLM Table 1 associations "
+            "for Actor/Squirrel, where the manual reference says Table 2."
         ),
         "2508.05070": (
-            "Five compatible datasets are missing (ZINC-12k, CIFAR10, PATTERN, Peptides-func, "
-            "Peptides-struct); Eccentricity is unexpected, and MNIST/CLUSTER cite Table 1 instead of Table 2."
+            "Candidate LLM false negatives: five manual-compatible datasets are absent (ZINC-12k, "
+            "CIFAR10, PATTERN, Peptides-func, Peptides-struct). Candidate LLM false positives: "
+            "Eccentricity and LLM Table 1 associations for MNIST/CLUSTER, where the manual reference says Table 2."
         ),
         "1903.02428": (
-            "Four compatible datasets are missing (Cora, IMDB-BINARY, REDDIT-BINARY, ModelNet10). "
-            "The explicit MUTAG reference also differs: manual Table 2 versus database Table 1."
+            "Candidate LLM false negatives: four manual-compatible datasets are absent (Cora, "
+            "IMDB-BINARY, REDDIT-BINARY, ModelNet10). The explicit table reference also differs: "
+            "manual MUTAG Table 2 versus LLM/database Table 1."
         ),
         "2206.08005": (
-            "MUV and HIV are missing. BBBP is present from manual Table 1 but also has an additional "
-            "stored Table 2 association not present in the annotation."
+            "Candidate LLM false negatives: manual-compatible MUV and HIV are absent. Candidate LLM "
+            "false positive: BBBP has an additional LLM/database Table 2 association absent from the "
+            "manual reference."
         ),
         "2003.13663": (
-            "Dataset detection is correct for Cora, but its two result rows cite Table 1 instead of "
-            "manual Table 2."
+            "The manual and LLM agree on Cora, but the manual reference says Table 2 while the "
+            "LLM/database stores the two result rows as Table 1."
         ),
     }
-    for index, paper_id in enumerate(priority_ids, start=1):
+    available_priority_ids = [paper_id for paper_id in priority_ids if paper_id in by_id]
+    for index, paper_id in enumerate(available_priority_ids, start=1):
         item = by_id[paper_id]
         lines.extend(
             [
@@ -555,16 +645,17 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             ]
         )
 
-    lines.extend(["", "## Strict paper-level confusion counts", ""])
+    lines.extend(["", "## Strict LLM paper-level confusion counts", ""])
     lines.extend(
         [
-            f"- True positives: {paper['true_positive']}",
-            f"- False positives: {paper['false_positive']}",
-            f"- True negatives: {paper['true_negative']}",
-            f"- False negatives: {paper['false_negative']}",
+            f"- LLM true positives relative to the manual reference: {paper['true_positive']}",
+            f"- LLM false positives relative to the manual reference: {paper['false_positive']}",
+            f"- LLM true negatives relative to the manual reference: {paper['true_negative']}",
+            f"- LLM false negatives relative to the manual reference: {paper['false_negative']}",
             "",
-            "The sole strict paper-level false positive is arXiv:2401.14155. There are no strict "
-            "paper-level false negatives, but arXiv:2010.05788 remains a qualified potential false negative.",
+            "The sole strict LLM paper-level false positive candidate is arXiv:2401.14155. There are no "
+            "strict LLM paper-level false negatives, but arXiv:2010.05788 remains a qualified potential "
+            "LLM false negative.",
             "",
             "## Per-paper comparison",
             "",
@@ -583,60 +674,76 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             [
                 f"### {item['arxiv_id']} — {item['title']}",
                 "",
-                f"- Manual status used: {label}.",
-                f"- Database: {item['database_result_rows']} result rows; datasets: "
+                f"- **Manual reference status:** {label}.",
+                f"- **LLM/database output:** {item['database_result_rows']} stored result rows; datasets: "
                 f"{_list(item['stored_datasets'])}.",
             ]
         )
         if item["strict_paper_label"] is not None:
             lines.extend(
                 [
-                    f"- Expected compatible datasets: {_list(item['expected_compatible_datasets'])}.",
-                    f"- Missing datasets: {_list(item['missing_datasets'])}.",
-                    f"- Unexpected datasets: {_list(item['unexpected_datasets'])}.",
+                    f"- **Manual compatible datasets:** "
+                    f"{_list(item['expected_compatible_datasets'])}.",
+                    f"- **Manual–LLM dataset matches:** {_list(item['matched_datasets'])}.",
+                    f"- **Manual-only datasets (candidate LLM false negatives):** "
+                    f"{_list(item['missing_datasets'])}.",
+                    f"- **LLM-only datasets (candidate LLM false positives):** "
+                    f"{_list(item['unexpected_datasets'])}.",
                 ]
             )
             if item["table_refs_scored"]:
                 lines.extend(
                     [
-                        f"- Missing dataset-table pairs: {_list(item['missing_table_pairs'])}.",
-                        f"- Unexpected dataset-table pairs: {_list(item['unexpected_table_pairs'])}.",
+                        f"- **Manual dataset-table pairs:** {_list(item['manual_table_pairs'])}.",
+                        f"- **LLM/database dataset-table pairs:** "
+                        f"{_list(item['database_table_pairs'])}.",
+                        f"- **Manual-only table pairs (candidate LLM false negatives):** "
+                        f"{_list(item['missing_table_pairs'])}.",
+                        f"- **LLM-only table pairs (candidate LLM false positives):** "
+                        f"{_list(item['unexpected_table_pairs'])}.",
                     ]
                 )
         else:
             lines.extend(
                 [
-                    f"- Qualification: {item['qualification']}",
-                    f"- Stored overlap with annotated datasets: "
+                    f"- **Why this manual judgment is unscored:** {item['qualification']}",
+                    f"- **LLM/database overlap with manually named datasets:** "
                     f"{_list(item['qualified_annotation_overlap'])}.",
-                    f"- Annotated but not stored: {_list(item['qualified_annotation_missing'])}.",
+                    f"- **Manual-only named datasets (not counted as LLM false negatives):** "
+                    f"{_list(item['qualified_annotation_missing'])}.",
                 ]
             )
         if item["manual_reason"] or item["manual_notes"]:
             lines.append(
-                f"- Manual rationale: "
+                f"- **Manual rationale:** "
                 f"{'; '.join(value for value in (item['manual_reason'], item['manual_notes']) if value)}"
             )
+        lines.extend(_discrepancy_checkboxes(item))
         lines.append("")
 
     lines.extend(
         [
             "## Method and limitations",
             "",
-            "- Manual annotations are ground truth. Dataset spellings were normalized only for case, "
+            "- The human manual annotations are the reference standard; the evaluated predictions are "
+            "the LLM-derived database contents. Dataset spellings were normalized only for case, "
             "punctuation, obvious abbreviations, and the explicit OGB prefixes in the annotations.",
-            "- A compatible dataset is a true positive only when the same paper-dataset pair exists in "
-            "the database. Result values, models, and metrics were not annotated and are outside this evaluation.",
+            "- An LLM true positive requires the same positive paper-dataset or dataset-table pair in the "
+            "manual reference and LLM/database output. Result values, models, and metrics were not manually "
+            "annotated and are outside this evaluation.",
             "- Table scoring uses exact dataset-table pairs and only the six papers whose free-text table "
             "annotations could be assigned to every compatible dataset without guessing.",
             "- Four qualified papers are excluded from strict rates: 1710.03059, 1905.12560, "
             "2010.05788, and 2006.05535.",
             "- The cohort was deliberately stratified as 10 papers with and 10 without stored results. "
-            "Paper-level precision and accuracy therefore describe this testbed, not corpus prevalence.",
+            "LLM paper-level precision and accuracy therefore describe this testbed, not corpus prevalence.",
             "- Wilson intervals are descriptive only. Dataset and table pairs within a paper are "
             "clustered, so pair-level intervals should not be treated as independent-sample inference.",
             "- The report compares the annotation snapshot with the current database. Database result "
             "counts are asserted against the counts recorded in the CSV before statistics are produced.",
+            "- This Markdown file is the adjudication surface. Editing its checkboxes or text does not "
+            "change the CSV, database, or generated JSON. Rerunning `evaluate_review.py` overwrites this "
+            "report, so incorporate completed adjudications into the evaluator before rerunning.",
             f"- Annotation SHA-256: `{annotation_hash}`.",
             "",
         ]
@@ -681,7 +788,7 @@ def main(argv: list[str] | None = None) -> int:
     summary = result["summary"]
     print(f"Report written to {args.output_report}")
     print(
-        "Dataset precision/recall: "
+        "LLM dataset precision/recall against manual reference: "
         f"{_percent(summary['dataset_level']['precision'])} / "
         f"{_percent(summary['dataset_level']['recall'])}"
     )

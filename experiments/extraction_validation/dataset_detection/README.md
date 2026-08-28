@@ -40,4 +40,7 @@ UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python \
 
 This writes the ignored local outputs `evaluation_report.md` and `evaluation_results.json`. The
 evaluation keeps partial, uncertain, and protocol-qualified annotations separate from strict
-precision and recall rather than coercing them into binary labels.
+precision and recall rather than coercing them into binary labels. The manual annotations are the
+reference standard; precision, recall, false positives, and false negatives describe the
+LLM-derived database output. The Markdown report contains one editable adjudication checkbox per
+candidate discrepancy.
