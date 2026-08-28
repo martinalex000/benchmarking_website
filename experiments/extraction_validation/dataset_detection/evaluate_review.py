@@ -10,6 +10,7 @@ import json
 import re
 import sqlite3
 from collections import defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from math import sqrt
@@ -203,6 +204,19 @@ def _table_key(value: str) -> str:
     return f"table{match.group(0)}" if match else _name_key(value)
 
 
+def _natural_sort_key(value: str) -> tuple[tuple[int, str | int], ...]:
+    """Sort names case-insensitively while treating embedded numbers numerically."""
+    return tuple(
+        (1, int(part)) if part.isdigit() else (0, part)
+        for part in re.split(r"(\d+)", value.casefold())
+        if part
+    )
+
+
+def _sorted_names(values: Iterable[str]) -> list[str]:
+    return sorted(values, key=_natural_sort_key)
+
+
 def _ratio(numerator: int, denominator: int) -> float | None:
     return numerator / denominator if denominator else None
 
@@ -274,7 +288,7 @@ def load_database_evidence(
 
 
 def _dataset_names(items: dict[str, DatabaseDataset], keys: set[str]) -> list[str]:
-    return sorted((items[key].name for key in keys), key=str.casefold)
+    return _sorted_names(items[key].name for key in keys)
 
 
 def evaluate(
@@ -345,42 +359,35 @@ def evaluate(
                 "strict_paper_label": truth.strict_paper_label,
                 "qualification": truth.qualification,
                 "database_result_rows": actual_count,
-                "expected_compatible_datasets": list(truth.expected_datasets),
-                "annotated_datasets_for_qualified_case": list(truth.annotated_datasets),
+                "expected_compatible_datasets": _sorted_names(truth.expected_datasets),
+                "annotated_datasets_for_qualified_case": _sorted_names(truth.annotated_datasets),
                 "stored_datasets": _dataset_names(stored, stored_keys),
                 "matched_datasets": _dataset_names(stored, matched_keys),
-                "missing_datasets": sorted(
-                    (expected_by_key[key] for key in missing_keys), key=str.casefold
-                ),
+                "missing_datasets": _sorted_names(expected_by_key[key] for key in missing_keys),
                 "unexpected_datasets": _dataset_names(stored, extra_keys)
                 if truth.strict_paper_label is not None
                 else [],
                 "qualified_annotation_overlap": _dataset_names(
                     stored, stored_keys & annotated_keys
                 ),
-                "qualified_annotation_missing": sorted(
-                    (
-                        name
-                        for name in truth.annotated_datasets
-                        if _name_key(name) not in stored_keys
-                    ),
-                    key=str.casefold,
+                "qualified_annotation_missing": _sorted_names(
+                    name for name in truth.annotated_datasets if _name_key(name) not in stored_keys
                 ),
-                "manual_table_pairs": sorted(
+                "manual_table_pairs": _sorted_names(
                     f"{dataset} — {ref}" for dataset, refs in truth.table_refs for ref in refs
                 ),
-                "database_table_pairs": sorted(
+                "database_table_pairs": _sorted_names(
                     f"{item.name} — {table_ref}"
                     for item in stored.values()
                     for table_ref in item.table_refs
                 ),
-                "missing_table_pairs": sorted(
+                "missing_table_pairs": _sorted_names(
                     f"{dataset} — {ref}"
                     for dataset, refs in truth.table_refs
                     for ref in refs
                     if (_name_key(dataset), _table_key(ref)) not in stored_table_pairs
                 ),
-                "unexpected_table_pairs": sorted(
+                "unexpected_table_pairs": _sorted_names(
                     f"{stored[dataset_key].name} — {table_ref}"
                     for dataset_key, table_key in (stored_table_pairs - expected_table_pairs)
                     for table_ref in stored[dataset_key].table_refs
@@ -510,6 +517,27 @@ def _discrepancy_checkboxes(item: dict[str, Any]) -> list[str]:
     return lines
 
 
+def _perfect_match_message(item: dict[str, Any]) -> str | None:
+    """Return a prominent description only for fully comparable exact matches."""
+    if item["strict_paper_label"] is None:
+        return None
+    if item["missing_datasets"] or item["unexpected_datasets"]:
+        return None
+    if item["table_refs_scored"]:
+        if item["missing_table_pairs"] or item["unexpected_table_pairs"]:
+            return None
+        return (
+            "**Perfect manual–LLM match:** The LLM/database output agrees with the manual "
+            "reference on paper inclusion, compatible datasets, and every scored dataset-table pair."
+        )
+    if item["manual_table_pairs"] or item["database_table_pairs"]:
+        return None
+    return (
+        "**Perfect manual–LLM match:** The manual reference contains no compatible dataset result, "
+        "and the LLM/database output correctly stores none."
+    )
+
+
 def render_report(result: dict[str, Any], annotation_hash: str) -> str:
     summary = result["summary"]
     paper = summary["paper_level"]
@@ -607,22 +635,22 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         ),
         "1905.12560": (
             "Potential LLM/downstream protocol false positives: the LLM/database marks 17 rows across "
-            "CSL, COLLAB, MUTAG, and PROTEINS as standard, while the manual reference questions the split, "
+            "COLLAB, CSL, MUTAG, and PROTEINS as standard, while the manual reference questions the split, "
             "cross-validation setup, and absence of a test set."
         ),
         "2403.07954": (
-            "Candidate LLM false negatives: four manual-compatible datasets are absent (Cora, CiteSeer, "
-            "PubMed, Chameleon). Candidate LLM false positives: Penn94 and the LLM Table 1 associations "
+            "Candidate LLM false negatives: four manual-compatible datasets are absent (Chameleon, "
+            "CiteSeer, Cora, PubMed). Candidate LLM false positives: Penn94 and the LLM Table 1 associations "
             "for Actor/Squirrel, where the manual reference says Table 2."
         ),
         "2508.05070": (
-            "Candidate LLM false negatives: five manual-compatible datasets are absent (ZINC-12k, "
-            "CIFAR10, PATTERN, Peptides-func, Peptides-struct). Candidate LLM false positives: "
-            "Eccentricity and LLM Table 1 associations for MNIST/CLUSTER, where the manual reference says Table 2."
+            "Candidate LLM false negatives: five manual-compatible datasets are absent (CIFAR10, "
+            "PATTERN, Peptides-func, Peptides-struct, ZINC-12k). Candidate LLM false positives: "
+            "Eccentricity and LLM Table 1 associations for CLUSTER/MNIST, where the manual reference says Table 2."
         ),
         "1903.02428": (
             "Candidate LLM false negatives: four manual-compatible datasets are absent (Cora, "
-            "IMDB-BINARY, REDDIT-BINARY, ModelNet10). The explicit table reference also differs: "
+            "IMDB-BINARY, ModelNet10, REDDIT-BINARY). The explicit table reference also differs: "
             "manual MUTAG Table 2 versus LLM/database Table 1."
         ),
         "2206.08005": (
@@ -670,10 +698,11 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             if item["strict_paper_label"] is False
             else "qualified / unscored"
         )
+        lines.extend([f"### {item['arxiv_id']} — {item['title']}", ""])
+        if perfect_match := _perfect_match_message(item):
+            lines.extend([perfect_match, ""])
         lines.extend(
             [
-                f"### {item['arxiv_id']} — {item['title']}",
-                "",
                 f"- **Manual reference status:** {label}.",
                 f"- **LLM/database output:** {item['database_result_rows']} stored result rows; datasets: "
                 f"{_list(item['stored_datasets'])}.",
@@ -728,6 +757,8 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             "- The human manual annotations are the reference standard; the evaluated predictions are "
             "the LLM-derived database contents. Dataset spellings were normalized only for case, "
             "punctuation, obvious abbreviations, and the explicit OGB prefixes in the annotations.",
+            "- Dataset names and dataset-table pairs are displayed in case-insensitive natural "
+            "alphabetical order throughout the report.",
             "- An LLM true positive requires the same positive paper-dataset or dataset-table pair in the "
             "manual reference and LLM/database output. Result values, models, and metrics were not manually "
             "annotated and are outside this evaluation.",

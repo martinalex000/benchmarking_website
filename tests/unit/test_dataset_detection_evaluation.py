@@ -86,3 +86,32 @@ def test_report_names_llm_as_evaluated_system() -> None:
     assert "precision and recall below measure the LLM/database output, not the human" in report
     assert "Candidate LLM false negative" in report
     assert "Candidate LLM false positive" in report
+
+
+def test_perfect_match_message_precedes_itemization() -> None:
+    annotation = _annotation("2304.10074", 4, 1)
+    database_evidence = {
+        "2304.10074": {
+            evaluation._name_key("ogbl-collab"): _stored("ogbl-collab", "Table 2"),
+            evaluation._name_key("ogbl-ddi"): _stored("ogbl-ddi", "Table 1"),
+            evaluation._name_key("ogbl-citation2"): _stored("ogbl-citation2", "Table 1"),
+            evaluation._name_key("ogbl-ppa"): _stored("ogbl-ppa", "Table 1"),
+        }
+    }
+    result = evaluation.evaluate([annotation], database_evidence, {"2304.10074": 4})
+
+    report = evaluation.render_report(result, "test-hash")
+    heading_position = report.index("### 2304.10074")
+    perfect_position = report.index("**Perfect manual–LLM match:**", heading_position)
+    itemization_position = report.index("- **Manual reference status:**", heading_position)
+
+    assert heading_position < perfect_position < itemization_position
+
+
+def test_dataset_names_use_consistent_natural_order() -> None:
+    assert evaluation._sorted_names(["ZINC-12k", "cora", "ZINC-2k", "CiteSeer"]) == [
+        "CiteSeer",
+        "cora",
+        "ZINC-2k",
+        "ZINC-12k",
+    ]
