@@ -89,6 +89,8 @@ def test_report_names_llm_as_evaluated_system() -> None:
     assert "different Amazon dataset version" in report
     assert "- **Dataset-specific manual findings:**" in report
     assert "  - **Amazon2M:**" in report
+    assert "Absolute counts: TP 1, FP 1, TN 0, FN 0" in report
+    assert "precision fraction 1/2, recall fraction 1/1" in report
 
 
 def test_perfect_match_message_precedes_itemization() -> None:
