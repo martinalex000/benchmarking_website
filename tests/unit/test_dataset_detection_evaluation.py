@@ -85,7 +85,8 @@ def test_report_names_llm_as_evaluated_system() -> None:
     assert "System being evaluated:** the LLM-derived extraction" in report
     assert "precision and recall below measure the LLM/database output, not the human" in report
     assert "Candidate LLM false negative" in report
-    assert "Candidate LLM false positive" in report
+    assert "Confirmed LLM false positive" in report
+    assert "different Amazon dataset version" in report
 
 
 def test_perfect_match_message_precedes_itemization() -> None:
@@ -115,3 +116,49 @@ def test_dataset_names_use_consistent_natural_order() -> None:
         "ZINC-2k",
         "ZINC-12k",
     ]
+
+
+def test_follow_up_adjudications_enter_strict_metrics() -> None:
+    annotations = [
+        _annotation("1710.03059", 4, 1),
+        _annotation("1905.12560", 4, 2),
+        _annotation("2403.07954", 3, 3),
+    ]
+    database_evidence = {
+        "1710.03059": {
+            evaluation._name_key(name): _stored(name, "Table 1")
+            for name in ("CiteSeer", "Cora", "PPI", "PubMed")
+        },
+        "1905.12560": {
+            evaluation._name_key(name): _stored(name, "Table 1")
+            for name in ("COLLAB", "CSL", "MUTAG", "PROTEINS")
+        },
+        "2403.07954": {
+            evaluation._name_key(name): _stored(name, "Table 1")
+            for name in ("Actor", "Penn94", "Squirrel")
+        },
+    }
+
+    result = evaluation.evaluate(
+        annotations,
+        database_evidence,
+        {"1710.03059": 4, "1905.12560": 4, "2403.07954": 3},
+    )
+
+    summary = result["summary"]
+    assert summary["strict_paper_count"] == 3
+    assert summary["qualified_paper_count"] == 0
+    assert summary["paper_level"]["true_positive"] == 3
+    assert summary["dataset_level"]["true_positive"] == 11
+    assert summary["dataset_level"]["false_negative"] == 11
+    assert summary["dataset_level"]["false_positive"] == 0
+    assert summary["table_reference_level"]["false_negative"] == 9
+    assert summary["table_reference_level"]["false_positive"] == 3
+    assert summary["manual_adjudication"] == {
+        "confirmed_dataset_false_negatives": 11,
+        "confirmed_dataset_false_positives": 0,
+        "confirmed_table_false_negatives": 9,
+        "confirmed_table_false_positives": 3,
+        "unresolved_dataset_discrepancies": 0,
+        "unresolved_table_discrepancies": 0,
+    }

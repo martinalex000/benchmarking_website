@@ -42,6 +42,15 @@ class DatabaseDataset:
     protocols: set[str] = field(default_factory=set)
 
 
+@dataclass(frozen=True)
+class ManualAdjudication:
+    """Follow-up decision about discrepancies found in the first comparison."""
+
+    summary: str
+    confirms_dataset_discrepancies: bool = False
+    confirms_table_discrepancies: bool = False
+
+
 def _refs(*values: tuple[str, str | tuple[str, ...]]) -> tuple[tuple[str, tuple[str, ...]], ...]:
     normalized: list[tuple[str, tuple[str, ...]]] = []
     for dataset, refs in values:
@@ -125,13 +134,23 @@ _MANUAL_TRUTH: dict[str, ManualTruth] = {
         qualification="Only five dataset-to-table assignments were explicit; table metrics exclude this paper.",
     ),
     "1710.03059": ManualTruth(
-        None,
-        annotated_datasets=("Cora", "CiteSeer", "PubMed", "BlogCatalog", "POS", "PPI"),
-        qualification="Manual compatibility was 'partially' without a dataset-level split.",
+        True,
+        ("Cora", "CiteSeer", "PubMed", "BlogCatalog", "POS", "PPI"),
+        qualification="Compatibility was confirmed in manual follow-up; table mapping remains incomplete.",
     ),
     "2403.07954": ManualTruth(
         True,
-        ("Cora", "CiteSeer", "PubMed", "Actor", "Chameleon", "Squirrel"),
+        (
+            "Cora",
+            "CiteSeer",
+            "PubMed",
+            "Actor",
+            "Chameleon",
+            "Squirrel",
+            "Penn94",
+            "Genius",
+            "ogbn-arxiv",
+        ),
         table_refs=_refs(
             *(
                 (dataset, "Table 2")
@@ -143,7 +162,10 @@ _MANUAL_TRUTH: dict[str, ManualTruth] = {
                     "Chameleon",
                     "Squirrel",
                 )
-            )
+            ),
+            ("Penn94", "Table 8"),
+            ("Genius", "Table 8"),
+            ("ogbn-arxiv", "Table 8"),
         ),
         table_refs_complete=True,
     ),
@@ -162,8 +184,8 @@ _MANUAL_TRUTH: dict[str, ManualTruth] = {
         table_refs_complete=True,
     ),
     "1905.12560": ManualTruth(
-        None,
-        annotated_datasets=(
+        True,
+        (
             "CSL",
             "IMDB-BINARY",
             "IMDB-MULTI",
@@ -172,7 +194,7 @@ _MANUAL_TRUTH: dict[str, ManualTruth] = {
             "PTC",
             "PROTEINS",
         ),
-        qualification="Manual judgment was 'yes?' and questioned the evaluation protocols.",
+        qualification="Compatibility was confirmed in manual follow-up; table mapping remains incomplete.",
     ),
     "2010.05788": ManualTruth(
         None,
@@ -192,6 +214,50 @@ _MANUAL_TRUTH: dict[str, ManualTruth] = {
     "2402.18974": ManualTruth(False),
     "2505.22252": ManualTruth(False),
     "2502.15054": ManualTruth(False),
+}
+
+
+_ADJUDICATIONS: dict[str, ManualAdjudication] = {
+    "2003.13663": ManualAdjudication(
+        "Confirmed: Cora results are in Table 2; Table 1 contains statistics only.",
+        confirms_table_discrepancies=True,
+    ),
+    "2206.08005": ManualAdjudication(
+        "Confirmed: all reported dataset and table discrepancies are real.",
+        confirms_dataset_discrepancies=True,
+        confirms_table_discrepancies=True,
+    ),
+    "2401.14155": ManualAdjudication(
+        "Confirmed: the paper uses a different Amazon dataset version, not Amazon2M.",
+        confirms_dataset_discrepancies=True,
+    ),
+    "1903.02428": ManualAdjudication(
+        "Confirmed: despite the older non-standard benchmarking setup, the manually listed datasets "
+        "are compatible and the LLM missed the reported subset.",
+        confirms_dataset_discrepancies=True,
+    ),
+    "1710.03059": ManualAdjudication(
+        "Confirmed: the manually identified datasets are compatible; BlogCatalog and POS are genuine "
+        "LLM misses.",
+        confirms_dataset_discrepancies=True,
+    ),
+    "2403.07954": ManualAdjudication(
+        "Confirmed: Table 1 contains statistics, Table 2 contains the main results, and Table 8 adds "
+        "Genius, ogbn-arxiv, and Penn94.",
+        confirms_dataset_discrepancies=True,
+        confirms_table_discrepancies=True,
+    ),
+    "2508.05070": ManualAdjudication(
+        "Confirmed: Table 1 contains untracked synthetic graphs; CLUSTER and MNIST results are not in "
+        "Table 1, and the manual table assignments are correct.",
+        confirms_dataset_discrepancies=True,
+        confirms_table_discrepancies=True,
+    ),
+    "1905.12560": ManualAdjudication(
+        "Confirmed: the 10-fold cross-validation setup was conventional for the period, so the listed "
+        "datasets are compatible.",
+        confirms_dataset_discrepancies=True,
+    ),
 }
 
 
@@ -304,6 +370,7 @@ def evaluate(
     for annotation in annotations:
         paper_id = annotation["arxiv_id"]
         truth = _MANUAL_TRUTH[paper_id]
+        adjudication = _ADJUDICATIONS.get(paper_id)
         stored = database_evidence.get(paper_id, {})
         stored_keys = set(stored)
         expected_by_key = {_name_key(name): name for name in truth.expected_datasets}
@@ -358,6 +425,7 @@ def evaluate(
                 "manual_notes": annotation.get("manual_notes", ""),
                 "strict_paper_label": truth.strict_paper_label,
                 "qualification": truth.qualification,
+                "manual_adjudication": adjudication.summary if adjudication else "",
                 "database_result_rows": actual_count,
                 "expected_compatible_datasets": _sorted_names(truth.expected_datasets),
                 "annotated_datasets_for_qualified_case": _sorted_names(truth.annotated_datasets),
@@ -405,6 +473,30 @@ def evaluate(
     reviewed_truth = [_MANUAL_TRUTH[row["arxiv_id"]] for row in annotations]
     strict_count = sum(item.strict_paper_label is not None for item in reviewed_truth)
     qualified_count = len(reviewed_truth) - strict_count
+    confirmed_dataset_fn = sum(
+        len(item["missing_datasets"])
+        for item in details
+        if (adjudication := _ADJUDICATIONS.get(item["arxiv_id"]))
+        and adjudication.confirms_dataset_discrepancies
+    )
+    confirmed_dataset_fp = sum(
+        len(item["unexpected_datasets"])
+        for item in details
+        if (adjudication := _ADJUDICATIONS.get(item["arxiv_id"]))
+        and adjudication.confirms_dataset_discrepancies
+    )
+    confirmed_table_fn = sum(
+        len(item["missing_table_pairs"])
+        for item in details
+        if (adjudication := _ADJUDICATIONS.get(item["arxiv_id"]))
+        and adjudication.confirms_table_discrepancies
+    )
+    confirmed_table_fp = sum(
+        len(item["unexpected_table_pairs"])
+        for item in details
+        if (adjudication := _ADJUDICATIONS.get(item["arxiv_id"]))
+        and adjudication.confirms_table_discrepancies
+    )
     return {
         "summary": {
             "paper_count": len(annotations),
@@ -447,6 +539,18 @@ def evaluate(
                 "precision_wilson_95": _wilson(table_tp, table_tp + table_fp),
                 "recall_wilson_95": _wilson(table_tp, table_tp + table_fn),
             },
+            "manual_adjudication": {
+                "confirmed_dataset_false_negatives": confirmed_dataset_fn,
+                "confirmed_dataset_false_positives": confirmed_dataset_fp,
+                "confirmed_table_false_negatives": confirmed_table_fn,
+                "confirmed_table_false_positives": confirmed_table_fp,
+                "unresolved_dataset_discrepancies": (
+                    dataset_fn + dataset_fp - confirmed_dataset_fn - confirmed_dataset_fp
+                ),
+                "unresolved_table_discrepancies": (
+                    table_fn + table_fp - confirmed_table_fn - confirmed_table_fp
+                ),
+            },
         },
         "papers": details,
     }
@@ -464,36 +568,63 @@ def _list(values: list[str]) -> str:
     return ", ".join(values) if values else "none"
 
 
+def _discrepancy_state(item: dict[str, Any], level: str) -> tuple[str, str]:
+    adjudication = _ADJUDICATIONS.get(item["arxiv_id"])
+    confirmed = bool(
+        adjudication
+        and (
+            adjudication.confirms_dataset_discrepancies
+            if level == "dataset"
+            else adjudication.confirms_table_discrepancies
+        )
+    )
+    return ("x", "Confirmed") if confirmed else (" ", "Candidate")
+
+
 def _discrepancy_checkboxes(item: dict[str, Any]) -> list[str]:
     """Render editable checks with the evaluated system named explicitly."""
     lines = ["", "#### Discrepancy checks", ""]
     checkbox_count = 0
     if item["strict_paper_label"] is not None:
+        dataset_check, dataset_status = _discrepancy_state(item, "dataset")
+        table_check, table_status = _discrepancy_state(item, "table")
+        dataset_suffix = (
+            "Confirmed in manual follow-up." if dataset_status == "Confirmed" else "Adjudication:"
+        )
+        table_suffix = (
+            "Confirmed in manual follow-up." if table_status == "Confirmed" else "Adjudication:"
+        )
         for value in item["missing_datasets"]:
             lines.append(
-                f"- [ ] **Candidate LLM false negative — paper-dataset pair:** `{value}`. "
+                f"- [{dataset_check}] **{dataset_status} LLM false negative — paper-dataset pair:** "
+                f"`{value}`. "
                 "Manual reference: compatible and present. LLM/database output: absent. "
-                "Adjudication:"
+                f"{dataset_suffix}"
             )
             checkbox_count += 1
         for value in item["unexpected_datasets"]:
             lines.append(
-                f"- [ ] **Candidate LLM false positive — paper-dataset pair:** `{value}`. "
+                f"- [{dataset_check}] **{dataset_status} LLM false positive — paper-dataset pair:** "
+                f"`{value}`. "
                 "Manual reference: absent or incompatible. LLM/database output: present. "
-                "Adjudication:"
+                f"{dataset_suffix}"
             )
             checkbox_count += 1
         if item["table_refs_scored"]:
             for value in item["missing_table_pairs"]:
                 lines.append(
-                    f"- [ ] **Candidate LLM false negative — dataset-table pair:** `{value}`. "
-                    "Manual reference: present. LLM/database output: absent. Adjudication:"
+                    f"- [{table_check}] **{table_status} LLM false negative — dataset-table pair:** "
+                    f"`{value}`. "
+                    "Manual reference: present. LLM/database output: absent. "
+                    f"{table_suffix}"
                 )
                 checkbox_count += 1
             for value in item["unexpected_table_pairs"]:
                 lines.append(
-                    f"- [ ] **Candidate LLM false positive — dataset-table pair:** `{value}`. "
-                    "Manual reference: absent. LLM/database output: present. Adjudication:"
+                    f"- [{table_check}] **{table_status} LLM false positive — dataset-table pair:** "
+                    f"`{value}`. "
+                    "Manual reference: absent. LLM/database output: present. "
+                    f"{table_suffix}"
                 )
                 checkbox_count += 1
         elif item["missing_table_pairs"]:
@@ -543,6 +674,7 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
     paper = summary["paper_level"]
     dataset = summary["dataset_level"]
     table = summary["table_reference_level"]
+    adjudication = summary["manual_adjudication"]
     details = result["papers"]
 
     lines = [
@@ -562,12 +694,12 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         "- **LLM precision** = manually confirmed LLM-positive items / all LLM-positive items.",
         "- **LLM recall** = manually annotated positive items recovered by the LLM/database / all "
         "manual positive items.",
-        "- **Candidate LLM false negative (missing)** = present in the manual reference but absent "
+        "- **LLM false negative (missing)** = present in the manual reference but absent "
         "from the LLM/database output.",
-        "- **Candidate LLM false positive (unexpected)** = present in the LLM/database output but "
+        "- **LLM false positive (unexpected)** = present in the LLM/database output but "
         "absent or incompatible in the manual reference.",
-        "- “Candidate” means the item still needs the requested manual double-check. Each candidate "
-        "has an editable checkbox below.",
+        "- **Confirmed** means the discrepancy was resolved in manual follow-up; **candidate** means it "
+        "still needs adjudication.",
         "",
         "## Executive summary",
         "",
@@ -582,8 +714,8 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         f"specificity {_percent(paper['specificity'])}, accuracy {_percent(paper['accuracy'])}.",
         f"- **LLM compatible-dataset performance:** precision {_percent(dataset['precision'])}, "
         f"recall {_percent(dataset['recall'])}, F1 {_percent(dataset['f1'])} "
-        f"({dataset['true_positive']} manual–LLM matches; {dataset['false_negative']} manual-only candidate "
-        f"LLM false negatives; {dataset['false_positive']} LLM-only candidate false positives). "
+        f"({dataset['true_positive']} manual–LLM matches; {dataset['false_negative']} manual-only "
+        f"LLM false negatives; {dataset['false_positive']} LLM-only false positives). "
         f"The manual reference contains {dataset['true_positive'] + dataset['false_negative']} positive "
         f"paper-dataset pairs; the LLM/database returned "
         f"{dataset['true_positive'] + dataset['false_positive']} positive pairs.",
@@ -591,8 +723,8 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         f"papers: "
         f"precision {_percent(table['precision'])}, recall {_percent(table['recall'])}, "
         f"F1 {_percent(table['f1'])} ({table['true_positive']} manual–LLM matches; "
-        f"{table['false_negative']} manual-only candidate LLM false negatives; "
-        f"{table['false_positive']} LLM-only candidate false positives). "
+        f"{table['false_negative']} manual-only LLM false negatives; "
+        f"{table['false_positive']} LLM-only false positives). "
         f"The manual reference contains {table['true_positive'] + table['false_negative']} positive "
         f"dataset-table pairs; the LLM/database returned "
         f"{table['true_positive'] + table['false_positive']} positive pairs.",
@@ -602,6 +734,14 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         f"{_interval(dataset['recall_wilson_95'])}; table precision "
         f"{_interval(table['precision_wilson_95'])} and recall "
         f"{_interval(table['recall_wilson_95'])}.",
+        f"- **Manual follow-up status:** all {dataset['false_negative'] + dataset['false_positive']} "
+        f"strict dataset discrepancies are confirmed ({adjudication['confirmed_dataset_false_negatives']} "
+        f"LLM false negatives and {adjudication['confirmed_dataset_false_positives']} LLM false positives); "
+        f"unresolved: {adjudication['unresolved_dataset_discrepancies']}. All "
+        f"{table['false_negative'] + table['false_positive']} scored dataset-table discrepancies are "
+        f"confirmed ({adjudication['confirmed_table_false_negatives']} LLM false negatives and "
+        f"{adjudication['confirmed_table_false_positives']} LLM false positives); unresolved: "
+        f"{adjudication['unresolved_table_discrepancies']}.",
         "",
         "The LLM's main weakness in this testbed is recall and table association, not coarse paper "
         "detection. Relative to the manual reference, the LLM/database usually identifies that a paper "
@@ -616,6 +756,7 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         "2401.14155",
         "2010.05788",
         "1905.12560",
+        "1710.03059",
         "2403.07954",
         "2508.05070",
         "1903.02428",
@@ -625,42 +766,48 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
     by_id = {item["arxiv_id"]: item for item in details}
     priority_explanations = {
         "2401.14155": (
-            "Candidate LLM false positive: the LLM/database contains four Amazon2M rows from Table 2. "
-            "The manual reference identifies Table 2 as a statistics table and marks the anomaly-detection "
-            "experiments incompatible."
+            "Confirmed LLM false positive: the LLM/database labels four rows as Amazon2M, but the paper "
+            "uses a different Amazon dataset version; its Table 2 contains statistics rather than "
+            "compatible benchmark results."
         ),
         "2010.05788": (
             "Potential LLM false negative requiring adjudication: the LLM/database has zero rows, while "
             "the qualified manual note says one MNIST value from Table 1 could be compatible."
         ),
         "1905.12560": (
-            "Potential LLM/downstream protocol false positives: the LLM/database marks 17 rows across "
-            "COLLAB, CSL, MUTAG, and PROTEINS as standard, while the manual reference questions the split, "
-            "cross-validation setup, and absence of a test set."
+            "The manual follow-up accepts the period-typical 10-fold cross-validation protocol. COLLAB, "
+            "CSL, MUTAG, and PROTEINS are therefore LLM true positives; IMDB-BINARY, IMDB-MULTI, and PTC "
+            "are confirmed LLM false negatives."
+        ),
+        "1710.03059": (
+            "The manual follow-up confirms all six named datasets as compatible. The LLM recovered "
+            "CiteSeer, Cora, PPI, and PubMed but missed BlogCatalog and POS."
         ),
         "2403.07954": (
-            "Candidate LLM false negatives: four manual-compatible datasets are absent (Chameleon, "
-            "CiteSeer, Cora, PubMed). Candidate LLM false positives: Penn94 and the LLM Table 1 associations "
-            "for Actor/Squirrel, where the manual reference says Table 2."
+            "Confirmed LLM false negatives: Chameleon, CiteSeer, Cora, Genius, ogbn-arxiv, and PubMed. "
+            "Penn94 is a true dataset match, but belongs to appendix Table 8 with Genius and ogbn-arxiv. "
+            "The LLM's Table 1 associations are false positives because Table 1 contains statistics; "
+            "Actor and Squirrel results are in Table 2."
         ),
         "2508.05070": (
-            "Candidate LLM false negatives: five manual-compatible datasets are absent (CIFAR10, "
-            "PATTERN, Peptides-func, Peptides-struct, ZINC-12k). Candidate LLM false positives: "
-            "Eccentricity and LLM Table 1 associations for CLUSTER/MNIST, where the manual reference says Table 2."
+            "Confirmed LLM false negatives: CIFAR10, PATTERN, Peptides-func, Peptides-struct, and "
+            "ZINC-12k. Eccentricity is a confirmed LLM false positive because Table 1 contains untracked "
+            "synthetic graphs; CLUSTER and MNIST are true dataset matches but their Table 1 associations "
+            "are false positives."
         ),
         "1903.02428": (
-            "Candidate LLM false negatives: four manual-compatible datasets are absent (Cora, "
+            "Confirmed LLM false negatives: four manual-compatible datasets are absent (Cora, "
             "IMDB-BINARY, ModelNet10, REDDIT-BINARY). The explicit table reference also differs: "
             "manual MUTAG Table 2 versus LLM/database Table 1."
         ),
         "2206.08005": (
-            "Candidate LLM false negatives: manual-compatible MUV and HIV are absent. Candidate LLM "
+            "Confirmed LLM false negatives: manual-compatible HIV and MUV are absent. Confirmed LLM "
             "false positive: BBBP has an additional LLM/database Table 2 association absent from the "
             "manual reference."
         ),
         "2003.13663": (
-            "The manual and LLM agree on Cora, but the manual reference says Table 2 while the "
-            "LLM/database stores the two result rows as Table 1."
+            "The manual and LLM agree on Cora, but the confirmed result location is Table 2; Table 1 "
+            "contains statistics only, so the LLM/database Table 1 association is false."
         ),
     }
     available_priority_ids = [paper_id for paper_id in priority_ids if paper_id in by_id]
@@ -681,7 +828,8 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             f"- LLM true negatives relative to the manual reference: {paper['true_negative']}",
             f"- LLM false negatives relative to the manual reference: {paper['false_negative']}",
             "",
-            "The sole strict LLM paper-level false positive candidate is arXiv:2401.14155. There are no "
+            "The sole strict LLM paper-level false positive is the manually confirmed arXiv:2401.14155. "
+            "There are no "
             "strict LLM paper-level false negatives, but arXiv:2010.05788 remains a qualified potential "
             "LLM false negative.",
             "",
@@ -704,6 +852,11 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         lines.extend(
             [
                 f"- **Manual reference status:** {label}.",
+                *(
+                    [f"- **Manual follow-up adjudication:** {item['manual_adjudication']}"]
+                    if item["manual_adjudication"]
+                    else []
+                ),
                 f"- **LLM/database output:** {item['database_result_rows']} stored result rows; datasets: "
                 f"{_list(item['stored_datasets'])}.",
             ]
@@ -714,9 +867,9 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
                     f"- **Manual compatible datasets:** "
                     f"{_list(item['expected_compatible_datasets'])}.",
                     f"- **Manual–LLM dataset matches:** {_list(item['matched_datasets'])}.",
-                    f"- **Manual-only datasets (candidate LLM false negatives):** "
+                    f"- **Manual-only datasets (LLM false negatives):** "
                     f"{_list(item['missing_datasets'])}.",
-                    f"- **LLM-only datasets (candidate LLM false positives):** "
+                    f"- **LLM-only datasets (LLM false positives):** "
                     f"{_list(item['unexpected_datasets'])}.",
                 ]
             )
@@ -726,9 +879,9 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
                         f"- **Manual dataset-table pairs:** {_list(item['manual_table_pairs'])}.",
                         f"- **LLM/database dataset-table pairs:** "
                         f"{_list(item['database_table_pairs'])}.",
-                        f"- **Manual-only table pairs (candidate LLM false negatives):** "
+                        f"- **Manual-only table pairs (LLM false negatives):** "
                         f"{_list(item['missing_table_pairs'])}.",
-                        f"- **LLM-only table pairs (candidate LLM false positives):** "
+                        f"- **LLM-only table pairs (LLM false positives):** "
                         f"{_list(item['unexpected_table_pairs'])}.",
                     ]
                 )
@@ -743,8 +896,13 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
                 ]
             )
         if item["manual_reason"] or item["manual_notes"]:
+            rationale_label = (
+                "Original manual rationale (before follow-up)"
+                if item["manual_adjudication"]
+                else "Manual rationale"
+            )
             lines.append(
-                f"- **Manual rationale:** "
+                f"- **{rationale_label}:** "
                 f"{'; '.join(value for value in (item['manual_reason'], item['manual_notes']) if value)}"
             )
         lines.extend(_discrepancy_checkboxes(item))
@@ -764,8 +922,8 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             "annotated and are outside this evaluation.",
             "- Table scoring uses exact dataset-table pairs and only the six papers whose free-text table "
             "annotations could be assigned to every compatible dataset without guessing.",
-            "- Four qualified papers are excluded from strict rates: 1710.03059, 1905.12560, "
-            "2010.05788, and 2006.05535.",
+            "- Two qualified papers are excluded from strict rates: 2010.05788 and 2006.05535. "
+            "Manual follow-up moved 1710.03059 and 1905.12560 into the strict compatible set.",
             "- The cohort was deliberately stratified as 10 papers with and 10 without stored results. "
             "LLM paper-level precision and accuracy therefore describe this testbed, not corpus prevalence.",
             "- Wilson intervals are descriptive only. Dataset and table pairs within a paper are "
