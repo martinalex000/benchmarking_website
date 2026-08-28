@@ -87,6 +87,8 @@ def test_report_names_llm_as_evaluated_system() -> None:
     assert "Candidate LLM false negative" in report
     assert "Confirmed LLM false positive" in report
     assert "different Amazon dataset version" in report
+    assert "- **Dataset-specific manual findings:**" in report
+    assert "  - **Amazon2M:**" in report
 
 
 def test_perfect_match_message_precedes_itemization() -> None:

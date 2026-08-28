@@ -263,6 +263,138 @@ _ADJUDICATIONS: dict[str, ManualAdjudication] = {
 }
 
 
+_DATASET_FINDINGS: dict[str, tuple[tuple[str, str], ...]] = {
+    "2003.13663": (
+        (
+            "Cora",
+            "Tracked and correctly detected as a compatible dataset. The results are in Table 2; "
+            "the LLM's Table 1 association is wrong because Table 1 contains statistics only.",
+        ),
+    ),
+    "2206.08005": (
+        ("BACE", "Tracked, compatible, and correctly recovered from Table 1."),
+        (
+            "BBBP",
+            "Tracked and correctly recovered from Table 1; the additional LLM Table 2 association "
+            "is a confirmed false positive.",
+        ),
+        ("ClinTox", "Tracked, compatible, and correctly recovered from Table 1."),
+        ("HIV", "Compatible but missed by the LLM; untracked and excluded from scores."),
+        ("MUV", "Compatible but missed by the LLM; untracked and excluded from scores."),
+        ("SIDER", "Tracked, compatible, and correctly recovered from Table 1."),
+        ("Tox21", "Tracked, compatible, and correctly recovered from Table 1."),
+        ("ToxCast", "Tracked, compatible, and correctly recovered from Table 1."),
+    ),
+    "2401.14155": (
+        (
+            "Amazon2M",
+            "Tracked in the catalog, but not the dataset version used by this paper. The stored "
+            "Amazon2M association is therefore a confirmed LLM false positive.",
+        ),
+    ),
+    "1903.02428": (
+        ("CiteSeer", "Tracked, compatible, and recovered by the LLM; manually mapped to Table 1."),
+        ("COLLAB", "Tracked, compatible, and recovered by the LLM."),
+        ("Cora", "Tracked and compatible but missed by the LLM; manually mapped to Table 1."),
+        ("IMDB-BINARY", "Tracked and compatible but missed by the LLM."),
+        (
+            "ModelNet10",
+            "Compatible and manually mapped to Table 3, but missed by the LLM; untracked and excluded "
+            "from scores.",
+        ),
+        (
+            "MUTAG",
+            "Tracked and recovered, but the manual reference places the result in Table 2 while the "
+            "LLM/database uses Table 1. The paper's overall table mapping remains incomplete and unscored.",
+        ),
+        ("PROTEINS", "Tracked, compatible, and recovered by the LLM."),
+        ("PubMed", "Tracked, compatible, and recovered by the LLM; manually mapped to Table 1."),
+        ("REDDIT-BINARY", "Tracked and compatible but missed by the LLM."),
+    ),
+    "1710.03059": (
+        ("BlogCatalog", "Compatible but missed by the LLM; untracked and excluded from scores."),
+        ("CiteSeer", "Tracked, compatible, and recovered by the LLM."),
+        ("Cora", "Tracked, compatible, and recovered by the LLM."),
+        ("POS", "Compatible but missed by the LLM; untracked and excluded from scores."),
+        ("PPI", "Tracked, compatible, and recovered by the LLM."),
+        ("PubMed", "Tracked, compatible, and recovered by the LLM."),
+    ),
+    "2403.07954": (
+        (
+            "Actor",
+            "Tracked and detected, but its results are in Table 2; the LLM Table 1 association is a "
+            "confirmed table false positive.",
+        ),
+        ("Chameleon", "Tracked and compatible in Table 2 but missed by the LLM."),
+        ("CiteSeer", "Tracked and compatible in Table 2 but missed by the LLM."),
+        ("Cora", "Tracked and compatible in Table 2 but missed by the LLM."),
+        (
+            "Genius",
+            "Compatible in appendix Table 8 but missed by the LLM; untracked and excluded from scores.",
+        ),
+        ("ogbn-arxiv", "Tracked and compatible in appendix Table 8 but missed by the LLM."),
+        (
+            "Penn94",
+            "Tracked and detected, but its results are in appendix Table 8; the LLM Table 1 "
+            "association is a confirmed table false positive.",
+        ),
+        ("PubMed", "Tracked and compatible in Table 2 but missed by the LLM."),
+        (
+            "Squirrel",
+            "Tracked and detected, but its results are in Table 2; the LLM Table 1 association is a "
+            "confirmed table false positive.",
+        ),
+    ),
+    "2508.05070": (
+        ("CIFAR10", "Tracked and compatible in Table 2 but missed by the LLM."),
+        (
+            "CLUSTER",
+            "Tracked and detected, but its results are in Table 2 and definitely not Table 1; the LLM "
+            "Table 1 association is a confirmed false positive.",
+        ),
+        (
+            "Eccentricity",
+            "Tracked in the catalog, but its stored association comes from Table 1's synthetic-graph "
+            "experiments, which are outside this review's accepted results; counted as an LLM false positive.",
+        ),
+        (
+            "MNIST",
+            "Tracked and detected, but its results are in Table 2 and definitely not Table 1; the LLM "
+            "Table 1 association is a confirmed false positive.",
+        ),
+        ("PATTERN", "Tracked and compatible in Table 2 but missed by the LLM."),
+        ("Peptides-func", "Tracked and compatible in Table 3 but missed by the LLM."),
+        ("Peptides-struct", "Tracked and compatible in Table 3 but missed by the LLM."),
+        (
+            "ZINC-12k",
+            "Tracked as the ZINC subset variant; compatible in Table 2 but missed by the LLM.",
+        ),
+    ),
+    "1905.12560": (
+        ("COLLAB", "Tracked, compatible under the period-typical 10-fold protocol, and recovered."),
+        ("CSL", "Tracked, compatible under the period-typical 10-fold protocol, and recovered."),
+        (
+            "IMDB-BINARY",
+            "Tracked and compatible under the period-typical protocol, but missed by the LLM.",
+        ),
+        (
+            "IMDB-MULTI",
+            "Tracked and compatible under the period-typical protocol, but missed by the LLM.",
+        ),
+        ("MUTAG", "Tracked, compatible under the period-typical 10-fold protocol, and recovered."),
+        (
+            "PROTEINS",
+            "Tracked, compatible under the period-typical 10-fold protocol, and recovered.",
+        ),
+        (
+            "PTC",
+            "Compatible under the period-typical protocol but missed by the LLM; untracked and "
+            "excluded from scores.",
+        ),
+    ),
+}
+
+
 def _name_key(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", value.casefold())
 
@@ -468,6 +600,13 @@ def evaluate(
                 "strict_paper_label": truth.strict_paper_label,
                 "qualification": truth.qualification,
                 "manual_adjudication": adjudication.summary if adjudication else "",
+                "dataset_findings": [
+                    {"dataset": dataset, "finding": finding}
+                    for dataset, finding in sorted(
+                        _DATASET_FINDINGS.get(paper_id, ()),
+                        key=lambda entry: _natural_sort_key(entry[0]),
+                    )
+                ],
                 "database_result_rows": actual_count,
                 "expected_compatible_datasets": _sorted_names(expected_by_key.values()),
                 "excluded_untracked_manual_datasets": excluded_expected_datasets,
@@ -964,6 +1103,12 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
                 ),
             ]
         )
+        if item["dataset_findings"]:
+            lines.append("- **Dataset-specific manual findings:**")
+            lines.extend(
+                f"  - **{finding['dataset']}:** {finding['finding']}"
+                for finding in item["dataset_findings"]
+            )
         if item["strict_paper_label"] is not None:
             lines.extend(
                 [
