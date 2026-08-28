@@ -116,6 +116,7 @@ def test_dataset_names_use_consistent_natural_order() -> None:
         "ZINC-2k",
         "ZINC-12k",
     ]
+    assert evaluation._catalog_key("ZINC-12k") == evaluation._catalog_key("ZINC")
 
 
 def test_follow_up_adjudications_enter_strict_metrics() -> None:
@@ -143,6 +144,26 @@ def test_follow_up_adjudications_enter_strict_metrics() -> None:
         annotations,
         database_evidence,
         {"1710.03059": 4, "1905.12560": 4, "2403.07954": 3},
+        {
+            evaluation._catalog_key(name)
+            for name in (
+                "Actor",
+                "Chameleon",
+                "CiteSeer",
+                "COLLAB",
+                "Cora",
+                "CSL",
+                "IMDB-BINARY",
+                "IMDB-MULTI",
+                "MUTAG",
+                "ogbn-arxiv",
+                "Penn94",
+                "PPI",
+                "PROTEINS",
+                "PubMed",
+                "Squirrel",
+            )
+        },
     )
 
     summary = result["summary"]
@@ -150,15 +171,16 @@ def test_follow_up_adjudications_enter_strict_metrics() -> None:
     assert summary["qualified_paper_count"] == 0
     assert summary["paper_level"]["true_positive"] == 3
     assert summary["dataset_level"]["true_positive"] == 11
-    assert summary["dataset_level"]["false_negative"] == 11
+    assert summary["dataset_level"]["false_negative"] == 7
     assert summary["dataset_level"]["false_positive"] == 0
-    assert summary["table_reference_level"]["false_negative"] == 9
+    assert summary["table_reference_level"]["false_negative"] == 8
     assert summary["table_reference_level"]["false_positive"] == 3
     assert summary["manual_adjudication"] == {
-        "confirmed_dataset_false_negatives": 11,
+        "confirmed_dataset_false_negatives": 7,
         "confirmed_dataset_false_positives": 0,
-        "confirmed_table_false_negatives": 9,
+        "confirmed_table_false_negatives": 8,
         "confirmed_table_false_positives": 3,
         "unresolved_dataset_discrepancies": 0,
         "unresolved_table_discrepancies": 0,
     }
+    assert summary["tracking_scope"]["strict_manual_dataset_pairs_excluded"] == 4

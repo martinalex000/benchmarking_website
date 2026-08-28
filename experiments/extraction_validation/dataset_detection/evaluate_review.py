@@ -223,7 +223,8 @@ _ADJUDICATIONS: dict[str, ManualAdjudication] = {
         confirms_table_discrepancies=True,
     ),
     "2206.08005": ManualAdjudication(
-        "Confirmed: all reported dataset and table discrepancies are real.",
+        "Confirmed: the extraction discrepancies are real; HIV and MUV are nevertheless excluded "
+        "from scoring because they are not tracked in the database catalog.",
         confirms_dataset_discrepancies=True,
         confirms_table_discrepancies=True,
     ),
@@ -233,17 +234,18 @@ _ADJUDICATIONS: dict[str, ManualAdjudication] = {
     ),
     "1903.02428": ManualAdjudication(
         "Confirmed: despite the older non-standard benchmarking setup, the manually listed datasets "
-        "are compatible and the LLM missed the reported subset.",
+        "are compatible and the LLM missed the reported subset. ModelNet10 is untracked and excluded "
+        "from scoring.",
         confirms_dataset_discrepancies=True,
     ),
     "1710.03059": ManualAdjudication(
-        "Confirmed: the manually identified datasets are compatible; BlogCatalog and POS are genuine "
-        "LLM misses.",
+        "Confirmed: the manually identified datasets are compatible. BlogCatalog and POS are genuine "
+        "extraction misses but are untracked and therefore excluded from scoring.",
         confirms_dataset_discrepancies=True,
     ),
     "2403.07954": ManualAdjudication(
         "Confirmed: Table 1 contains statistics, Table 2 contains the main results, and Table 8 adds "
-        "Genius, ogbn-arxiv, and Penn94.",
+        "Genius, ogbn-arxiv, and Penn94. Genius is untracked and excluded from scoring.",
         confirms_dataset_discrepancies=True,
         confirms_table_discrepancies=True,
     ),
@@ -255,7 +257,7 @@ _ADJUDICATIONS: dict[str, ManualAdjudication] = {
     ),
     "1905.12560": ManualAdjudication(
         "Confirmed: the 10-fold cross-validation setup was conventional for the period, so the listed "
-        "datasets are compatible.",
+        "datasets are compatible. PTC is untracked and excluded from scoring.",
         confirms_dataset_discrepancies=True,
     ),
 }
@@ -263,6 +265,17 @@ _ADJUDICATIONS: dict[str, ManualAdjudication] = {
 
 def _name_key(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", value.casefold())
+
+
+_CATALOG_SCOPE_ALIASES = {
+    # The catalog stores the logical dataset as ZINC and the 12k subset as a variant.
+    "zinc12k": "zinc",
+}
+
+
+def _catalog_key(value: str) -> str:
+    key = _name_key(value)
+    return _CATALOG_SCOPE_ALIASES.get(key, key)
 
 
 def _table_key(value: str) -> str:
@@ -315,7 +328,7 @@ def load_annotations(path: Path) -> list[dict[str, str]]:
 
 def load_database_evidence(
     database: Path, paper_ids: list[str]
-) -> tuple[dict[str, dict[str, DatabaseDataset]], dict[str, int]]:
+) -> tuple[dict[str, dict[str, DatabaseDataset]], dict[str, int], set[str]]:
     placeholders = ",".join("?" for _ in paper_ids)
     connection = sqlite3.connect(f"file:{database}?mode=ro", uri=True)
     connection.row_factory = sqlite3.Row
@@ -333,6 +346,10 @@ def load_database_evidence(
             """,
             paper_ids,
         ).fetchall()
+        tracked_dataset_keys = {
+            _catalog_key(str(row["name"]))
+            for row in connection.execute("SELECT name FROM datasets").fetchall()
+        }
     finally:
         connection.close()
 
@@ -341,7 +358,7 @@ def load_database_evidence(
     for row in rows:
         paper_id = str(row["arxiv_id"])
         dataset = str(row["dataset"])
-        key = _name_key(dataset)
+        key = _catalog_key(dataset)
         item = evidence[paper_id].setdefault(key, DatabaseDataset(name=dataset))
         if row["table_ref"]:
             item.table_refs.add(str(row["table_ref"]))
@@ -350,7 +367,7 @@ def load_database_evidence(
         count = int(row["result_rows"])
         item.result_rows += count
         row_counts[paper_id] += count
-    return dict(evidence), row_counts
+    return dict(evidence), row_counts, tracked_dataset_keys
 
 
 def _dataset_names(items: dict[str, DatabaseDataset], keys: set[str]) -> list[str]:
@@ -361,6 +378,7 @@ def evaluate(
     annotations: list[dict[str, str]],
     database_evidence: dict[str, dict[str, DatabaseDataset]],
     database_row_counts: dict[str, int],
+    tracked_dataset_keys: set[str] | None = None,
 ) -> dict[str, Any]:
     paper_tp = paper_fp = paper_tn = paper_fn = 0
     dataset_tp = dataset_fp = dataset_fn = 0
@@ -372,8 +390,24 @@ def evaluate(
         truth = _MANUAL_TRUTH[paper_id]
         adjudication = _ADJUDICATIONS.get(paper_id)
         stored = database_evidence.get(paper_id, {})
-        stored_keys = set(stored)
-        expected_by_key = {_name_key(name): name for name in truth.expected_datasets}
+        if tracked_dataset_keys is None:
+            paper_tracked_keys = {
+                *stored,
+                *(_catalog_key(name) for name in truth.expected_datasets),
+                *(_catalog_key(name) for name in truth.annotated_datasets),
+            }
+        else:
+            paper_tracked_keys = tracked_dataset_keys
+        scored_stored = {key: item for key, item in stored.items() if key in paper_tracked_keys}
+        stored_keys = set(scored_stored)
+        expected_by_key = {
+            _catalog_key(name): name
+            for name in truth.expected_datasets
+            if _catalog_key(name) in paper_tracked_keys
+        }
+        excluded_expected_datasets = _sorted_names(
+            name for name in truth.expected_datasets if _catalog_key(name) not in paper_tracked_keys
+        )
         expected_keys = set(expected_by_key)
         matched_keys = expected_keys & stored_keys
         missing_keys = expected_keys - stored_keys
@@ -395,10 +429,13 @@ def evaluate(
 
         expected_table_pairs: set[tuple[str, str]] = set()
         for dataset, refs in truth.table_refs:
-            expected_table_pairs.update((_name_key(dataset), _table_key(ref)) for ref in refs)
+            if _catalog_key(dataset) in paper_tracked_keys:
+                expected_table_pairs.update(
+                    (_catalog_key(dataset), _table_key(ref)) for ref in refs
+                )
         stored_table_pairs = {
             (dataset_key, _table_key(table_ref))
-            for dataset_key, item in stored.items()
+            for dataset_key, item in scored_stored.items()
             for table_ref in item.table_refs
         }
         if truth.table_refs_complete:
@@ -406,7 +443,12 @@ def evaluate(
             table_fn += len(expected_table_pairs - stored_table_pairs)
             table_fp += len(stored_table_pairs - expected_table_pairs)
 
-        annotated_keys = {_name_key(name) for name in truth.annotated_datasets}
+        annotated_by_key = {
+            _catalog_key(name): name
+            for name in truth.annotated_datasets
+            if _catalog_key(name) in paper_tracked_keys
+        }
+        annotated_keys = set(annotated_by_key)
         manual_count = int(annotation.get("database_result_count") or 0)
         actual_count = database_row_counts.get(paper_id, 0)
         if manual_count != actual_count:
@@ -427,45 +469,64 @@ def evaluate(
                 "qualification": truth.qualification,
                 "manual_adjudication": adjudication.summary if adjudication else "",
                 "database_result_rows": actual_count,
-                "expected_compatible_datasets": _sorted_names(truth.expected_datasets),
-                "annotated_datasets_for_qualified_case": _sorted_names(truth.annotated_datasets),
-                "stored_datasets": _dataset_names(stored, stored_keys),
-                "matched_datasets": _dataset_names(stored, matched_keys),
+                "expected_compatible_datasets": _sorted_names(expected_by_key.values()),
+                "excluded_untracked_manual_datasets": excluded_expected_datasets,
+                "annotated_datasets_for_qualified_case": _sorted_names(annotated_by_key.values()),
+                "excluded_untracked_qualified_datasets": _sorted_names(
+                    name
+                    for name in truth.annotated_datasets
+                    if _catalog_key(name) not in paper_tracked_keys
+                ),
+                "stored_datasets": _dataset_names(scored_stored, stored_keys),
+                "excluded_untracked_stored_datasets": _dataset_names(
+                    stored, set(stored) - stored_keys
+                ),
+                "matched_datasets": _dataset_names(scored_stored, matched_keys),
                 "missing_datasets": _sorted_names(expected_by_key[key] for key in missing_keys),
-                "unexpected_datasets": _dataset_names(stored, extra_keys)
+                "unexpected_datasets": _dataset_names(scored_stored, extra_keys)
                 if truth.strict_paper_label is not None
                 else [],
                 "qualified_annotation_overlap": _dataset_names(
-                    stored, stored_keys & annotated_keys
+                    scored_stored, stored_keys & annotated_keys
                 ),
                 "qualified_annotation_missing": _sorted_names(
-                    name for name in truth.annotated_datasets if _name_key(name) not in stored_keys
+                    name for key, name in annotated_by_key.items() if key not in stored_keys
                 ),
                 "manual_table_pairs": _sorted_names(
-                    f"{dataset} — {ref}" for dataset, refs in truth.table_refs for ref in refs
+                    f"{dataset} — {ref}"
+                    for dataset, refs in truth.table_refs
+                    if _catalog_key(dataset) in paper_tracked_keys
+                    for ref in refs
+                ),
+                "excluded_untracked_manual_table_pairs": _sorted_names(
+                    f"{dataset} — {ref}"
+                    for dataset, refs in truth.table_refs
+                    if _catalog_key(dataset) not in paper_tracked_keys
+                    for ref in refs
                 ),
                 "database_table_pairs": _sorted_names(
                     f"{item.name} — {table_ref}"
-                    for item in stored.values()
+                    for item in scored_stored.values()
                     for table_ref in item.table_refs
                 ),
                 "missing_table_pairs": _sorted_names(
                     f"{dataset} — {ref}"
                     for dataset, refs in truth.table_refs
                     for ref in refs
-                    if (_name_key(dataset), _table_key(ref)) not in stored_table_pairs
+                    if _catalog_key(dataset) in paper_tracked_keys
+                    and (_catalog_key(dataset), _table_key(ref)) not in stored_table_pairs
                 ),
                 "unexpected_table_pairs": _sorted_names(
-                    f"{stored[dataset_key].name} — {table_ref}"
+                    f"{scored_stored[dataset_key].name} — {table_ref}"
                     for dataset_key, table_key in (stored_table_pairs - expected_table_pairs)
-                    for table_ref in stored[dataset_key].table_refs
+                    for table_ref in scored_stored[dataset_key].table_refs
                     if _table_key(table_ref) == table_key
                 )
                 if truth.table_refs_complete
                 else [],
                 "table_refs_scored": truth.table_refs_complete,
                 "database_protocols": sorted(
-                    {protocol for item in stored.values() for protocol in item.protocols}
+                    {protocol for item in scored_stored.values() for protocol in item.protocols}
                 ),
             }
         )
@@ -496,6 +557,16 @@ def evaluate(
         for item in details
         if (adjudication := _ADJUDICATIONS.get(item["arxiv_id"]))
         and adjudication.confirms_table_discrepancies
+    )
+    strict_excluded_dataset_pairs = sum(
+        len(item["excluded_untracked_manual_datasets"])
+        for item in details
+        if item["strict_paper_label"] is not None
+    )
+    qualified_excluded_dataset_pairs = sum(
+        len(item["excluded_untracked_qualified_datasets"])
+        for item in details
+        if item["strict_paper_label"] is None
     )
     return {
         "summary": {
@@ -549,6 +620,19 @@ def evaluate(
                 ),
                 "unresolved_table_discrepancies": (
                     table_fn + table_fp - confirmed_table_fn - confirmed_table_fp
+                ),
+            },
+            "tracking_scope": {
+                "catalog_dataset_count": (
+                    len(tracked_dataset_keys) if tracked_dataset_keys is not None else None
+                ),
+                "strict_manual_dataset_pairs_excluded": strict_excluded_dataset_pairs,
+                "qualified_manual_dataset_pairs_excluded": qualified_excluded_dataset_pairs,
+                "manual_table_pairs_excluded": sum(
+                    len(item["excluded_untracked_manual_table_pairs"]) for item in details
+                ),
+                "stored_dataset_pairs_excluded": sum(
+                    len(item["excluded_untracked_stored_datasets"]) for item in details
                 ),
             },
         },
@@ -675,6 +759,7 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
     dataset = summary["dataset_level"]
     table = summary["table_reference_level"]
     adjudication = summary["manual_adjudication"]
+    scope = summary["tracking_scope"]
     details = result["papers"]
 
     lines = [
@@ -683,6 +768,8 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         "> **Reference standard:** the manual annotations.  ",
         "> **System being evaluated:** the LLM-derived extraction represented by the current database.  ",
         "> **Important:** precision and recall below measure the LLM/database output, not the human reviewer.",
+        "> **Scoring scope:** only datasets present in the database catalog; manually identified "
+        "untracked datasets remain documented but do not affect any score.",
         "",
         "Operationally, “LLM/database output” means an LLM-extracted result that survived downstream "
         "normalization and protocol filtering and is currently stored. A discrepancy can therefore be "
@@ -709,17 +796,21 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         f"- **Manual reference:** {summary['strict_paper_count']} papers have strict compatible/incompatible "
         f"labels; {summary['qualified_paper_count']} ambiguous or protocol-qualified manual judgments are "
         "reported but excluded from strict LLM metrics.",
+        f"- **Tracked-dataset scope:** {scope['catalog_dataset_count']} catalog datasets. "
+        f"{scope['strict_manual_dataset_pairs_excluded']} strict manual paper-dataset pairs and "
+        f"{scope['manual_table_pairs_excluded']} manual dataset-table pairs were excluded as untracked; "
+        f"the database contributed {scope['stored_dataset_pairs_excluded']} untracked stored pairs.",
         f"- **LLM paper-inclusion performance:** precision {_percent(paper['precision'])}, "
         f"recall {_percent(paper['recall'])}, "
         f"specificity {_percent(paper['specificity'])}, accuracy {_percent(paper['accuracy'])}.",
-        f"- **LLM compatible-dataset performance:** precision {_percent(dataset['precision'])}, "
+        f"- **LLM tracked-dataset performance:** precision {_percent(dataset['precision'])}, "
         f"recall {_percent(dataset['recall'])}, F1 {_percent(dataset['f1'])} "
         f"({dataset['true_positive']} manual–LLM matches; {dataset['false_negative']} manual-only "
         f"LLM false negatives; {dataset['false_positive']} LLM-only false positives). "
         f"The manual reference contains {dataset['true_positive'] + dataset['false_negative']} positive "
         f"paper-dataset pairs; the LLM/database returned "
         f"{dataset['true_positive'] + dataset['false_positive']} positive pairs.",
-        f"- **LLM exact dataset-table performance** on {table['scored_paper_count']} fully interpretable "
+        f"- **LLM exact tracked-dataset-table performance** on {table['scored_paper_count']} fully interpretable "
         f"papers: "
         f"precision {_percent(table['precision'])}, recall {_percent(table['recall'])}, "
         f"F1 {_percent(table['f1'])} ({table['true_positive']} manual–LLM matches; "
@@ -735,10 +826,11 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         f"{_interval(table['precision_wilson_95'])} and recall "
         f"{_interval(table['recall_wilson_95'])}.",
         f"- **Manual follow-up status:** all {dataset['false_negative'] + dataset['false_positive']} "
-        f"strict dataset discrepancies are confirmed ({adjudication['confirmed_dataset_false_negatives']} "
+        f"strict tracked-dataset discrepancies are confirmed "
+        f"({adjudication['confirmed_dataset_false_negatives']} "
         f"LLM false negatives and {adjudication['confirmed_dataset_false_positives']} LLM false positives); "
         f"unresolved: {adjudication['unresolved_dataset_discrepancies']}. All "
-        f"{table['false_negative'] + table['false_positive']} scored dataset-table discrepancies are "
+        f"{table['false_negative'] + table['false_positive']} scored tracked-dataset-table discrepancies are "
         f"confirmed ({adjudication['confirmed_table_false_negatives']} LLM false negatives and "
         f"{adjudication['confirmed_table_false_positives']} LLM false positives); unresolved: "
         f"{adjudication['unresolved_table_discrepancies']}.",
@@ -748,7 +840,7 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         "contributes results, but frequently returns only a subset of the compatible datasets or attaches "
         "results to a different table.",
         "",
-        "## Highest-priority discrepancies",
+        "## Highest-priority findings",
         "",
     ]
 
@@ -777,14 +869,16 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
         "1905.12560": (
             "The manual follow-up accepts the period-typical 10-fold cross-validation protocol. COLLAB, "
             "CSL, MUTAG, and PROTEINS are therefore LLM true positives; IMDB-BINARY, IMDB-MULTI, and PTC "
-            "are confirmed LLM false negatives."
+            "were missed, but untracked PTC is excluded, leaving two scored LLM false negatives."
         ),
         "1710.03059": (
             "The manual follow-up confirms all six named datasets as compatible. The LLM recovered "
-            "CiteSeer, Cora, PPI, and PubMed but missed BlogCatalog and POS."
+            "all four tracked datasets: CiteSeer, Cora, PPI, and PubMed. BlogCatalog and POS were missed "
+            "but are untracked and excluded from the score."
         ),
         "2403.07954": (
-            "Confirmed LLM false negatives: Chameleon, CiteSeer, Cora, Genius, ogbn-arxiv, and PubMed. "
+            "Confirmed tracked-dataset LLM false negatives: Chameleon, CiteSeer, Cora, ogbn-arxiv, and "
+            "PubMed. Untracked Genius is excluded. "
             "Penn94 is a true dataset match, but belongs to appendix Table 8 with Genius and ogbn-arxiv. "
             "The LLM's Table 1 associations are false positives because Table 1 contains statistics; "
             "Actor and Squirrel results are in Table 2."
@@ -796,14 +890,14 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             "are false positives."
         ),
         "1903.02428": (
-            "Confirmed LLM false negatives: four manual-compatible datasets are absent (Cora, "
-            "IMDB-BINARY, ModelNet10, REDDIT-BINARY). The explicit table reference also differs: "
+            "Confirmed tracked-dataset LLM false negatives: Cora, IMDB-BINARY, and REDDIT-BINARY. "
+            "ModelNet10 was also missed but is untracked and excluded. The explicit table reference differs: "
             "manual MUTAG Table 2 versus LLM/database Table 1."
         ),
         "2206.08005": (
-            "Confirmed LLM false negatives: manual-compatible HIV and MUV are absent. Confirmed LLM "
-            "false positive: BBBP has an additional LLM/database Table 2 association absent from the "
-            "manual reference."
+            "HIV and MUV are genuine extraction misses but are untracked and excluded from scoring. "
+            "The remaining confirmed tracked discrepancy is BBBP's additional LLM/database Table 2 "
+            "association, which is absent from the manual reference."
         ),
         "2003.13663": (
             "The manual and LLM agree on Cora, but the confirmed result location is Table 2; Table 1 "
@@ -857,15 +951,32 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
                     if item["manual_adjudication"]
                     else []
                 ),
-                f"- **LLM/database output:** {item['database_result_rows']} stored result rows; datasets: "
+                f"- **LLM/database output:** {item['database_result_rows']} stored result rows; "
+                f"tracked datasets: "
                 f"{_list(item['stored_datasets'])}.",
+                *(
+                    [
+                        f"- **Untracked LLM/database datasets (excluded):** "
+                        f"{_list(item['excluded_untracked_stored_datasets'])}."
+                    ]
+                    if item["excluded_untracked_stored_datasets"]
+                    else []
+                ),
             ]
         )
         if item["strict_paper_label"] is not None:
             lines.extend(
                 [
-                    f"- **Manual compatible datasets:** "
+                    f"- **Manual tracked compatible datasets:** "
                     f"{_list(item['expected_compatible_datasets'])}.",
+                    *(
+                        [
+                            f"- **Manual untracked datasets (excluded from scores):** "
+                            f"{_list(item['excluded_untracked_manual_datasets'])}."
+                        ]
+                        if item["excluded_untracked_manual_datasets"]
+                        else []
+                    ),
                     f"- **Manual–LLM dataset matches:** {_list(item['matched_datasets'])}.",
                     f"- **Manual-only datasets (LLM false negatives):** "
                     f"{_list(item['missing_datasets'])}.",
@@ -876,7 +987,16 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             if item["table_refs_scored"]:
                 lines.extend(
                     [
-                        f"- **Manual dataset-table pairs:** {_list(item['manual_table_pairs'])}.",
+                        f"- **Manual tracked dataset-table pairs:** "
+                        f"{_list(item['manual_table_pairs'])}.",
+                        *(
+                            [
+                                f"- **Manual untracked dataset-table pairs (excluded from scores):** "
+                                f"{_list(item['excluded_untracked_manual_table_pairs'])}."
+                            ]
+                            if item["excluded_untracked_manual_table_pairs"]
+                            else []
+                        ),
                         f"- **LLM/database dataset-table pairs:** "
                         f"{_list(item['database_table_pairs'])}.",
                         f"- **Manual-only table pairs (LLM false negatives):** "
@@ -889,11 +1009,24 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             lines.extend(
                 [
                     f"- **Why this manual judgment is unscored:** {item['qualification']}",
-                    f"- **LLM/database overlap with manually named datasets:** "
+                    f"- **LLM/database overlap with manually named tracked datasets:** "
                     f"{_list(item['qualified_annotation_overlap'])}.",
-                    f"- **Manual-only named datasets (not counted as LLM false negatives):** "
+                    f"- **Manual-only tracked datasets (unscored):** "
                     f"{_list(item['qualified_annotation_missing'])}.",
+                    *(
+                        [
+                            f"- **Manually named untracked datasets (excluded):** "
+                            f"{_list(item['excluded_untracked_qualified_datasets'])}."
+                        ]
+                        if item["excluded_untracked_qualified_datasets"]
+                        else []
+                    ),
                 ]
+            )
+        if item["excluded_untracked_manual_table_pairs"] and not item["table_refs_scored"]:
+            lines.append(
+                f"- **Manual untracked dataset-table pairs (excluded from scores):** "
+                f"{_list(item['excluded_untracked_manual_table_pairs'])}."
             )
         if item["manual_reason"] or item["manual_notes"]:
             rationale_label = (
@@ -915,6 +1048,9 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
             "- The human manual annotations are the reference standard; the evaluated predictions are "
             "the LLM-derived database contents. Dataset spellings were normalized only for case, "
             "punctuation, obvious abbreviations, and the explicit OGB prefixes in the annotations.",
+            "- Scores include only datasets present in the current `datasets` catalog table. Untracked "
+            "manual datasets are retained in each paper section but excluded from TP, FP, FN, precision, "
+            "recall, and table-pair counts. ZINC-12k resolves to the tracked ZINC subset variant.",
             "- Dataset names and dataset-table pairs are displayed in case-insensitive natural "
             "alphabetical order throughout the report.",
             "- An LLM true positive requires the same positive paper-dataset or dataset-table pair in the "
@@ -943,8 +1079,15 @@ def render_report(result: dict[str, Any], annotation_hash: str) -> str:
 def run(args: argparse.Namespace) -> dict[str, Any]:
     annotations = load_annotations(args.annotations)
     paper_ids = [row["arxiv_id"] for row in annotations]
-    database_evidence, database_row_counts = load_database_evidence(args.database, paper_ids)
-    result = evaluate(annotations, database_evidence, database_row_counts)
+    database_evidence, database_row_counts, tracked_dataset_keys = load_database_evidence(
+        args.database, paper_ids
+    )
+    result = evaluate(
+        annotations,
+        database_evidence,
+        database_row_counts,
+        tracked_dataset_keys,
+    )
     annotation_hash = hashlib.sha256(args.annotations.read_bytes()).hexdigest()
     result["metadata"] = {
         "generated_at": datetime.now(UTC).isoformat(),
