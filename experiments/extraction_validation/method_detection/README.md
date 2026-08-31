@@ -17,6 +17,18 @@ The command creates these ignored local review artifacts:
 - `manual_review.md` — linked PDFs, database evidence, and a paper-by-paper checklist;
 - `pdfs/with_database_results/` and `pdfs/zero_database_results/` — the same papers as before.
 
+For a more compact review organized around comparable dataset/method panels, run:
+
+```bash
+UV_CACHE_DIR=/tmp/benchmarking-uv-cache uv run python \
+  experiments/extraction_validation/method_detection/compile_grouped_review.py
+```
+
+This writes `grouped_manual_review.md`. It compares the raw extracted method names with the names
+that reached the database and provides editable missing-method and detection/normalization comment
+fields for every dataset group. The compiler overwrites that file, so compile it once before manual
+annotation; do not rerun it over an annotated copy.
+
 For each `database_method` row, use `manual_decision`:
 
 - `correct` — a distinct method with quantitative results in scope;
