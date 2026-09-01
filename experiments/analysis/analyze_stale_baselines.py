@@ -24,6 +24,24 @@ def main() -> None:
     for path in run(args.db, args.output_dir):
         print(path)
 
+    peer_reviewed_dir = args.output_dir / "peer_reviewed"
+    peer_reviewed_rows, peer_reviewed_metadata = load_analysis_rows(
+        args.db, peer_reviewed_only=True
+    )
+    peer_reviewed_paths = write_outputs(
+        peer_reviewed_rows, peer_reviewed_metadata, peer_reviewed_dir
+    )
+    peer_reviewed_paths.append(
+        write_report(
+            peer_reviewed_rows,
+            peer_reviewed_metadata,
+            peer_reviewed_dir,
+            peer_reviewed_paths,
+        )
+    )
+    for path in peer_reviewed_paths:
+        print(path)
+
     conference_dir = args.output_dir / "conference_only"
     conference_rows, conference_metadata = load_analysis_rows(args.db, conference_only=True)
     conference_paths = write_outputs(conference_rows, conference_metadata, conference_dir)

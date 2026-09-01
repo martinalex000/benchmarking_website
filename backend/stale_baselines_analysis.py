@@ -1,10 +1,10 @@
-"""Analyze whether papers reused materially inferior, stale benchmark baselines.
+"""Analyze whether papers reported materially inferior, stale benchmark results.
 
-The analysis is deliberately restricted to curated primary-metric rows and uses
-the same leaderboard eligibility and model canonicalization as the Hugo export.
-For each baseline row, the prior reference excludes the paper being evaluated;
-this prevents a paper's own result from making its baseline look historically
-competitive.
+The analysis is deliberately restricted to curated primary-metric rows from
+peer-reviewed publication venues and uses the same leaderboard eligibility and
+model canonicalization as the Hugo export. The prior reference excludes the
+paper being evaluated, preventing a paper's own result from making its result
+look historically competitive.
 """
 
 from __future__ import annotations
@@ -39,7 +39,10 @@ from backend.export_to_hugo import (
     clear_export_caches,
 )
 from backend.models import Result
-from backend.venue import is_conference_publication_venue
+from backend.venue import (
+    is_conference_publication_venue,
+    is_peer_reviewed_publication_venue,
+)
 
 LRGB_SHORT_NAME = "lrgb"
 LRGB_DATASETS = frozenset(
@@ -157,7 +160,7 @@ def _gap_closed_percentage(
     sota: float | None,
     higher_is_better: bool,
 ) -> float | None:
-    """Return the better baseline result's share of the dataset SOTA gap."""
+    """Return the better prior result's share of the dataset SOTA gap."""
     prior_gap = _directional_shortfall(reported, prior, higher_is_better)
     sota_gap = _directional_shortfall(reported, sota, higher_is_better)
     if prior_gap is None or sota_gap is None or sota_gap <= 1e-12:
@@ -258,8 +261,8 @@ def _comparison_row(
     }
 
 
-def _conference_truth(results: list[Result], higher_is_better: bool) -> dict[str, Any]:
-    """Return the best conference-published result for each canonical model."""
+def _filtered_truth(results: list[Result], higher_is_better: bool) -> dict[str, Any]:
+    """Return the best result for each canonical model in a filtered cohort."""
     best: dict[str, Result] = {}
     for result in results:
         model_key = _model_key(result.effective_model_name)
@@ -291,35 +294,41 @@ def _conference_truth(results: list[Result], higher_is_better: bool) -> dict[str
 
 
 def load_analysis_rows(
-    db_path: Path, *, conference_only: bool = False
+    db_path: Path, *, conference_only: bool = False, peer_reviewed_only: bool = True
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Load comparable baseline rows and return rows plus population metadata."""
+    """Load comparable reported rows from the requested publication cohort."""
     clear_export_caches()
     clear_at_pub_caches()
     engine, session_factory = _ro_session(db_path)
     try:
         with session_factory() as session:
             results = _primary_metric_results(session)
-            baseline_results = [result for result in results if bool(result.is_baseline)]
-            conference_results = [
+            peer_reviewed_results = [
                 result
                 for result in results
+                if is_peer_reviewed_publication_venue(
+                    result.paper.venue if result.paper else ""
+                )
+            ]
+            conference_results = [
+                result
+                for result in peer_reviewed_results
                 if is_conference_publication_venue(result.paper.venue if result.paper else "")
             ]
             if conference_only:
-                baseline_results = [
-                    result
-                    for result in baseline_results
-                    if is_conference_publication_venue(result.paper.venue if result.paper else "")
-                ]
+                reported_results = conference_results
+            elif peer_reviewed_only:
+                reported_results = peer_reviewed_results
+            else:
+                reported_results = results
             rows: list[dict[str, Any]] = []
             skipped_no_truth = 0
             skipped_no_value = 0
             timeline_cache: dict[tuple[str, str, bool], Any] = {}
             truth_cache: dict[tuple[str, str, bool], dict[str, dict[str, Any]]] = {}
             sota_cache: dict[tuple[str, str, bool], dict[str, Any] | None] = {}
-            conference_rows_cache: dict[tuple[str, str], list[Result]] = {}
-            for result in baseline_results:
+            filtered_rows_cache: dict[tuple[str, str], list[Result]] = {}
+            for result in reported_results:
                 reported = _finite(result.display_value)
                 if reported is None:
                     skipped_no_value += 1
@@ -329,18 +338,21 @@ def load_analysis_rows(
                 higher = bool(result.higher_is_better)
                 cache_key = (dataset.name, metric, higher)
                 if cache_key not in truth_cache:
-                    if conference_only:
-                        dataset_results = conference_rows_cache.setdefault(
+                    if conference_only or peer_reviewed_only:
+                        cohort_results = (
+                            conference_results if conference_only else peer_reviewed_results
+                        )
+                        dataset_results = filtered_rows_cache.setdefault(
                             (dataset.name, metric),
                             [
                                 candidate
-                                for candidate in conference_results
+                                for candidate in cohort_results
                                 if candidate.dataset_variant.dataset.name == dataset.name
                                 and candidate.metric_name == metric
                                 and bool(candidate.higher_is_better) == higher
                             ],
                         )
-                        truth = _conference_truth(dataset_results, higher)
+                        truth = _filtered_truth(dataset_results, higher)
                         truth_cache[cache_key] = truth
                         sota_cache[cache_key] = (
                             max(truth.values(), key=lambda row: row["value"])
@@ -360,9 +372,9 @@ def load_analysis_rows(
                     skipped_no_truth += 1
                     continue
                 if cache_key not in timeline_cache:
-                    if conference_only:
+                    if conference_only or peer_reviewed_only:
                         timeline_cache[cache_key] = AtPubTimeline(
-                            conference_rows_cache[(dataset.name, metric)], higher
+                            filtered_rows_cache[(dataset.name, metric)], higher
                         )
                     else:
                         from backend.at_pub_timeline import at_pub_timeline
@@ -385,8 +397,9 @@ def load_analysis_rows(
             metadata = {
                 "db": str(db_path),
                 "eligible_primary_rows": len(results),
-                "baseline_rows": len(baseline_results),
-                "comparable_baseline_rows": len(rows),
+                "reported_rows": len(reported_results),
+                "comparable_reported_rows": len(rows),
+                "peer_reviewed_only": peer_reviewed_only or conference_only,
                 "skipped_no_today_truth": skipped_no_truth,
                 "skipped_no_value": skipped_no_value,
                 "lrgb_rows": sum(row["benchmark"] == LRGB_SHORT_NAME for row in rows),
@@ -681,7 +694,7 @@ def plot_benchmark_paper_counts(rows: list[dict[str, Any]], output_dir: Path) ->
         _grouped_counts(rows, dimension="benchmark", unit="papers"),
         output_dir,
         stem="figure_1_stale_baselines_by_benchmark_papers",
-        title="Stale baselines across benchmark groups",
+        title="Stale reported results across benchmark groups",
         unit_label="papers",
         footer=(
             "Each paper is counted once per benchmark group. Red takes precedence over yellow: a paper with "
@@ -695,7 +708,7 @@ def plot_dataset_paper_counts(rows: list[dict[str, Any]], output_dir: Path) -> l
         _grouped_counts(rows, dimension="dataset", unit="papers", min_papers=5),
         output_dir,
         stem="figure_2_stale_baselines_by_dataset_papers",
-        title="Stale baselines across individual datasets",
+        title="Stale reported results across individual datasets",
         unit_label="papers",
         footer=(
             "Datasets reported by fewer than five papers are omitted. Each paper is counted once per dataset; "
@@ -709,10 +722,10 @@ def plot_benchmark_entry_counts(rows: list[dict[str, Any]], output_dir: Path) ->
         _grouped_counts(rows, dimension="benchmark", unit="entries"),
         output_dir,
         stem="figure_3_stale_baselines_by_benchmark_entries",
-        title="Stale baseline entries across benchmark groups",
-        unit_label="baseline entries",
+        title="Stale reported entries across benchmark groups",
+        unit_label="reported entries",
         footer=(
-            "Unlike the paper-level plot, every comparable baseline entry contributes one count. Red and yellow "
+            "Unlike the paper-level plot, every comparable reported entry contributes one count. Red and yellow "
             "are mutually exclusive by construction."
         ),
     )
@@ -723,10 +736,10 @@ def plot_dataset_entry_counts(rows: list[dict[str, Any]], output_dir: Path) -> l
         _grouped_counts(rows, dimension="dataset", unit="entries", min_papers=5),
         output_dir,
         stem="figure_4_stale_baselines_by_dataset_entries",
-        title="Stale baseline entries across individual datasets",
-        unit_label="baseline entries",
+        title="Stale reported entries across individual datasets",
+        unit_label="reported entries",
         footer=(
-            "Datasets reported by fewer than five papers are omitted. Every comparable baseline entry contributes "
+            "Datasets reported by fewer than five papers are omitted. Every comparable reported entry contributes "
             "one count; red and yellow are mutually exclusive by construction."
         ),
     )
@@ -1118,7 +1131,7 @@ def plot_availability_lag(rows: list[dict[str, Any]], output_dir: Path) -> list[
     ax.set_yticks(positions, groups)
     ax.set_xlabel("Years since the prior best was published")
     ax.set_title(
-        "Better results were often available well before stale baselines were reported",
+        "Better results were often available well before stale results were reported",
         loc="left",
         fontsize=14,
         fontweight="bold",
@@ -1129,7 +1142,7 @@ def plot_availability_lag(rows: list[dict[str, Any]], output_dir: Path) -> list[
     fig.text(
         0.1,
         0.01,
-        "Lag is measured from the prior reference paper to the paper reusing the baseline. "
+        "Lag is measured from the prior reference paper to the paper reporting the result. "
         "Benchmark groups with fewer than five stale entries are omitted.",
         fontsize=8.5,
         color="#4f5965",
@@ -1191,7 +1204,7 @@ def write_report(
         "",
         "## Main result",
         "",
-        f"Across {overall['rows']:,} comparable primary-metric baseline rows, "
+        f"Across {overall['rows']:,} comparable primary-metric reported-result rows, "
         f"{overall['prior_better']:,} ({pct(overall['prior_better'], overall['rows'])}) "
         "were materially below a result from another paper already available by the "
         "paper's publication date. A further "
@@ -1200,7 +1213,7 @@ def write_report(
         "",
         f"At the paper level, {all_papers['papers_with_prior_better']:,}/{all_papers['papers']:,} "
         f"papers ({pct(all_papers['papers_with_prior_better'], all_papers['papers'])}) contained "
-        "at least one stale baseline; red takes precedence over yellow when a paper has both types of gap.",
+        "at least one stale result; red takes precedence over yellow when a paper has both types of gap.",
         "",
         f"For LRGB, {lrgb_prior:,}/{lrgb_rows:,} rows ({pct(lrgb_prior, lrgb_rows)}) "
         "were already behind a prior result, and "
@@ -1214,13 +1227,13 @@ def write_report(
         "",
         f"At the paper level, {lrgb_papers['papers_with_prior_better']}/{lrgb_papers['papers']} "
         f"LRGB papers ({pct(lrgb_papers['papers_with_prior_better'], lrgb_papers['papers'])}) "
-        "contained at least one baseline already behind a prior result; "
+        "contained at least one result already behind a prior result; "
         f"{lrgb_papers['papers_with_any_gap']}/{lrgb_papers['papers']} "
         f"({pct(lrgb_papers['papers_with_any_gap'], lrgb_papers['papers'])}) contained a gap to either a prior or later best.",
         "",
-        "These are row-level descriptive statistics, not evidence that the baseline was deliberately copied. "
+        "These are row-level descriptive statistics, not evidence that a method was deliberately copied. "
         "They quantify a reproducibility/benchmarking failure mode: a paper reports a materially inferior "
-        "value for a named baseline despite a better value being available in the literature.",
+        "value for a named method despite a better value being available in the literature.",
         "",
         "## Recommended paper figures",
         "",
@@ -1229,13 +1242,13 @@ def write_report(
         "2. **Dataset detail:** use `figure_2_stale_baselines_by_dataset_papers`. It shows individual datasets "
         "and omits datasets reported by fewer than five papers.",
         "3. **Entry-level benchmark groups:** use `figure_3_stale_baselines_by_benchmark_entries` to show how the "
-        "picture changes when every baseline entry, rather than every paper, contributes one count.",
+        "picture changes when every reported entry, rather than every paper, contributes one count.",
         "4. **Entry-level datasets:** use `figure_4_stale_baselines_by_dataset_entries` for the corresponding "
         "individual-dataset view, using the same five-paper minimum.",
         "5. **Selected dataset families:** use `figure_6_stale_baselines_selected_dataset_papers` to compare "
         "the requested citation, OGB, heterophilic, LRGB, and TU dataset blocks.",
         "6. **Selected result-level appendix:** use `figure_7_stale_baselines_selected_dataset_results` for "
-        "the same dataset families while counting every comparable baseline result.",
+        "the same dataset families while counting every comparable reported result.",
         "7. **Selected paper percentages:** use `figure_8_stale_baselines_selected_dataset_paper_percentages` "
         "for the normalized paper-level comparison.",
         "8. **Selected result percentages:** use `figure_9_stale_baselines_selected_dataset_result_percentages` "
@@ -1247,18 +1260,19 @@ def write_report(
         "",
         "## Definition and caveats",
         "",
-        "- Population: stored rows marked `is_baseline`, restricted to the dataset primary metric and the "
-        "current leaderboard eligibility contract.",
+        "- Population: stored rows from trusted, non-ArXiv publication venues, restricted to the dataset "
+        "primary metric and the current leaderboard eligibility contract. The database has no explicit "
+        "peer-review flag; publication venue is used as the operational proxy.",
         "- `prior_better`: the reported value is worse than the best result from another paper published on or "
         "before the evaluated paper, after accounting for both reported standard deviations when present.",
         "- Gap closure is the fraction of the reported-result-to-dataset-SOTA gap covered by the better "
-        "baseline result available at publication. The gap-closure histograms include only `prior_better` "
+        "reported result available at publication. The gap-closure histograms include only `prior_better` "
         "results; future-only results have no publication-time reference and are excluded.",
         "- The evaluated paper is explicitly excluded from the prior reference. This is stricter than the "
         "existing page-of-shame display and avoids self-comparison artifacts.",
         "- Model names are compared after the repository's canonicalization and implementation-marker cleanup. "
         "Extraction errors, model mismatches, and protocol differences can still affect the estimate.",
-        "- Rows are not independent: one paper can contribute many baselines. The paper-level plot handles this "
+        "- Rows are not independent: one paper can contribute many reported results. The paper-level plot handles this "
         "for its primary count; report both units in the paper and consider a cluster bootstrap for uncertainty.",
         "",
         "## Output files",

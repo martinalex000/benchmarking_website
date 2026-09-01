@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
-from backend.venue import is_conference_publication_venue
+from backend.venue import is_conference_publication_venue, is_peer_reviewed_publication_venue
 
 STD_REPORTING_RESULT_THRESHOLD = 0.30
 
@@ -227,7 +227,7 @@ def _is_nonzero_finite(value: object) -> bool:
 
 
 def load_paper_observations(
-    db_path: Path, *, conference_only: bool = False
+    db_path: Path, *, conference_only: bool = False, peer_reviewed_only: bool = False
 ) -> list[PaperObservation]:
     """Load result-bearing papers and their raw nonzero ``metric_std`` status.
 
@@ -253,6 +253,8 @@ def load_paper_observations(
         for paper_id, raw_date, raw_std, venue in rows:
             if conference_only and not is_conference_publication_venue(venue):
                 continue
+            if peer_reviewed_only and not is_peer_reviewed_publication_venue(venue):
+                continue
             paper_date = parse_paper_date(raw_date)
             if paper_date is None:
                 continue
@@ -270,7 +272,7 @@ def load_paper_observations(
 
 
 def load_paper_result_observations(
-    db_path: Path, *, conference_only: bool = False
+    db_path: Path, *, conference_only: bool = False, peer_reviewed_only: bool = False
 ) -> list[PaperResultObservation]:
     """Load per-paper result counts for the 30% std-reporting analysis."""
     resolved_path = db_path.expanduser().resolve()
@@ -289,6 +291,8 @@ def load_paper_result_observations(
         )
         for paper_id, raw_date, raw_std, venue in rows:
             if conference_only and not is_conference_publication_venue(venue):
+                continue
+            if peer_reviewed_only and not is_peer_reviewed_publication_venue(venue):
                 continue
             paper_date = parse_paper_date(raw_date)
             if paper_date is None:

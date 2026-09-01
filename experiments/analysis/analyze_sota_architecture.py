@@ -428,6 +428,18 @@ def run_analysis(
         weight=weight,
         filename_suffix="_conference_only",
     )
+    peer_reviewed_rows = [row for row in after_rows if row.is_peer_reviewed_paper]
+    (
+        peer_reviewed_figure_path,
+        peer_reviewed_task_figure_path,
+        peer_reviewed_single_winner_figure_path,
+    ) = _write_figure_set(
+        peer_reviewed_rows,
+        output_dir,
+        min_papers=min_papers,
+        weight=weight,
+        filename_suffix="_peer_reviewed",
+    )
     return (
         report_path,
         figure_path,
@@ -436,6 +448,9 @@ def run_analysis(
         conference_figure_path,
         conference_task_figure_path,
         conference_single_winner_figure_path,
+        peer_reviewed_figure_path,
+        peer_reviewed_task_figure_path,
+        peer_reviewed_single_winner_figure_path,
     )
 
 
@@ -461,6 +476,9 @@ def main() -> int:
         conference_figure,
         conference_task_level_figure,
         conference_single_winner_figure,
+        peer_reviewed_figure,
+        peer_reviewed_task_level_figure,
+        peer_reviewed_single_winner_figure,
     ) = run_analysis(
         output_dir=args.output_dir,
         min_papers=args.min_papers,
@@ -474,6 +492,9 @@ def main() -> int:
     print(f"Conference-only figure: {conference_figure}")
     print(f"Conference-only task-level figure: {conference_task_level_figure}")
     print(f"Conference-only single-winner figure: {conference_single_winner_figure}")
+    print(f"Peer-reviewed figure: {peer_reviewed_figure}")
+    print(f"Peer-reviewed task-level figure: {peer_reviewed_task_level_figure}")
+    print(f"Peer-reviewed single-winner figure: {peer_reviewed_single_winner_figure}")
     return 0
 
 

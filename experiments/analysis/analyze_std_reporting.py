@@ -226,6 +226,25 @@ def main() -> int:
         conference_threshold_summaries,
         conference_dir / "std_reporting_yearly_percentage_gt30_from_2017.pdf",
     )
+
+    peer_reviewed_dir = args.output_dir / "peer_reviewed"
+    peer_reviewed_observations = load_paper_observations(args.db, peer_reviewed_only=True)
+    peer_reviewed_summaries = summarize_quarterly(peer_reviewed_observations)
+    peer_reviewed_yearly_summaries = summarize_yearly(peer_reviewed_observations)
+    peer_reviewed_threshold_summaries = summarize_yearly_by_std_fraction(
+        load_paper_result_observations(args.db, peer_reviewed_only=True)
+    )
+    write_csv(peer_reviewed_summaries, peer_reviewed_dir / "std_reporting_over_time.csv")
+    write_report(peer_reviewed_summaries, peer_reviewed_dir / "report.md")
+    write_figure(peer_reviewed_summaries, peer_reviewed_dir / "std_reporting_over_time.pdf")
+    write_yearly_percentage_figure(
+        peer_reviewed_yearly_summaries,
+        peer_reviewed_dir / "std_reporting_yearly_percentage_from_2017.pdf",
+    )
+    write_threshold_yearly_percentage_figure(
+        peer_reviewed_threshold_summaries,
+        peer_reviewed_dir / "std_reporting_yearly_percentage_gt30_from_2017.pdf",
+    )
     for summary in summaries:
         print(
             f"{summary.quarter}: {summary.papers_with_std}/{summary.total_papers} "

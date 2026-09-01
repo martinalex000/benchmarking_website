@@ -102,6 +102,16 @@ def is_conference_publication_venue(venue: str | None) -> bool:
     )
 
 
+def is_peer_reviewed_publication_venue(venue: str | None) -> bool:
+    """Return whether stored venue metadata indicates a real publication venue.
+
+    The database does not store a peer-review flag. A trusted, non-ArXiv venue
+    is therefore the repository's operational proxy for a peer-reviewed paper.
+    """
+    raw = " ".join(str(venue or "").split()).strip()
+    return bool(raw) and not is_arxiv_only_venue(raw) and not is_untrusted_venue(raw)
+
+
 def _is_log_in_journal_name(name: str) -> bool:
     return re.fullmatch(r"log\s+in", name.strip(), flags=re.IGNORECASE) is not None
 

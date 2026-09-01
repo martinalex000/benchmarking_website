@@ -13,15 +13,42 @@ The database schema (simplified):
 Each ``results`` row links a paper to a dataset variant.
 """
 
+import shutil
 import sqlite3
+import subprocess
 import sys
+import tempfile
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.transforms import ScaledTranslation
 
-from backend.venue import is_conference_publication_venue
+from backend.venue import is_conference_publication_venue, is_peer_reviewed_publication_venue
+
+
+def _crop_pdf(pdf_path: Path) -> None:
+    """Trim whitespace around a generated PDF, preserving the original on failure."""
+    if shutil.which("pdfcrop") is None:
+        print(f"Warning: pdfcrop is unavailable; keeping {pdf_path}", file=sys.stderr)
+        return
+    with tempfile.NamedTemporaryFile(
+        prefix=f".{pdf_path.stem}.", suffix=".pdf", dir=pdf_path.parent, delete=False
+    ) as temporary:
+        cropped_path = Path(temporary.name)
+    try:
+        subprocess.run(
+            ["pdfcrop", "--quiet", str(pdf_path), str(cropped_path)],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        cropped_path.replace(pdf_path)
+    except (OSError, subprocess.CalledProcessError) as exc:
+        print(f"Warning: pdfcrop failed for {pdf_path}: {exc}", file=sys.stderr)
+    finally:
+        cropped_path.unlink(missing_ok=True)
 
 # --- Database introspection ---
 
@@ -226,6 +253,14 @@ def filter_conference_papers(df: pd.DataFrame) -> pd.DataFrame:
     return df.loc[mask].copy()
 
 
+def filter_peer_reviewed_papers(df: pd.DataFrame) -> pd.DataFrame:
+    """Keep rows whose source paper has a trusted non-ArXiv publication venue."""
+    if "paper_venue" not in df.columns:
+        raise ValueError("DataFrame must contain paper_venue for peer-reviewed filtering")
+    mask = df["paper_venue"].map(is_peer_reviewed_publication_venue)
+    return df.loc[mask].copy()
+
+
 # --- Aggregation & plotting ---
 
 
@@ -383,7 +418,9 @@ def plot_stacked_bar_charts(pivot_cnt, plot_name, PLOT_DIR):
     ax.set_ylim(0, period_totals.max() * 1.1)  # Add headroom for the n= labels
 
     fig.savefig(PLOT_DIR / f"{plot_name}s.png", dpi=150, bbox_inches="tight")
-    fig.savefig(PLOT_DIR / f"{plot_name}s.pdf", bbox_inches="tight")
+    pdf_path = PLOT_DIR / f"{plot_name}s.pdf"
+    fig.savefig(pdf_path, bbox_inches="tight")
+    _crop_pdf(pdf_path)
 
     return
 
@@ -424,5 +461,7 @@ def plot_line_charts(pivot_cnt, plot_name, PLOT_DIR, ylabel="Number of papers", 
     ax.set_ylim(0, pivot_cnt.to_numpy().max() * 1.1)
 
     fig.savefig(PLOT_DIR / f"{plot_name}.png", dpi=150, bbox_inches="tight")
-    fig.savefig(PLOT_DIR / f"{plot_name}.pdf", bbox_inches="tight")
+    pdf_path = PLOT_DIR / f"{plot_name}.pdf"
+    fig.savefig(pdf_path, bbox_inches="tight")
+    _crop_pdf(pdf_path)
     plt.close(fig)

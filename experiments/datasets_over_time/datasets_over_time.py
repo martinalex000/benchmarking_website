@@ -12,6 +12,7 @@ from datasets_over_time_helpers import (  # noqa: E402
     fetch_data_by_benchmarkgroup,
     fetch_data_by_dataset,
     filter_conference_papers,
+    filter_peer_reviewed_papers,
     list_tables,
     load_all_tables,
     plot_line_charts,
@@ -52,7 +53,9 @@ TIME_STEP = "Y"  # Choose the time step you want: "M" = 1 month, "3M" = 3 months
 
 # Date range filter (ISO format strings: "YYYY-MM-DD")
 START_DATE = "2019-01-01"
-END_DATE = "2026-12-31"
+# 2026 is intentionally excluded: the current-year paper count is too sparse
+# for a stable usage-over-time comparison.
+PLOT_END_DATE = "2025-12-31"
 BENCHMARK_START_YEARS = {
     "OGB": 2020,
     "Heterophilic Graphs": 2020,
@@ -75,7 +78,7 @@ conn.close()
 eligible_result_ids = {
     result.id for result in load_comparison_results() if result_is_leaderboard_eligible(result)
 }
-benchmarks_df = fetch_data_by_benchmarkgroup(DB_PATH, benchmark_list, START_DATE, END_DATE)
+benchmarks_df = fetch_data_by_benchmarkgroup(DB_PATH, benchmark_list, START_DATE, PLOT_END_DATE)
 benchmarks_df = benchmarks_df[benchmarks_df["result_id"].isin(eligible_result_ids)]
 benchmarks_pivot_share, benchmarks_pivot_cnt = compute_percentages_and_counts(
     benchmarks_df, "benchmark", DATA_DIR, TIME_STEP, save_csv=False, print_info=True
@@ -97,7 +100,7 @@ plot_line_charts(
 )
 
 # Plot per dataset
-dataset_df = fetch_data_by_dataset(DB_PATH, dataset_list, None, END_DATE)
+dataset_df = fetch_data_by_dataset(DB_PATH, dataset_list, None, PLOT_END_DATE)
 dataset_df = dataset_df[dataset_df["result_id"].isin(eligible_result_ids)]
 dataset_pivot_share, dataset_pivot_cnt = compute_percentages_and_counts(
     dataset_df, "dataset", DATA_DIR, TIME_STEP, save_csv=False, print_info=True
@@ -145,3 +148,44 @@ conference_dataset_pivot_share, conference_dataset_pivot_cnt = compute_percentag
     print_info=False,
 )
 plot_stacked_bar_charts(conference_dataset_pivot_cnt, "datasets", conference_plot_dir)
+
+# Repeat the paper-usage plots for all trusted non-ArXiv publication venues.
+peer_reviewed_data_dir = DATA_DIR / "peer_reviewed"
+peer_reviewed_plot_dir = PLOT_DIR / "peer_reviewed"
+peer_reviewed_benchmarks_df = filter_peer_reviewed_papers(benchmarks_df)
+peer_reviewed_benchmarks_pivot_share, peer_reviewed_benchmarks_pivot_cnt = compute_percentages_and_counts(
+    peer_reviewed_benchmarks_df,
+    "benchmark",
+    peer_reviewed_data_dir,
+    TIME_STEP,
+    save_csv=False,
+    print_info=False,
+)
+plot_stacked_bar_charts(peer_reviewed_benchmarks_pivot_cnt, "benchmarks", peer_reviewed_plot_dir)
+plot_line_charts(
+    peer_reviewed_benchmarks_pivot_cnt,
+    "benchmarks_lines",
+    peer_reviewed_plot_dir,
+    start_years=BENCHMARK_START_YEARS,
+)
+peer_reviewed_benchmarks_union_share = compute_union_relative_shares(
+    peer_reviewed_benchmarks_df, "benchmark", TIME_STEP
+)
+plot_line_charts(
+    peer_reviewed_benchmarks_union_share,
+    "benchmarks_relative_lines",
+    peer_reviewed_plot_dir,
+    ylabel="Share of papers (%)",
+    start_years=BENCHMARK_START_YEARS,
+)
+
+peer_reviewed_dataset_df = filter_peer_reviewed_papers(dataset_df)
+peer_reviewed_dataset_pivot_share, peer_reviewed_dataset_pivot_cnt = compute_percentages_and_counts(
+    peer_reviewed_dataset_df,
+    "dataset",
+    peer_reviewed_data_dir,
+    TIME_STEP,
+    save_csv=False,
+    print_info=False,
+)
+plot_stacked_bar_charts(peer_reviewed_dataset_pivot_cnt, "datasets", peer_reviewed_plot_dir)

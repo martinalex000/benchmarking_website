@@ -35,6 +35,14 @@ def main() -> None:
     for path in (*conference_outputs, *conference_figures):
         print(path)
 
+    peer_reviewed_dir = output_dir / "peer_reviewed"
+    peer_reviewed_comparisons = compare_results(results, peer_reviewed_only=True)
+    peer_reviewed_outputs = write_comparison_outputs(peer_reviewed_comparisons, peer_reviewed_dir)
+    peer_reviewed_figures = write_comparison_figures(peer_reviewed_comparisons, peer_reviewed_dir)
+    print(f"Peer-reviewed eligible datasets: {len(peer_reviewed_comparisons)}")
+    for path in (*peer_reviewed_outputs, *peer_reviewed_figures):
+        print(path)
+
 
 if __name__ == "__main__":
     main()

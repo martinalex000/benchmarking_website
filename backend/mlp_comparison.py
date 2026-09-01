@@ -5,6 +5,8 @@ from __future__ import annotations
 import csv
 import json
 import math
+import os
+import subprocess
 import tempfile
 from collections import defaultdict
 from collections.abc import Iterable
@@ -14,7 +16,7 @@ from typing import Any
 from backend.model_name_resolution import normalize_model_name_for_resolution
 from backend.models import Dataset, DatasetVariant, Result
 from backend.results_parser import result_is_leaderboard_eligible
-from backend.venue import is_conference_publication_venue
+from backend.venue import is_conference_publication_venue, is_peer_reviewed_publication_venue
 
 NODE_TASKS = frozenset({"node_classification", "node_regression"})
 HETEROPHILY_BENCHMARKS = frozenset({"Heterophilic Graphs", "Heterophily Benchmark"})
@@ -68,6 +70,25 @@ MLP_COMPARISON_COLORS = {
     "tied": "#F2A541",
     "worse": "#c43d4b",
 }
+
+
+def _crop_pdf(output_path: Path) -> None:
+    """Crop whitespace from a generated PDF in place using ``pdfcrop``."""
+    fd, cropped_path = tempfile.mkstemp(
+        prefix=f".{output_path.stem}-cropped-",
+        suffix=".pdf",
+        dir=output_path.parent,
+    )
+    os.close(fd)
+    Path(cropped_path).unlink()
+    try:
+        subprocess.run(
+            ["pdfcrop", "--quiet", str(output_path), cropped_path],
+            check=True,
+        )
+        os.replace(cropped_path, output_path)
+    finally:
+        Path(cropped_path).unlink(missing_ok=True)
 
 
 def _result_value(result: Any) -> float | None:
@@ -193,7 +214,11 @@ def _benchmark_group_label(dataset: Any) -> str:
 
 
 def compare_results(
-    results: Iterable[Result], *, min_papers: int = 10, conference_only: bool = False
+    results: Iterable[Result],
+    *,
+    min_papers: int = 10,
+    conference_only: bool = False,
+    peer_reviewed_only: bool = False,
 ) -> list[dict[str, Any]]:
     """Build one descriptive comparison row per eligible dataset.
 
@@ -204,9 +229,10 @@ def compare_results(
     """
     grouped: defaultdict[tuple[str, str], list[Any]] = defaultdict(list)
     for result in results:
-        if conference_only and not is_conference_publication_venue(
-            getattr(getattr(result, "paper", None), "venue", "")
-        ):
+        venue = getattr(getattr(result, "paper", None), "venue", "")
+        if conference_only and not is_conference_publication_venue(venue):
+            continue
+        if peer_reviewed_only and not is_peer_reviewed_publication_venue(venue):
             continue
         if is_comparison_eligible(result):
             dataset = result.dataset_variant.dataset
@@ -558,6 +584,7 @@ def write_comparison_figures(
         figure.savefig(png_path, dpi=180)
         figure.savefig(pdf_path)
         plt.close(figure)
+        _crop_pdf(pdf_path)
         return png_path, pdf_path
 
     method_paths = render_figure("method", "better_tied_worse.png", "better_tied_worse.pdf")

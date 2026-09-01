@@ -24,7 +24,7 @@ from backend.model_metadata_defaults import lookup_default_model_type
 from backend.models import DatasetVariant, Result
 from backend.override_handler import load_overrides
 from backend.results_parser import result_is_leaderboard_eligible
-from backend.venue import is_conference_publication_venue
+from backend.venue import is_conference_publication_venue, is_peer_reviewed_publication_venue
 
 TRANSFORMER_TYPES = frozenset({"graph_transformer", "hybrid"})
 DEFAULT_CATEGORY_ORDER = (
@@ -76,6 +76,11 @@ class AnalysisRow:
     def is_conference_paper(self) -> bool:
         """Return whether the paper has evidence of conference publication."""
         return is_conference_publication_venue(self.venue)
+
+    @property
+    def is_peer_reviewed_paper(self) -> bool:
+        """Return whether the paper has a trusted, non-ArXiv publication venue."""
+        return is_peer_reviewed_publication_venue(self.venue)
 
 
 @dataclass(frozen=True, slots=True)

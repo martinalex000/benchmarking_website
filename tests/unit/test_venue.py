@@ -10,6 +10,7 @@ from backend.venue import (
     export_published_venue,
     is_arxiv_only_venue,
     is_conference_publication_venue,
+    is_peer_reviewed_publication_venue,
     is_untrusted_s2_publication_venue,
     is_untrusted_venue,
     normalize_conference_short,
@@ -59,6 +60,16 @@ def test_is_arxiv_only_venue_keeps_real_venues(venue: str):
 )
 def test_is_conference_publication_venue(venue: str, expected: bool):
     assert is_conference_publication_venue(venue) is expected
+
+
+@pytest.mark.parametrize(
+    ("venue", "expected"),
+    [("NeurIPS 2024", True), ("Nature", True), ("arXiv", False), ("LOG IN", False)],
+)
+def test_is_peer_reviewed_publication_venue_uses_trusted_non_arxiv_venue(
+    venue: str, expected: bool
+):
+    assert is_peer_reviewed_publication_venue(venue) is expected
 
 
 @pytest.mark.parametrize(
