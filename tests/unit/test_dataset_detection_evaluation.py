@@ -93,6 +93,27 @@ def test_report_names_llm_as_evaluated_system() -> None:
     assert "precision fraction 1/2, recall fraction 1/1" in report
 
 
+def test_evaluate_records_database_snapshot_drift() -> None:
+    annotation = _annotation("2304.10074", 20, 1)
+    result = evaluation.evaluate(
+        [annotation],
+        {"2304.10074": {}},
+        {"2304.10074": 0},
+    )
+
+    assert result["summary"]["database_snapshot"] == {
+        "drift_count": 1,
+        "drifts": [
+            {
+                "arxiv_id": "2304.10074",
+                "annotation_count": 20,
+                "current_database_count": 0,
+            }
+        ],
+    }
+    assert result["papers"][0]["database_result_count_drift"] is True
+
+
 def test_perfect_match_message_precedes_itemization() -> None:
     annotation = _annotation("2304.10074", 4, 1)
     database_evidence = {
@@ -121,6 +142,32 @@ def test_dataset_names_use_consistent_natural_order() -> None:
         "ZINC-12k",
     ]
     assert evaluation._catalog_key("ZINC-12k") == evaluation._catalog_key("ZINC")
+
+
+def test_markdown_truth_reads_checked_and_missing_datasets(tmp_path) -> None:
+    review = tmp_path / "manual_review.md"
+    review.write_text(
+        """## 2508.05070 — TANGO
+
+### Datasets currently in the database
+
+- [x] Cora — `Standard split` (1 row)
+- [x] ZINC — `Standard split` (1 row)
+
+**Missing datasets (add names):**
+
+- Peptides-func/struct, Amazon-ratings
+
+### Methods currently in the database
+""",
+        encoding="utf-8",
+    )
+
+    truth = evaluation.load_markdown_dataset_truth(review, "2508.05070")
+
+    assert truth is not None
+    assert truth.expected_datasets == ("Cora", "ZINC", "Peptides-func", "Peptides-struct", "Amazon-ratings")
+    assert truth.table_refs_complete is False
 
 
 def test_follow_up_adjudications_enter_strict_metrics() -> None:
@@ -188,3 +235,104 @@ def test_follow_up_adjudications_enter_strict_metrics() -> None:
         "unresolved_table_discrepancies": 0,
     }
     assert summary["tracking_scope"]["strict_manual_dataset_pairs_excluded"] == 4
+
+
+def test_yaml_audit_distinguishes_detection_from_database_promotion() -> None:
+    annotation = _annotation("1903.02428", 0, 1)
+    yaml_evidence = {
+        "1903.02428": {
+            evaluation._catalog_key("Cora"): evaluation.YamlDataset(
+                names={"Cora"},
+                result_rows=6,
+                table_refs={"Table 1"},
+                protocols={"nonstandard"},
+            )
+        }
+    }
+    tracked_keys = {
+        evaluation._catalog_key(name)
+        for name in ("Cora", "CiteSeer", "PubMed", "MUTAG", "IMDB-BINARY", "REDDIT-BINARY")
+    }
+
+    result = evaluation.evaluate(
+        [annotation],
+        {},
+        {"1903.02428": 0},
+        tracked_keys,
+        yaml_evidence,
+    )
+
+    audits = {item["dataset"]: item for item in result["papers"][0]["yaml_dataset_audit"]}
+    assert audits["Cora"]["yaml_detected"] is True
+    assert audits["Cora"]["database_promoted"] is False
+    assert audits["Cora"]["yaml_result_rows"] == 6
+    assert audits["CiteSeer"]["yaml_detected"] is False
+    assert result["summary"]["yaml_discovery"] == {
+        "tracked_manual_positive_pairs": 6,
+        "tracked_manual_missing_pairs": 6,
+        "tracked_manual_missing_detected_in_yaml": 1,
+        "tracked_manual_missing_with_yaml_rows": 1,
+        "tracked_manual_missing_manifest_only": 0,
+        "tracked_manual_missing_absent_from_yaml": 5,
+        "tracked_manual_positive_detected_in_yaml": 1,
+        "tracked_manual_positive_absent_from_yaml": 5,
+    }
+    assert result["summary"]["raw_detection"] == {
+        "definition": (
+            "Tracked dataset name present in a raw YAML result row or discovered_datasets "
+            "manifest; strict papers only; table/protocol/database promotion ignored."
+        ),
+        "true_positive": 1,
+        "false_positive": 0,
+        "false_negative": 5,
+        "false_positive_on_manual_positive_papers": 0,
+        "false_positive_on_manual_negative_papers": 0,
+        "precision": 1.0,
+        "recall": pytest.approx(1 / 6),
+        "f1": pytest.approx(2 / 7),
+        "manifest_only": {
+            "true_positive": 0,
+            "false_positive": 0,
+            "false_negative": 6,
+            "precision": None,
+            "recall": 0.0,
+            "f1": 0.0,
+        },
+    }
+
+
+def test_load_yaml_dataset_evidence_collects_rows_and_notes(tmp_path) -> None:
+    artifact = tmp_path / "1903.02428" / "extracted" / "llm_output.yaml"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text(
+        """
+results:
+  results:
+    - dataset: Cora
+      table_ref: Table 1
+      protocol_decision: nonstandard
+    - dataset: Cora
+      table_ref: Table 2
+      protocol_decision: standard
+  discovered_datasets:
+    - name: ZINC-12k
+      table_refs: [Table 2]
+  extraction_notes: "[Cora] retained both protocol variants"
+  coverage_assessment: uncertain
+""",
+        encoding="utf-8",
+    )
+
+    evidence = evaluation.load_yaml_dataset_evidence(tmp_path, ["1903.02428"])
+    cora = evidence["1903.02428"][evaluation._catalog_key("Cora")]
+    assert cora.names == {"Cora"}
+    assert cora.result_rows == 2
+    assert cora.table_refs == {"Table 1", "Table 2"}
+    assert cora.protocols == {"nonstandard", "standard"}
+    assert cora.extraction_note == "[Cora] retained both protocol variants"
+    zinc = evidence["1903.02428"][evaluation._catalog_key("ZINC-12k")]
+    assert zinc.names == {"ZINC-12k"}
+    assert zinc.discovered_manifest is True
+    assert zinc.result_rows == 0
+    assert zinc.table_refs == {"Table 2"}
+    assert zinc.coverage_assessment == "uncertain"
