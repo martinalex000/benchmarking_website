@@ -27,6 +27,8 @@ aliases:
   Cham.: Chameleon
   Cifar10: CIFAR10
   Cifar100: CIFAR100
+  IMDB-B: IMDB-BINARY
+  IMDB-M: IMDB-MULTI
   # Misc short-name normalisations
   Ppi: PPI
   Reddit: REDDIT

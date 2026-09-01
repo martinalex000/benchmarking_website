@@ -49,11 +49,143 @@ STAT_TABLE_MARKERS = (
 )
 
 
+_STATISTICS_ROLE_PATTERNS = (
+    (
+        "statistics caption",
+        r"\b(?:statistics?|dataset\s+(?:details?|characteristics?|properties?)|summary)\b",
+    ),
+    ("node/edge counts", r"(?:#\s*(?:nodes|edges)|number\s+of\s+(?:nodes|edges)|\|\s*[VE]\s*\|)"),
+    ("graph counts", r"\b(?:#?\s*graphs|number\s+of\s+graphs|total\s+graphs|molecules)\b"),
+    (
+        "feature/class counts",
+        r"\b(?:#?\s*features?|#?\s*classes?|label\s+(?:rate|fraction)|output\s+dim)\b",
+    ),
+    (
+        "topology statistics",
+        r"\b(?:avg(?:erage)?\s+degree|density|diameter|homophily|heterophily)\b",
+    ),
+    (
+        "split statistics",
+        r"\b(?:train\s*/\s*val(?:idation)?\s*/\s*test|train\s+val(?:idation)?\s+test)\b",
+    ),
+)
+_RESULT_ROLE_PATTERNS = (
+    (
+        "result caption",
+        r"\b(?:result|performance|benchmark|comparison|classification|prediction)\b",
+    ),
+    (
+        "metric column",
+        r"\b(?:accuracy|acc\.?|auc|roc[- ]?auc|ap|f1|mae|rmse|mse|mrr|hits?@?\d*|ndcg|score|error)\b",
+    ),
+    ("method column", r"\b(?:method|model|backbone|approach)\b"),
+    (
+        "method row",
+        r"\b(?:gcn|gat|gin|graphsage|graph\s*sage|appnp|mlp|svm|random|baseline|ours?|proposed)\b",
+    ),
+    ("result markers", r"(?:\\pm|±|boldsymbol|textbf|underline|best|second\s+best)"),
+)
+_ABLATION_ROLE_PATTERNS = (
+    (
+        "ablation caption",
+        r"\b(?:ablation|sensitivity|component|variant|removing|without|effect\s+of|impact\s+of)\b",
+    ),
+    (
+        "ablation parameter",
+        r"\b(?:depth|layer(?:s)?|hidden|dropout|epsilon|alpha|temperature|steps?)\b",
+    ),
+)
+
+
+@dataclass(frozen=True)
+class TableRoleEvidence:
+    """Independent evidence for table roles.
+
+    Roles are intentionally not mutually exclusive: a table can contain dataset
+    statistics and benchmark scores in the same body.
+    """
+
+    statistics_score: float
+    result_score: float
+    ablation_score: float
+    statistics_evidence: tuple[str, ...] = ()
+    result_evidence: tuple[str, ...] = ()
+    ablation_evidence: tuple[str, ...] = ()
+
+    @property
+    def roles(self) -> tuple[str, ...]:
+        roles: list[str] = []
+        if self.statistics_score >= 0.35:
+            roles.append("statistics")
+        if self.result_score >= 0.35:
+            roles.append("results")
+        if self.ablation_score >= 0.35:
+            roles.append("ablation")
+        return tuple(roles or ["unknown"])
+
+    @property
+    def statistics_only(self) -> bool:
+        return self.statistics_score >= 0.55 and self.result_score < 0.35
+
+    def summary(self) -> str:
+        role_text = ", ".join(self.roles)
+        return (
+            f"roles={role_text}; statistics={self.statistics_score:.2f}; "
+            f"results={self.result_score:.2f}; ablation={self.ablation_score:.2f}"
+        )
+
+
+def _table_role_text(table: Any, header: str | None = None) -> tuple[str, str, str]:
+    caption = str(getattr(table, "caption", "") or "")
+    header_text = str(header) if header is not None else str(getattr(table, "header", "") or "")
+    body = str(getattr(table, "markdown", "") or getattr(table, "body", "") or "")
+    # LaTeX commands are noise for role matching, but retain their arguments.
+    text = re.sub(r"\\[A-Za-z]+(?:\[[^]]*\])?\s*", " ", " ".join((caption, header_text, body)))
+    text = text.replace(r"\#", "#").replace(r"\vert", "|")
+    text = re.sub(r"[{}]", " ", text).lower()
+    return caption.lower(), header_text.lower(), text
+
+
+def _role_hits(patterns: tuple[tuple[str, str], ...], text: str) -> list[str]:
+    return [name for name, pattern in patterns if re.search(pattern, text, flags=re.IGNORECASE)]
+
+
+def classify_table_roles(table: Any, *, header: str | None = None) -> TableRoleEvidence:
+    """Score statistics, result, and ablation evidence without exclusive labels."""
+    caption, header_text, text = _table_role_text(table, header)
+    statistics_hits = _role_hits(_STATISTICS_ROLE_PATTERNS, text)
+    result_hits = _role_hits(_RESULT_ROLE_PATTERNS, text)
+    ablation_hits = _role_hits(_ABLATION_ROLE_PATTERNS, text)
+
+    # Captions and headers are stronger signals than incidental body mentions.
+    statistics_score = min(
+        1.0,
+        0.25 * len(statistics_hits)
+        + (0.20 if _role_hits(_STATISTICS_ROLE_PATTERNS, caption) else 0.0)
+        + (0.15 if _role_hits(_STATISTICS_ROLE_PATTERNS, header_text) else 0.0),
+    )
+    result_score = min(
+        1.0,
+        0.25 * len(result_hits)
+        + (0.20 if _role_hits(_RESULT_ROLE_PATTERNS, caption) else 0.0)
+        + (0.15 if _role_hits(_RESULT_ROLE_PATTERNS, header_text) else 0.0),
+    )
+    ablation_score = min(
+        1.0,
+        0.30 * len(ablation_hits) + (0.20 if _role_hits(_ABLATION_ROLE_PATTERNS, caption) else 0.0),
+    )
+    return TableRoleEvidence(
+        statistics_score=statistics_score,
+        result_score=result_score,
+        ablation_score=ablation_score,
+        statistics_evidence=tuple(statistics_hits),
+        result_evidence=tuple(result_hits),
+        ablation_evidence=tuple(ablation_hits),
+    )
+
+
 def is_statistics_table(table: Any, *, header: str | None = None) -> bool:
-    caption = (getattr(table, "caption", "") or "").strip().lower()
-    header_text = header if header is not None else str(getattr(table, "header", "") or "")
-    header_lower = header_text.lower()
-    return any(marker in caption or marker in header_lower for marker in STAT_TABLE_MARKERS)
+    return classify_table_roles(table, header=header).statistics_score >= 0.35
 
 
 def format_stats_summary(

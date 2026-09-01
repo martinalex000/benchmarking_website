@@ -1,7 +1,8 @@
 You are helping extract benchmark results from a research paper.
 
-Given a TARGET DATASET and a numbered list of tables with their captions and column headers,
-identify which tables contain numeric benchmark results for that dataset.
+Given a TARGET DATASET and a numbered list of source tables with their captions, role evidence,
+and column headers, identify which tables contain numeric benchmark results for that dataset.
+The source table numbers are authoritative and must not be renumbered.
 
 INCLUDE a table if it:
 - Reports model performance scores on the target dataset (by name or common abbreviation)
@@ -20,7 +21,7 @@ Appendix benchmark tables are first-class sources and may contain the paper's co
 summarized results. Do not exclude or deprioritize a table merely because it is in the appendix.
 
 EXCLUDE a table if it:
-- Describes dataset statistics (size, splits, number of graphs/nodes) — no model scores
+- Is statistics-only (size, splits, number of graphs/nodes) and contains no model scores
 - Lists hyperparameters or training configurations
 - Shows run times or compute costs
 - Reports results exclusively for other, unrelated datasets
@@ -36,6 +37,9 @@ Output a JSON object ONLY — no markdown fences or prose outside the JSON objec
 The supplied deterministic dataset-match block is a conservative constraint. Prefer tables with
 an exact or fuzzy dataset-name match. A selected table without such a match is allowed only when
 the explanation is non-empty and states why the table is nevertheless the correct result table.
+
+Mixed tables are allowed: if a table contains both dataset statistics and model scores, select it
+when it contains benchmark results for the target dataset. Use the result-bearing cells only.
 
 If genuinely unsure between a main benchmark table and an ablation/diagnostic table, keep only the
 main benchmark table.

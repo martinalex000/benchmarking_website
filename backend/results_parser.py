@@ -28,6 +28,7 @@ from thefuzz import process as fuzz_process
 from backend.config import cfg, normalize_arxiv_id
 from backend.dataset_discovery import SUPPORTED_TASK_TYPES
 from backend.db import init_db, session_scope
+from backend.llm_postprocessing import _normalise_model_name_text
 from backend.llm_types import DatasetInfo, normalize_input_feature_source
 from backend.method_name_audit import audit_extraction_payload
 from backend.model_metadata import normalize_architecture_type
@@ -86,6 +87,35 @@ def _apply_feature_source_model_name(entry: dict[str, Any]) -> None:
     base = re.sub(r"\s*\([^)]*\)\s*$", "", model.rstrip("*")).strip().casefold()
     if base == "mlp":
         entry["model"] = "MLP+LLM_features"
+
+
+def _validated_run_metadata(entry: dict[str, Any]) -> tuple[int | None, int | None, str | None]:
+    """Return conservative run metadata for a result row.
+
+    A paper-level count must not leak onto cited rows. Keep it only when the
+    extractor explicitly identifies an author-trained row and supplies evidence
+    containing the same numeric count.
+    """
+    trained = parse_optional_extracted_bool(entry.get("trained_by_paper"))
+    trained_db = 1 if trained is True else 0 if trained is False else None
+    raw_count = entry.get("num_runs")
+    evidence = str(entry.get("num_runs_evidence") or "").strip()
+    source_ref = str(entry.get("source_ref") or "").strip().casefold()
+
+    if trained is not True or source_ref != "this paper" or not evidence:
+        return None, trained_db, None
+    if isinstance(raw_count, bool):
+        return None, trained_db, None
+    try:
+        numeric_count = float(raw_count)
+    except (TypeError, ValueError):
+        return None, trained_db, None
+    if not numeric_count.is_integer() or numeric_count <= 0:
+        return None, trained_db, None
+    num_runs = int(numeric_count)
+    if not re.search(rf"(?<!\d){num_runs}(?!\d)", evidence):
+        return None, trained_db, None
+    return num_runs, trained_db, evidence
 
 
 # ── Dataset alias normalisation (post-extraction) ─────────────────────────────
@@ -633,12 +663,21 @@ def _dataset_metric_value_is_valid(dataset_name: str, metric_name: str, value: f
     """Reject values that violate an unambiguous dataset/metric invariant."""
     if not math.isfinite(value):
         return False
+    dataset_key = dataset_name.strip().casefold()
     metric_key = metric_name.strip().casefold()
     if _is_percentage_metric(metric_name) and not 0.0 <= value <= 1.0:
         # Accuracy-like metrics are normalised to [0, 1]. This also blocks
         # negative sentinels such as -1.0 from becoming artificial SOTA rows.
         return False
-    if any(token in metric_key for token in ("mae", "rmse", "mse", "error", "loss")) and value < 0:
+    # log10-transformed error metrics legitimately take negative values.  The
+    # SSSP catalog metric is still named MSE although this benchmark reports
+    # log10(MSE), so retain its negative values as well.
+    if (
+        any(token in metric_key for token in ("mae", "rmse", "mse", "error", "loss"))
+        and "log10" not in metric_key
+        and not (dataset_key == "sssp" and metric_key == "mse")
+        and value < 0
+    ):
         # Error metrics are non-negative; negative values are almost always a
         # missing-value sentinel or a column/metric mismatch.
         return False
@@ -1293,7 +1332,7 @@ def _extraction_quality_issues(
 
 
 def parse_and_store_with_summary(
-    arxiv_id: str, *, replace_existing: bool = False
+    arxiv_id: str, *, replace_existing: bool = False, allow_quality_issues: bool = False
 ) -> ParseStoreSummary:
     """Parse LLM output for a paper and report the side effects explicitly."""
     init_db()
@@ -1389,10 +1428,15 @@ def parse_and_store_with_summary(
                     continue
         guarded_entries.append(entry)
     result_entries = guarded_entries
+    # Apply the same light LaTeX cleanup used during extraction.  This also
+    # handles responses that omit the backslash in ``extsubscript{...}``.
+    for entry in result_entries:
+        if isinstance(entry, dict) and entry.get("model") is not None:
+            entry["model"] = _normalise_model_name_text(str(entry["model"]))
     fatal_parse_failures = [f for f in parse_failures if _is_fatal_extraction_parse_failure(f)]
     quality_issues = _extraction_quality_issues(extraction, fatal_parse_failures)
 
-    if quality_issues:
+    if quality_issues and not allow_quality_issues:
         with session_scope() as session:
             paper = session.query(Paper).filter_by(arxiv_id=arxiv_id).first()
             if paper is None:
@@ -1417,6 +1461,12 @@ def parse_and_store_with_summary(
             "; ".join(quality_issues[:2]),
         )
         return summary
+    if quality_issues:
+        logger.warning(
+            "Accepting arXiv:%s despite extraction-quality issue(s) by explicit override: %s",
+            arxiv_id,
+            "; ".join(quality_issues[:2]),
+        )
 
     if not result_entries:
         if replace_existing and molecular_guard_dropped:
@@ -1656,6 +1706,7 @@ def parse_and_store_with_summary(
                     f"{model_name} / {dataset_name} / {metric_name}"
                 )
                 continue
+            num_runs, trained_by_paper, num_runs_evidence = _validated_run_metadata(entry)
             if dataset_name.strip().lower() == "zinc":
                 logger.info(
                     "Resolved ZINC variant for arXiv:%s model=%s metric=%s via %s",
@@ -1735,6 +1786,9 @@ def parse_and_store_with_summary(
                     metric_name=metric_name,
                     metric_value=value,
                     metric_std=std,
+                    num_runs=num_runs,
+                    trained_by_paper=trained_by_paper,
+                    num_runs_evidence=num_runs_evidence,
                     higher_is_better=higher_is_better,
                     is_baseline=not is_proposed,
                     uses_external_data=(
@@ -1877,6 +1931,15 @@ def _update_result(
     if value is not None and result.metric_std != std:
         result.metric_std = std
         changed = True
+    num_runs, trained_by_paper, num_runs_evidence = _validated_run_metadata(entry)
+    for field_name, new_value in (
+        ("num_runs", num_runs),
+        ("trained_by_paper", trained_by_paper),
+        ("num_runs_evidence", num_runs_evidence),
+    ):
+        if getattr(result, field_name) != new_value:
+            setattr(result, field_name, new_value)
+            changed = True
     if "uses_external_data" in entry:
         ued = parse_optional_extracted_bool(entry.get("uses_external_data"))
         new_uses_external_data = 1 if ued is True else 0 if ued is False else None

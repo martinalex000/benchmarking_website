@@ -1301,6 +1301,11 @@ def main(argv: list[str] | None = None) -> None:
         action="store_true",
         help="Skip the Hugo export step (useful for batch runs)",
     )
+    parser.add_argument(
+        "--accept-quality-issues",
+        action="store_true",
+        help="Explicitly ingest results despite extraction-quality warnings",
+    )
     parser.add_argument("--queue-managed", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
 
@@ -1553,7 +1558,11 @@ def main(argv: list[str] | None = None) -> None:
 
     from backend.results_parser import parse_and_store_with_summary
 
-    summary = parse_and_store_with_summary(arxiv_id, replace_existing=force_extract)
+    summary = parse_and_store_with_summary(
+        arxiv_id,
+        replace_existing=force_extract,
+        allow_quality_issues=args.accept_quality_issues,
+    )
     _print_parse_summary(summary)
 
     # Queue workers must distinguish a transiently incomplete extraction from

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from collections.abc import Callable
 from datetime import UTC, datetime
 
@@ -23,6 +24,41 @@ from backend.paper_storage import PaperStorage
 from backend.text_cleanup import abstract_has_latex_artifacts, clean_extracted_text
 
 logger = logging.getLogger(__name__)
+
+
+def _failed_core_extraction_calls(call_log: list[CallRecord]) -> list[str]:
+    """Return failed calls that make a result payload unsafe to replace."""
+    failures: list[str] = []
+    for record in call_log:
+        call_type = record.call_type or "unknown"
+        if call_type == "extract_dataset_statistics":
+            continue
+        if not call_type.startswith(
+            ("discover_datasets", "select_tables", "extract_dataset", "extract_section")
+        ):
+            continue
+        if record.success:
+            continue
+        reason = record.parse_error or "request failed"
+        failures.append(f"{call_type}: {reason}")
+    return failures
+
+
+def _failed_core_extraction_reasons(output: dict, call_log: list[CallRecord]) -> list[str]:
+    """Collect transport/parse failures even when the client could not log a call record."""
+    failures = _failed_core_extraction_calls(call_log)
+    results = output.get("results") if isinstance(output, dict) else None
+    notes = str(results.get("extraction_notes") or "") if isinstance(results, dict) else ""
+    for line in notes.splitlines():
+        if re.match(r"\s*\[[^\]]+\]\s*failed:", line, re.IGNORECASE):
+            failures.append(line.strip())
+    if re.search(
+        r"dataset discovery returned no datasets|dataset discovery failed to produce",
+        notes,
+        re.IGNORECASE,
+    ):
+        failures.append("dataset discovery produced no candidates")
+    return failures
 
 
 def run_extraction(
@@ -80,6 +116,14 @@ def run_extraction(
         raw_paper_abstract = paper.abstract if paper else ""
         paper_abstract = clean_extracted_text(raw_paper_abstract)
         abstract_has_artifacts = abstract_has_latex_artifacts(raw_paper_abstract)
+
+    artifact_paths = (
+        storage.llm_output_yaml_path,
+        storage.llm_output_json_path,
+        storage.llm_calls_path,
+        storage.human_readable_path,
+    )
+    previous_artifacts = {path: path.read_bytes() for path in artifact_paths if path.exists()}
 
     def _fetch_best_metadata(allow_arxiv_api: bool = True) -> dict[str, str]:
         meta: dict[str, str] = {}
@@ -370,6 +414,35 @@ def run_extraction(
     actual_model_used = output.get("model_used") or display_name_for_model(
         cfg.model_for_tier(model_tier)
     )
+
+    failed_core_calls = _failed_core_extraction_reasons(output, extractor._call_log)
+    if failed_core_calls:
+        # A failed or partially failed rerun must not replace a known-good
+        # extraction. Keep the failed attempt only when no prior artifact exists.
+        for path in artifact_paths:
+            if path in previous_artifacts:
+                path.write_bytes(previous_artifacts[path])
+            elif path.exists():
+                path.unlink()
+        failure_text = "; ".join(failed_core_calls[:3])
+        logger.error(
+            "Refusing to replace extraction for arXiv:%s after failed core call(s): %s",
+            arxiv_id,
+            failure_text,
+        )
+        if paper_id:
+            with session_scope() as session:
+                session.add(
+                    PipelineRun(
+                        paper_id=paper_id,
+                        stage="extract",
+                        status="failed",
+                        model_used=actual_model_used,
+                        error_message=failure_text,
+                    )
+                )
+            _update_status(paper_id, "failed")
+        return False
 
     if paper_id:
         with session_scope() as session:

@@ -449,6 +449,14 @@ def test_film_alias_uses_movie_lens_exception_for_its_distinct_graph():
     assert normalize_dataset_alias("Film", arxiv_id="1609.04508") == "MovieLens Film"
 
 
+@pytest.mark.parametrize(
+    ("raw_name", "canonical_name"),
+    [("IMDB-B", "IMDB-BINARY"), ("imdb-m", "IMDB-MULTI")],
+)
+def test_imdb_shorthand_aliases_preserve_distinct_variants(raw_name, canonical_name):
+    assert normalize_dataset_alias(raw_name) == canonical_name
+
+
 def test_wisconsin_contract_distinguishes_geom_masks_from_new_random_splits():
     variant = SimpleNamespace(
         is_standard=True,

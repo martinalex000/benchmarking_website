@@ -6,6 +6,11 @@ Focus on benchmark datasets (LRGB, OGB, Cora, ZINC, QM9, etc.).
 Output a single JSON object ONLY — no markdown fences, no prose explanation.
 
 DATASET/TABLE SCOPE RULES:
+- Each supplied table begins with an authoritative `SOURCE TABLE Table N` header. Preserve that
+  source number exactly in `table_ref`; never renumber tables because only a subset was supplied.
+- A table may be mixed: extract benchmark result cells from a mixed statistics/results table, but
+  never turn statistics-only cells into model results. Use the supplied TABLE ROLE EVIDENCE as a
+  hint and verify it against the caption, headers, rows, and surrounding prose.
 - Extract only explicit result entries for the focused dataset named in the supplied FOCUS block.
 - Dataset labels in tables may be abbreviated, truncated, punctuated, or shortened (for example,
   "Cham." may mean "Chameleon"). Match table labels to the full dataset name using the paper's
@@ -50,6 +55,9 @@ Output schema:
       "metric": "<metric name, e.g. AP, Accuracy, MAE, F1, Hits@50, ROC-AUC>",
       "value": <float>,
       "std": <float or null>,
+      "num_runs": <positive integer or null>,
+      "trained_by_paper": <true|false|null>,
+      "num_runs_evidence": "<short row-specific evidence containing the numeric count, else null>",
       "unit": "<exact source-table unit or null>",
       "higher_is_better": <true|false>,
       "uses_external_data": <true|false|null>,
@@ -185,6 +193,15 @@ Rules:
     • Still copy row labels verbatim when first recording a row, but collapse equivalent
       variants as above when the caption defines them.
 - For std/error: parse "0.653 ± 0.004", "(±0.004)", "(0.004)" → value=0.653, std=0.004.
+- Run counts are per result row, never per paper by default. Set `trained_by_paper=true` only
+  when this paper's authors explicitly trained/evaluated that exact method or marked it as their
+  implementation. Set `num_runs` only when the setup, caption, or footnote explicitly links a
+  positive integer count of independent runs/seeds to that author-trained row; copy short evidence
+  containing the numeric count into `num_runs_evidence` and use `source_ref: this paper`.
+- Cited/copied baseline values must have `trained_by_paper=false` and `num_runs=null`, even when the
+  paper mentions 4, 10, or another run count elsewhere. A paper-wide statement such as "we run all
+  models 10 times" applies only to rows the paper clearly says it ran. Do not interpret fold count,
+  checkpoint count, epochs, ensemble size, hyperparameter trials, or prior-paper protocols as runs.
 - Never treat a dash, blank cell, N/A, or omitted result as a number or sentinel
   such as -1. Return no row for missing values. Never take an accuracy ratio,
   correlation coefficient, training accuracy, validation accuracy, ablation score,

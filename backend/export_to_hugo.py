@@ -1834,6 +1834,11 @@ def _global_ranks_for_dataset(
             "model_plain": _plain_model(rendered_name),
             "value": val,
             "std": float(r.display_std) if r.display_std is not None else None,
+            "num_runs": r.num_runs,
+            "trained_by_paper": (
+                True if r.trained_by_paper == 1 else False if r.trained_by_paper == 0 else None
+            ),
+            "num_runs_evidence": r.num_runs_evidence or "",
             "metric": primary_metric,
             "higher_is_better": bool(r.higher_is_better),
             "is_baseline": bool(r.is_baseline),
@@ -2604,6 +2609,11 @@ def _export_paper_impl(session: Session, arxiv_id: str) -> bool:
                 "model_plain": _plain_model(rendered_model),
                 "value": display_value,
                 "std": display_std,
+                "num_runs": r.num_runs,
+                "trained_by_paper": (
+                    True if r.trained_by_paper == 1 else False if r.trained_by_paper == 0 else None
+                ),
+                "num_runs_evidence": r.num_runs_evidence or "",
                 "paper_value": display_value,
                 "paper_std": display_std,
                 "metric": r.metric_name,

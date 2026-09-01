@@ -29,9 +29,6 @@ Guidelines — default to has_benchmark_results = true for graph ML papers:
   • Any paper that could plausibly contain a results table on graph datasets
 - Set has_new_benchmark = true if the paper introduces a new graph dataset, split, or evaluation protocol
 - Only set has_benchmark_results = false when the paper is CLEARLY out of scope, e.g.:
-  • Purely theoretical proofs with explicitly no experiments mentioned
-  • Adversarial robustness / attack papers focused only on breaking existing models (not benchmarking performance)
   • Papers about unrelated domains that happen to use graph structure (e.g. circuit layout, bio-chemistry process simulation) with no graph ML benchmarks
-  • Papers explicitly stated to be position papers or manifestos with no empirical content
   • Papers about topics completely unrelated to graph machine learning
 - When in doubt, set has_benchmark_results = true — a false positive costs little; a false negative loses data

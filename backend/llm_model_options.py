@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 _DEFAULT_CONTEXT_TEXT_CHARS = 10_000
-_DEFAULT_CONTEXT_TABLE_CHARS = 10_000
+_DEFAULT_CONTEXT_TABLE_CHARS: int | None = None
 # openai-gpt-oss-120b returns valid structured output with empty results above ~8k input.
 _GPT_OSS_CONTEXT_TEXT_CHARS = 6_000
 _GPT_OSS_CONTEXT_TABLE_CHARS = 6_000
@@ -30,7 +30,7 @@ def is_gemma_model(model_name: str | None) -> bool:
     return "gemma" in (model_name or "").lower()
 
 
-def context_limits_for_model(model_name: str | None) -> tuple[int, int]:
+def context_limits_for_model(model_name: str | None) -> tuple[int, int | None]:
     """Return (max_text_chars, max_table_chars) for per-dataset RAG context."""
     if is_gpt_oss_model(model_name):
         return (_GPT_OSS_CONTEXT_TEXT_CHARS, _GPT_OSS_CONTEXT_TABLE_CHARS)

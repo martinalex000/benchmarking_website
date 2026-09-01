@@ -79,6 +79,12 @@ def _migration_results_model_name_override(engine: Engine) -> None:
     _add_column_if_missing(engine, "results", "model_name_override", "TEXT")
 
 
+def _migration_results_run_metadata(engine: Engine) -> None:
+    _add_column_if_missing(engine, "results", "num_runs", "INTEGER")
+    _add_column_if_missing(engine, "results", "trained_by_paper", "INTEGER")
+    _add_column_if_missing(engine, "results", "num_runs_evidence", "TEXT")
+
+
 def _migration_pending_datasets_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "pending_datasets", "paper_title", "TEXT")
     _add_column_if_missing(engine, "pending_datasets", "metrics_seen", "TEXT")
@@ -234,6 +240,7 @@ MIGRATIONS: tuple[Migration, ...] = (
     ),
     Migration("017_dataset_research_metadata", _migration_dataset_research_metadata),
     Migration("018_dataset_short_description", _migration_dataset_short_description),
+    Migration("019_results_run_metadata", _migration_results_run_metadata),
 )
 
 

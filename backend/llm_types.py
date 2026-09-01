@@ -96,6 +96,9 @@ class ResultEntry(BaseModel):
     metric: str
     value: float
     std: float | None = None
+    num_runs: int | None = None
+    trained_by_paper: bool | None = None
+    num_runs_evidence: str | None = None
     unit: str | None = None
     higher_is_better: bool = True
     uses_external_data: bool | None = None

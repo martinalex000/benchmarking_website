@@ -2,7 +2,7 @@
 
 from types import SimpleNamespace
 
-from backend.dataset_stats_parsing import is_statistics_table
+from backend.dataset_stats_parsing import classify_table_roles, is_statistics_table
 from backend.llm_extractor import CallRecord, DatasetInfo, DatasetList
 from backend.llm_tasks import (
     _dataset_statistics_extra_with_tables,
@@ -52,6 +52,35 @@ def test_statistics_table_detection_and_enrichment():
     assert datasets.datasets[0].statistics_mentioned is True
     assert datasets.datasets[0].statistics_sources == ["Table 2"]
     assert datasets.datasets[1].statistics_mentioned is False
+
+
+def test_table_role_evidence_supports_statistics_results_and_mixed_tables():
+    statistics = SimpleNamespace(
+        caption="Dataset statistics",
+        header=["Dataset", "#Nodes", "#Edges", "#Classes"],
+        markdown="Cora 2708 5429 7",
+    )
+    results = SimpleNamespace(
+        caption="Benchmark results",
+        header=["Method", "Accuracy"],
+        markdown="GCN 0.81",
+    )
+    mixed = SimpleNamespace(
+        caption="Dataset statistics and benchmark results",
+        header=["Dataset", "#Nodes", "Method", "Accuracy"],
+        markdown="Cora 2708 GCN 0.81",
+    )
+
+    statistics_roles = classify_table_roles(statistics)
+    result_roles = classify_table_roles(results)
+    mixed_roles = classify_table_roles(mixed)
+
+    assert statistics_roles.statistics_only is True
+    assert "statistics" in statistics_roles.roles
+    assert "results" in result_roles.roles
+    assert "statistics" in mixed_roles.roles
+    assert "results" in mixed_roles.roles
+    assert mixed_roles.statistics_only is False
 
 
 def test_table_selection_call_record_carries_dataset_statistics():

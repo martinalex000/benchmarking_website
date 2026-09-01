@@ -415,6 +415,9 @@ class Result(Base):
     metric_name = Column(String, nullable=False)
     metric_value = Column(Float, nullable=False)
     metric_std = Column(Float)  # ±std over seeds/folds
+    num_runs = Column(Integer)  # independent training/evaluation runs reported by this paper
+    trained_by_paper = Column(Integer)  # 1=yes, 0=no, NULL=unknown
+    num_runs_evidence = Column(Text)
     is_baseline = Column(Integer, nullable=False, default=0)
     source_paper_id = Column(Integer, ForeignKey("papers.id", ondelete="SET NULL"))
     higher_is_better = Column(Integer, nullable=False, default=1)

@@ -31,7 +31,11 @@ from thefuzz import fuzz as fuzz_lib
 
 from backend.config import cfg, normalize_arxiv_id
 from backend.dataset_discovery import classify_dataset_infos
-from backend.dataset_stats_parsing import format_stats_summary, is_statistics_table
+from backend.dataset_stats_parsing import (
+    classify_table_roles,
+    format_stats_summary,
+    is_statistics_table,
+)
 from backend.db import session_scope
 from backend.guided_table import GuidedDiscovery, build_table_column_guide, extract_guided_results
 from backend.json_repair import parse_json_lenient
@@ -1220,6 +1224,44 @@ class LLMExtractor(LLMClientMixin):
         return ", ".join(values[:8])
 
     @staticmethod
+    def _table_number(table: Any, fallback_index: int) -> int:
+        """Return the source-assigned number; fallback is only for synthetic test tables."""
+        number = getattr(table, "number", None)
+        if isinstance(number, int) and number > 0:
+            return number
+        return fallback_index + 1
+
+    @classmethod
+    def _table_source_ref(cls, table: Any, fallback_index: int) -> str:
+        number = cls._table_number(table, fallback_index)
+        return f"Table {number}"
+
+    @classmethod
+    def _table_catalogue_entry(cls, table: Any, fallback_index: int) -> str:
+        """Render one table with immutable source identity and role evidence."""
+        header = cls._table_header(table)
+        role_evidence = classify_table_roles(table, header=header)
+        caption = " ".join((getattr(table, "caption", "") or "").split())
+        entry = (
+            f"SOURCE TABLE: {cls._table_source_ref(table, fallback_index)}\n"
+            f"  APPENDIX: {'yes' if getattr(table, 'in_appendix', False) else 'no'}\n"
+            f"  ROLE EVIDENCE: {role_evidence.summary()}\n"
+            f"  Caption: {caption}"
+        )
+        if header:
+            entry += f"\n  Columns: {header}"
+        column_guide = build_table_column_guide(table)
+        if column_guide:
+            entry += f"\n  {column_guide}"
+        first_row = cls._table_first_data_row(table)
+        if first_row:
+            entry += f"\n  First row: {first_row}"
+        first_col = cls._table_first_column(table)
+        if first_col:
+            entry += f"\n  Row values (col 1): {first_col}"
+        return entry
+
+    @staticmethod
     def _is_real_table(table: Any) -> bool:
         """Return True if the table is likely a genuine data table (not a formula block).
 
@@ -1337,8 +1379,7 @@ class LLMExtractor(LLMClientMixin):
         exact_fields: dict[int, list[str]] = {}
         fuzzy_fields: dict[int, list[str]] = {}
         for index, table in enumerate(tables):
-            number = getattr(table, "number", None)
-            number = number if number is not None else index + 1
+            number = cls._table_number(table, index)
             fields = cls._table_match_fields(table)
             for field_name, field_text in fields.items():
                 if any(
@@ -1411,20 +1452,19 @@ class LLMExtractor(LLMClientMixin):
         explanation: str,
     ) -> list:
         """Apply deterministic constraints while allowing explained overrides."""
-        available = {
-            (
-                getattr(table, "number", None)
-                if getattr(table, "number", None) is not None
-                else index + 1
-            ): table
-            for index, table in enumerate(tables)
-        }
+        available = {cls._table_number(table, index): table for index, table in enumerate(tables)}
         selected_numbers = {int(number) for number in numbers if str(number).lstrip("-").isdigit()}
         deterministic_set = set(deterministic_numbers)
         if explanation.strip():
             allowed_numbers = selected_numbers
         else:
             allowed_numbers = selected_numbers & deterministic_set
+        result_numbers = {
+            cls._table_number(table, index)
+            for index, table in enumerate(tables)
+            if not classify_table_roles(table, header=cls._table_header(table)).statistics_only
+        }
+        allowed_numbers &= result_numbers
         return [available[number] for number in sorted(allowed_numbers) if number in available]
 
     def select_tables_for_dataset(
@@ -1455,26 +1495,8 @@ class LLMExtractor(LLMClientMixin):
             return list(tables)
 
         entries: list[str] = []
-        for t in tables:
-            num = getattr(t, "number", None)
-            if num is None:
-                num = tables.index(t) + 1
-            caption = " ".join((getattr(t, "caption", "") or "").split())
-            header = self._table_header(t)
-            column_guide = build_table_column_guide(t)
-            first_row = self._table_first_data_row(t)
-            first_col = self._table_first_column(t)
-            appendix = " [appendix]" if getattr(t, "in_appendix", False) else ""
-            entry = f"Table {num}{appendix}: {caption}"
-            if header:
-                entry += f"\n  Columns: {header}"
-            if column_guide:
-                entry += f"\n  {column_guide}"
-            if first_row:
-                entry += f"\n  First row: {first_row}"
-            if first_col:
-                entry += f"\n  Row values (col 1): {first_col}"
-            entries.append(entry)
+        for index, table in enumerate(tables):
+            entries.append(self._table_catalogue_entry(table, index))
 
         prompt = self._read_prompt("table_selection.txt")
         deterministic_numbers, deterministic_fields = self._deterministic_table_matches(
@@ -1512,7 +1534,7 @@ class LLMExtractor(LLMClientMixin):
                 tables, numbers, deterministic_numbers, explanation
             )
             selected_numbers = [
-                getattr(table, "number", index + 1) for index, table in enumerate(selected)
+                self._table_number(table, index) for index, table in enumerate(selected)
             ]
             rationale = self._table_selection_context(
                 [dataset_name],
@@ -1600,26 +1622,8 @@ class LLMExtractor(LLMClientMixin):
 
         # Build the shared table catalogue (same for all datasets)
         entries: list[str] = []
-        for t in tables:
-            num = getattr(t, "number", None)
-            if num is None:
-                num = tables.index(t) + 1
-            caption = " ".join((getattr(t, "caption", "") or "").split())
-            header = self._table_header(t)
-            column_guide = build_table_column_guide(t)
-            first_row = self._table_first_data_row(t)
-            first_col = self._table_first_column(t)
-            appendix = " [appendix]" if getattr(t, "in_appendix", False) else ""
-            entry = f"Table {num}{appendix}: {caption}"
-            if header:
-                entry += f"\n  Columns: {header}"
-            if column_guide:
-                entry += f"\n  {column_guide}"
-            if first_row:
-                entry += f"\n  First row: {first_row}"
-            if first_col:
-                entry += f"\n  Row values (col 1): {first_col}"
-            entries.append(entry)
+        for index, table in enumerate(tables):
+            entries.append(self._table_catalogue_entry(table, index))
 
         dataset_names = [ds.name for ds in datasets]
         prompt = self._read_prompt("table_selection_multi.txt")
@@ -1679,7 +1683,7 @@ class LLMExtractor(LLMClientMixin):
                 )
                 result[ds.name] = selected
                 selected_numbers = [
-                    getattr(table, "number", index + 1) for index, table in enumerate(selected)
+                    self._table_number(table, index) for index, table in enumerate(selected)
                 ]
                 all_selected[ds.name] = sorted(selected_numbers)
                 rationale = self._table_selection_context(
@@ -1731,7 +1735,7 @@ class LLMExtractor(LLMClientMixin):
         tables: list,
         dataset_name: str,
         max_text_chars: int = 10_000,
-        max_table_chars: int = 10_000,
+        max_table_chars: int | None = None,
         already_selected: bool = False,
         selection_rationale: str = "",
     ) -> tuple[str, dict]:
@@ -1754,17 +1758,16 @@ class LLMExtractor(LLMClientMixin):
         paragraphs = paper_text.split("\n\n")
         selected_indices: set[int] = set()
         table_reference_tokens: set[str] = set()
-        for table in tables:
-            number = getattr(table, "number", None)
+        for index, table in enumerate(tables):
+            number = LLMExtractor._table_number(table, index)
             label = (getattr(table, "label", "") or "").strip().lower()
-            if number is not None:
-                table_reference_tokens.update(
-                    {
-                        f"table {number}",
-                        f"table~{number}",
-                        f"table\\nobreakspace {number}",
-                    }
-                )
+            table_reference_tokens.update(
+                {
+                    f"table {number}",
+                    f"table~{number}",
+                    f"table\\nobreakspace {number}",
+                }
+            )
             if label:
                 table_reference_tokens.update({label, f"ref{{{label}}}"})
         for i, para in enumerate(paragraphs):
@@ -1819,23 +1822,34 @@ class LLMExtractor(LLMClientMixin):
 
             table_parts = []
             tables_truncated = False
-            for t in relevant:
+            for index, t in enumerate(relevant):
                 cap = _caption(t)
                 md = _sanitize_text(_markdown(t))
                 column_guide = build_table_column_guide(t)
                 guide = f"{column_guide}\n" if column_guide else ""
                 header = f"[Caption: {cap[:120]}]\n" if cap else ""
+                source_ref = LLMExtractor._table_source_ref(t, index)
+                role_evidence = classify_table_roles(t, header=LLMExtractor._table_header(t))
                 rationale = selection_rationale.strip() or (
                     f"This table was retained for '{dataset_name}' by the table-selection "
                     "stage; verify the dataset label and protocol against the surrounding prose."
                 )
                 table_parts.append(
+                    f"=== SOURCE TABLE {source_ref} ===\n"
+                    f"APPENDIX: {'yes' if getattr(t, 'in_appendix', False) else 'no'}\n"
+                    f"TABLE ROLE EVIDENCE: {role_evidence.summary()}\n"
                     f"=== WHY THIS TABLE IS RELEVANT TO '{dataset_name}' ===\n"
                     f"{rationale}\n{header}{guide}{md}"
                 )
             joined_tables = "\n\n---\n\n".join(table_parts)
-            tables_truncated = len(joined_tables) > max_table_chars
-            tables_str = joined_tables[:max_table_chars]
+            tables_truncated = (
+                max_table_chars is not None and len(joined_tables) > max_table_chars
+            )
+            tables_str = (
+                joined_tables
+                if max_table_chars is None
+                else joined_tables[:max_table_chars]
+            )
         else:
             tables_str = ""
 
@@ -1857,6 +1871,11 @@ class LLMExtractor(LLMClientMixin):
             "rag_text_truncated": rag_text_truncated,
             "tables_total": len(tables),
             "tables_selected": len(relevant_table_captions) if tables else 0,
+            "selected_table_refs": [
+                LLMExtractor._table_source_ref(table, index) for index, table in enumerate(relevant)
+            ]
+            if tables
+            else [],
             "table_selection_mode": table_selection_mode,
             "selected_table_captions": relevant_table_captions,
             "table_reference_tokens": sorted(table_reference_tokens),
@@ -1867,44 +1886,58 @@ class LLMExtractor(LLMClientMixin):
 
     @staticmethod
     def _build_tables_only_context(
-        tables: list, max_table_chars: int, selection_rationale: str = ""
+        tables: list, max_table_chars: int | None, selection_rationale: str = ""
     ) -> str:
         """Build a tables-only context block for empty-result retries."""
         if not tables:
             return ""
         parts: list[str] = []
-        for t in tables:
+        for index, t in enumerate(tables):
             cap = (getattr(t, "caption", None) or "").strip()
             md = _sanitize_text(getattr(t, "markdown", None) or str(t))
             column_guide = build_table_column_guide(t)
             guide = f"{column_guide}\n" if column_guide else ""
             header = f"[Caption: {cap[:120]}]\n" if cap else ""
+            source_ref = LLMExtractor._table_source_ref(t, index)
+            role_evidence = classify_table_roles(t, header=LLMExtractor._table_header(t))
             rationale = (
                 selection_rationale.strip()
                 or "The table was selected as relevant to the focused dataset."
             )
-            parts.append(f"=== WHY THIS TABLE IS RELEVANT ===\n{rationale}\n{header}{guide}{md}")
+            parts.append(
+                f"=== SOURCE TABLE {source_ref} ===\n"
+                f"APPENDIX: {'yes' if getattr(t, 'in_appendix', False) else 'no'}\n"
+                f"TABLE ROLE EVIDENCE: {role_evidence.summary()}\n"
+                f"=== WHY THIS TABLE IS RELEVANT ===\n{rationale}\n{header}{guide}{md}"
+            )
         joined = "\n\n---\n\n".join(parts)
-        if len(joined) <= max_table_chars:
+        if max_table_chars is None or len(joined) <= max_table_chars:
             return f"=== TABLES (directly pasted) ===\n{joined}"
         return f"=== TABLES (directly pasted) ===\n{joined[:max_table_chars]}"
 
     @staticmethod
     def _build_single_table_context(
-        table: Any, max_table_chars: int, selection_rationale: str = ""
+        table: Any, max_table_chars: int | None, selection_rationale: str = ""
     ) -> str:
         cap = (getattr(table, "caption", None) or "").strip()
         md = _sanitize_text(getattr(table, "markdown", None) or str(table))
         column_guide = build_table_column_guide(table)
         guide = f"{column_guide}\n" if column_guide else ""
         header = f"[Caption: {cap[:120]}]\n" if cap else ""
+        source_ref = LLMExtractor._table_source_ref(table, 0)
+        role_evidence = classify_table_roles(table, header=LLMExtractor._table_header(table))
         rationale = (
             selection_rationale.strip()
             or "The table was selected as relevant to the focused dataset."
         )
-        body = (f"=== WHY THIS TABLE IS RELEVANT ===\n{rationale}\n{header}{guide}{md}")[
-            :max_table_chars
-        ]
+        body = (
+            f"=== SOURCE TABLE {source_ref} ===\n"
+            f"APPENDIX: {'yes' if getattr(table, 'in_appendix', False) else 'no'}\n"
+            f"TABLE ROLE EVIDENCE: {role_evidence.summary()}\n"
+            f"=== WHY THIS TABLE IS RELEVANT ===\n{rationale}\n{header}{guide}{md}"
+        )
+        if max_table_chars is not None:
+            body = body[:max_table_chars]
         return f"=== TABLE (directly pasted) ===\n{body}"
 
     def _dataset_focus_prefix(
@@ -1984,6 +2017,10 @@ class LLMExtractor(LLMClientMixin):
             self._fire_progress()
             return out
 
+        def _contains_salvage_note(output: ExtractionOutput) -> bool:
+            notes = output.extraction_notes or ""
+            return bool(re.search(r"(?:truncated JSON|partial results salvage)", notes, re.I))
+
         attempts: list[tuple[str, str]] = []
         if is_gpt_oss_model(self.model_name) and tables_only:
             # gpt-oss degrades on large prose+table context — prefer tables first.
@@ -2005,7 +2042,11 @@ class LLMExtractor(LLMClientMixin):
             out = _run(_sanitize_text(focus_prefix + ctx), suffix)
             if out.task_mismatch:
                 return out
-            if out.results and not self._completion_likely_truncated(effective_max):
+            if (
+                out.results
+                and not self._completion_likely_truncated(effective_max)
+                and not _contains_salvage_note(out)
+            ):
                 return out
 
         if len(ds_tables) > 1:
@@ -2294,7 +2335,7 @@ class LLMExtractor(LLMClientMixin):
             if len(effective_tables) <= self._TABLE_SELECTION_THRESHOLD:
                 deterministic_matches = {
                     ds.name: [
-                        getattr(table, "number", index + 1)
+                        self._table_number(table, index)
                         for index, table in enumerate(tables_per_dataset.get(ds.name, []))
                     ]
                     for ds in datasets.datasets

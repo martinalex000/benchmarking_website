@@ -42,6 +42,9 @@ results:
     k: <metric>
     v: <float>
     s: <float or null>
+    j: <positive integer or null>
+    a: <true if this paper trained/evaluated this exact row, false if cited, null if unclear>
+    g: <short row-specific run evidence containing the numeric count, else null>
     i: <exact source-table unit or null>
     h: <true|false>
     e: <true|false|null>
@@ -58,6 +61,11 @@ coverage_assessment: <complete|partial|uncertain>
 notes: <brief ambiguity notes>
 
 Rules:
+- Run metadata is row-local: set `j` only for a row with `a=true`, `r=this paper`, and explicit
+  setup/caption/footnote evidence that contains the same numeric count of independent runs/seeds.
+  Cited/copied rows always use `a=false`, `j=null`, and `g=null`, even if another paper or another
+  method mentions 4, 10, or any other count. A paper-wide count applies only to rows clearly run by
+  these authors. Folds, epochs, checkpoints, ensembles, and hyperparameter trials are not runs.
 - Protocol decision (mandatory for EVERY row): use `u=standard` only when the focused table,
   caption, and nearby experiment paragraphs support the canonical task and standard split.
   Use `u=nonstandard` only for clear evidence of another task or non-comparable protocol, and

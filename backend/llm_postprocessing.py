@@ -340,6 +340,9 @@ def _expand_compact_result_entry(entry: Any) -> Any:
         "metric": entry.get("k"),
         "value": entry.get("v"),
         "std": entry.get("s"),
+        "num_runs": entry.get("j"),
+        "trained_by_paper": entry.get("a"),
+        "num_runs_evidence": entry.get("g"),
         "unit": entry.get("i"),
         "higher_is_better": entry.get("h", True),
         "uses_external_data": entry.get("e"),
@@ -596,6 +599,9 @@ def _normalise_model_name_text(name: str) -> str:
     clean = clean.replace("$", "")
     clean = clean.replace("\\text{-}", "-")
     clean = re.sub(r"\\textsubscript\{([^}]*)\}", r"-\1", clean)
+    # Some model responses drop the backslash when copying ``\\textsubscript``.
+    # Treat the resulting literal ``extsubscript{...}`` as the same qualifier.
+    clean = re.sub(r"\bextsubscript\{([^}]*)\}", r"-\1", clean)
     greek_map = {
         r"\alpha": "α",
         r"\beta": "β",

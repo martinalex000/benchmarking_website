@@ -35,6 +35,17 @@ results:
     k: <metric name>
     v: <numeric value; for physical-unit benchmarks copy the raw table value>
     s: <standard deviation on the same source scale or null>
+    j: <positive integer run count or null>
+    a: <true if this paper trained/evaluated this exact row, false if cited, null if unclear>
+    g: <short row-specific run evidence containing the numeric count, else null>
     i: <exact source-table unit or null>
     t: <table reference>
     h: <true if higher is better, otherwise false>
+
+RUN RULES:
+- Set `j` only when `a=true` and the supplied setup/caption/footnote explicitly links that same
+  numeric count of independent runs or seeds to this exact author-trained method row. Put evidence
+  containing the number in `g`. Cited/copied baseline rows always use `a=false`, `j=null`, `g=null`.
+- Never spread a run count across every table row. Paper-wide counts apply only to methods that the
+  paper clearly says its authors ran. Folds, epochs, checkpoints, ensembles, and tuning trials are
+  not run counts.

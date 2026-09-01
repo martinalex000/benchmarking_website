@@ -23,7 +23,7 @@ def test_context_limits_for_gpt_oss_are_tighter():
     assert table_limit < 10_000
     default_text, default_table = context_limits_for_model("glm-4.7")
     assert default_text == 10_000
-    assert default_table == 10_000
+    assert default_table is None
 
 
 def test_extraction_max_tokens_for_gpt_oss():

@@ -522,8 +522,23 @@ def test_normal_extraction_context_includes_grouped_column_guide_and_raw_table()
     guide_start = context.index("=== COLUMN GROUP GUIDE")
     raw_table_start = context.index("\\begin{tabular}")
     assert guide_start < raw_table_start
+    assert "=== SOURCE TABLE Table 1 ===" in context
+    assert "TABLE ROLE EVIDENCE:" in context
     assert "dataset 'ogbn-papers100M'" in context
     assert "63.3" in context
+
+
+def test_single_table_context_preserves_original_source_number():
+    table = SimpleNamespace(
+        number=7,
+        caption="Results on Cora",
+        markdown="| Method | Accuracy |\n|---|---|\n| GCN | 0.81 |",
+    )
+
+    context = LLMExtractor._build_single_table_context(table, max_table_chars=10_000)
+
+    assert "=== SOURCE TABLE Table 7 ===" in context
+    assert "SOURCE TABLE Table 1" not in context
 
 
 def test_small_table_sets_pass_all_tables_without_selection(monkeypatch):
@@ -543,6 +558,13 @@ def test_small_table_sets_pass_all_tables_without_selection(monkeypatch):
     selected = extractor.select_tables_for_all_datasets([DatasetInfo(name="Actor")], tables)
     assert selected["Actor"] == tables
     assert "all 3 tables passed directly" in extractor._last_table_selection_rationales["Actor"]
+
+    context, rag_stats = extractor._build_rag_context(
+        "The experiments use Actor.", tables, "Actor", already_selected=True
+    )
+    assert "=== SOURCE TABLE Table 3 ===" in context
+    assert "=== SOURCE TABLE Table 5 ===" in context
+    assert rag_stats["selected_table_refs"] == ["Table 3", "Table 4", "Table 5"]
 
 
 def test_table_selection_falls_back_to_deterministic_matches_and_records_metadata(monkeypatch):
@@ -566,6 +588,45 @@ def test_table_selection_falls_back_to_deterministic_matches_and_records_metadat
 
     assert [table.number for table in selected["Actor"]] == [3]
     assert extractor._call_log[-1].extra["deterministic_table_matches"] == {"Actor": [3]}
+
+
+def test_full_table_selection_drops_statistics_only_table(monkeypatch):
+    extractor = LLMExtractor()
+    captured: list[str] = []
+    tables = [
+        SimpleNamespace(
+            number=3,
+            caption="Dataset statistics",
+            header=["Dataset", "#Nodes", "#Edges"],
+            body="Actor & 7600 & 26600",
+        ),
+        SimpleNamespace(
+            number=7,
+            caption="Benchmark results",
+            header=["Method", "Accuracy"],
+            body="GCN & 0.82",
+        ),
+        SimpleNamespace(number=8, caption="Other results", header=[], body=""),
+        SimpleNamespace(number=9, caption="Appendix", header=[], body=""),
+        SimpleNamespace(number=10, caption="Runtime", header=[], body=""),
+    ]
+
+    def fake_call_json(_prompt, user_content, **_kwargs):
+        captured.append(user_content)
+        return {
+            "Actor": {
+                "relevant_table_numbers": [3, 7],
+                "explanation": "Both tables mention Actor.",
+            }
+        }
+
+    monkeypatch.setattr(extractor, "_call_json", fake_call_json)
+
+    selected = extractor.select_tables_for_all_datasets([DatasetInfo(name="Actor")], tables)
+
+    assert "SOURCE TABLE: Table 3" in captured[0]
+    assert "SOURCE TABLE: Table 7" in captured[0]
+    assert [table.number for table in selected["Actor"]] == [7]
 
 
 def test_unexplained_nonmatching_selection_is_discarded_but_explained_override_is_allowed(
