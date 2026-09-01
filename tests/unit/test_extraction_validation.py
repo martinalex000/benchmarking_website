@@ -21,7 +21,7 @@ from experiments.extraction import validate_extraction as validation
 def test_manifest_has_fixed_cohort_and_manual_review_papers() -> None:
     manifest = load_manifest(Path("config/extraction_validation.yaml"))
 
-    assert manifest.revision == "dataset-extraction-v2"
+    assert manifest.revision == "dataset-extraction-v3"
     assert [model.model_id for model in manifest.models] == [
         "zai-org/GLM-5.2-FP8",
         "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
@@ -35,8 +35,20 @@ def test_manifest_has_fixed_cohort_and_manual_review_papers() -> None:
     ]
     assert manifest.reference_model == "zai-org/GLM-5.2-FP8"
     assert len(manifest.papers) == 10
-    assert sum(len(paper.datasets) for paper in manifest.papers) == 112
-    assert manifest.manual_review_papers == ("2506.04765", "2405.16435", "2305.08018")
+    assert [paper.arxiv_id for paper in manifest.papers] == [
+        "2110.14446",
+        "2205.12454",
+        "2311.01038",
+        "2305.13315",
+        "2305.18407",
+        "2306.10466",
+        "2405.02795",
+        "2405.16435",
+        "2502.09263",
+        "2506.04765",
+    ]
+    assert sum(len(paper.datasets) for paper in manifest.papers) == 113
+    assert manifest.manual_review_papers == ("2506.04765", "2405.16435", "2311.01038")
 
 
 def test_pairwise_disagreements_ignores_scale_and_rounding_but_reports_missing_rows() -> None:

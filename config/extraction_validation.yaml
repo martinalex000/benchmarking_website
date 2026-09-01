@@ -1,6 +1,8 @@
 # Fixed cohort for the publication-facing, dataset-by-dataset extraction validation.
 # Result counts are the current non-problematic parsed rows in benchmarks.db.
-revision: "dataset-extraction-v2"
+# v3 removes papers excluded by the cleaned protocol policy and replaces them with
+# benchmark papers that use canonical/scaffold benchmark splits.
+revision: "dataset-extraction-v3"
 
 models:
   - model_id: "zai-org/GLM-5.2-FP8"
@@ -27,14 +29,14 @@ papers:
     datasets: [Penn94, Pokec, arxiv-year, snap-patents, twitch-gamers, Texas, Wisconsin, Actor, Squirrel, Chameleon, Cornell, CiteSeer, PubMed, Cora, ogbn-arxiv]
   - arxiv_id: "2205.12454"
     datasets: [ZINC, MNIST, CIFAR10, PATTERN, CLUSTER, ogbg-ppa, Code, PCQM4Mv2, MalNet-Tiny, PCQM-Contact]
-  - arxiv_id: "2305.08018"
-    datasets: [Peptides-func, Peptides-struct, PCQM-Contact, PascalVOC-SP, QM9]
+  - arxiv_id: "2311.01038"
+    datasets: [BACE, BBBP, ClinTox, COLLAB, IMDB-BINARY, SIDER, Tox21, ToxCast]
   - arxiv_id: "2305.13315"
     datasets: [BBBP, Tox21, ToxCast, SIDER, ClinTox, BACE, ESOL, Lipophilicity]
   - arxiv_id: "2305.18407"
     datasets: [QM9, MD17, Tox21, BACE]
-  - arxiv_id: "2306.16976"
-    datasets: [Texas, Wisconsin, Cornell, Actor, Squirrel, Chameleon, CiteSeer, PubMed, Cora, Penn94, arxiv-year, ogbn-arxiv]
+  - arxiv_id: "2306.10466"
+    datasets: [Actor, CiteSeer, Cora, Cornell, ogbn-arxiv, ogbn-products, PubMed, Reddit, Texas, Wisconsin]
   - arxiv_id: "2405.02795"
     datasets: [QM9, ZINC, PascalVOC-SP, Peptides-func, Peptides-struct, MUTAG, PROTEINS]
   - arxiv_id: "2405.16435"
@@ -44,4 +46,4 @@ papers:
   - arxiv_id: "2506.04765"
     datasets: [Cora, CiteSeer, PubMed, Chameleon, Squirrel, Actor, Cornell, Texas, Wisconsin, ogbg-molhiv, ogbg-molpcba, Peptides-func, Peptides-struct, ZINC]
 
-manual_review_papers: ["2506.04765", "2405.16435", "2305.08018"]
+manual_review_papers: ["2506.04765", "2405.16435", "2311.01038"]
