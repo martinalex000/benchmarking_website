@@ -46,6 +46,8 @@ Optional paths: `--db`, `--papers-dir`, and `--output-dir`.
 - `plots/{all_papers,conference_only,peer_reviewed}/`: side-by-side PNG/PDF
   stacked counts, count curves, and union-relative curves for benchmarks and
   the five LRGB datasets. Each comparison shares axes and colors.
+  `*_relative_overlay` overlays the original solid curves with dashed ablation
+  curves, using the original experiment's group colors and introduction years.
 - `summary.json`: cohort, extraction coverage, fallback counts, and net/gross
   changes for every publication scope.
 - `report.md`: readable findings and links to plots.

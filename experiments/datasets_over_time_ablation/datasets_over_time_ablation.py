@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import yaml
+from matplotlib.lines import Line2D
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, joinedload
 
@@ -284,7 +285,91 @@ def compare_counts(current, ablation, group, names, settings):
     return pd.DataFrame(rows), tables
 
 
+def plot_relative_overlay(tables, names, group, output, start_years):
+    """Overlay both arms, retaining the original experiment's colors and start years."""
+    names = list(names)
+    if "TU Dortmund" in names:
+        names = ["TU Dortmund", *[name for name in names if name != "TU Dortmund"]]
+    fig, ax = plt.subplots(figsize=(9.4, 6.4))
+    for i, name in enumerate(names):
+        for series, linestyle in zip(tables, ("-", "--"), strict=True):
+            table = series[2]
+            values = table[name].to_numpy(dtype=float).copy()
+            values[table.index.year < start_years.get(name, 0)] = np.nan
+            ax.plot(
+                table.index.year,
+                values,
+                color=f"C{i}",
+                linestyle=linestyle,
+                linewidth=2.2,
+                marker="o",
+                markersize=5,
+                markerfacecolor=f"C{i}" if linestyle == "-" else "white",
+            )
+    scope = {
+        "conference_only": "Conference publications",
+        "peer_reviewed": "Peer-reviewed publications",
+        "all_papers": "All papers",
+    }.get(output.name, output.name.replace("_", " ").capitalize())
+    ax.set_title(f"{group.capitalize()} usage over time: {scope.lower()}", fontsize=16)
+    ax.set_xlabel("Publication year", fontsize=16)
+    ax.set_ylabel("Share of papers (%)", fontsize=16)
+    ax.set_xticks(tables[0][2].index.year)
+    ax.set_ylim(0, 108)
+    ax.tick_params(axis="both", labelsize=13)
+    ax.grid(axis="y", alpha=0.2)
+    group_handles = [
+        Line2D(
+            [0],
+            [0],
+            color=f"C{i}",
+            linewidth=2.2,
+            label=f"{name} (legacy)" if name in {"TU Dortmund", "Heterophilic Graphs"} else name,
+        )
+        for i, name in enumerate(names)
+    ]
+    fig.legend(
+        handles=group_handles,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.13),
+        ncol=3,
+        fontsize=11,
+        frameon=False,
+    )
+    style_handles = [
+        Line2D([0], [0], color="black", linewidth=2.2, linestyle=style, label=label)
+        for style, label in (
+            ("-", "Normal (eligible database)"),
+            ("--", "Ablation (extraction + DB fallback)"),
+        )
+    ]
+    fig.legend(
+        handles=style_handles,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.07),
+        ncol=2,
+        fontsize=11,
+        frameon=False,
+    )
+    first, last = tables[0][2].index.year.min(), tables[0][2].index.year.max()
+    fig.text(
+        0.5,
+        0.025,
+        f"{scope}, {first}–{last}. Each variant uses its own yearly union of papers\n"
+        f"using any of the selected {group} groups as the denominator.",
+        ha="center",
+        va="bottom",
+        fontsize=9,
+    )
+    fig.subplots_adjust(left=0.11, right=0.98, top=0.91, bottom=0.29)
+    output.mkdir(parents=True, exist_ok=True)
+    for extension in ("png", "pdf"):
+        fig.savefig(output / f"{group}_relative_overlay.{extension}", dpi=180, bbox_inches="tight")
+    plt.close(fig)
+
+
 def plot_comparison(tables, names, group, output, start_years):
+    plot_relative_overlay(tables, names, group, output, start_years)
     for metric, index, ylabel in (
         ("counts", 0, "Number of unique papers"),
         ("relative", 2, "Share of union of papers (%)"),
@@ -403,6 +488,8 @@ def write_report(output: Path, summary: dict):
                     f"![{scope} {group} counts](plots/{scope}/{group}_counts_comparison.png)",
                     "",
                     f"![{scope} {group} relative shares](plots/{scope}/{group}_relative_comparison.png)",
+                    "",
+                    f"![{scope} {group} solid/dashed relative curves](plots/{scope}/{group}_relative_overlay.png)",
                     "",
                 ]
             )
