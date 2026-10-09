@@ -50,7 +50,8 @@ Optional paths: `--db`, `--papers-dir`, and `--output-dir`.
   curves, using the original experiment's group colors and introduction years.
   `benchmarks_relative_lines.png` / `.pdf` shows the ablation alone in the exact
   original plotting style and column order, including the original PDF crop,
-  so it can directly replace the same-named original figure.
+  so it can directly replace the same-named original figure. The PNG is rendered
+  from the cropped PDF, preserving the crop's exact page bounds.
 - `summary.json`: cohort, extraction coverage, fallback counts, and net/gross
   changes for every publication scope.
 - `report.md`: readable findings and links to plots.

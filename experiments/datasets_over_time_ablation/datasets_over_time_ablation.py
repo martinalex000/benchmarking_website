@@ -6,6 +6,7 @@ import argparse
 import ast
 import json
 import sqlite3
+import subprocess
 import sys
 import tempfile
 from collections import defaultdict
@@ -379,6 +380,21 @@ def plot_comparison(tables, names, group, output, start_years):
             output,
             ylabel="Share of papers (%)",
             start_years=start_years,
+        )
+        # Render the cropped PDF so the PNG has exactly the same page bounds.
+        prefix = output / "benchmarks_relative_lines"
+        subprocess.run(
+            [
+                "pdftoppm",
+                "-singlefile",
+                "-r",
+                "150",
+                "-png",
+                str(prefix.with_suffix(".pdf")),
+                str(prefix),
+            ],
+            check=True,
+            capture_output=True,
         )
     plot_relative_overlay(tables, names, group, output, start_years)
     for metric, index, ylabel in (
