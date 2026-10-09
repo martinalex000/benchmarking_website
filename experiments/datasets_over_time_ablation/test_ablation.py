@@ -122,6 +122,20 @@ def test_ablation_ignores_compatibility_and_falls_back_only_when_unavailable(tmp
     assert row.ablation_count == 3
     assert row.ablation_union_share_pct == 100
 
+    # Manual paper exclusions apply to both raw extraction and database fallback.
+    _, filtered, coverage, _ = build_usage(
+        papers,
+        stored,
+        {(1, "A"), (2, "A")},
+        datasets,
+        {"a": "A", "b": "B"},
+        {},
+        tmp_path,
+        excluded_papers={"1", "3"},
+    )
+    assert set(filtered.paper_id) == {4}
+    assert set(coverage.loc[coverage.manually_excluded, "paper_id"]) == {1, 3}
+
 
 def test_exact_names_aliases_and_ambiguous_variants():
     datasets = pd.DataFrame({"dataset_name": ["Actor", "MovieLens Film"]})

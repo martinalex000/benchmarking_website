@@ -177,7 +177,12 @@ def load_database(
     return papers, datasets, variants, (stored, eligible_pairs)
 
 
-def build_usage(papers, stored, eligible_pairs, datasets, names, aliases, papers_dir):
+def build_usage(
+    papers, stored, eligible_pairs, datasets, names, aliases, papers_dir, excluded_papers=None
+):
+    if excluded_papers is None:
+        curation = load_yaml((ROOT / "config/protocol_exclusions.yaml").read_text())
+        excluded_papers = set(curation.get("exclude_all_results") or {})
     mask = pd.Series(
         [tuple(row) in eligible_pairs for row in stored.itertuples(index=False, name=None)],
         index=stored.index,
@@ -191,8 +196,11 @@ def build_usage(papers, stored, eligible_pairs, datasets, names, aliases, papers
         arxiv_id = paper.arxiv_id or ""
         entries, status, path = read_extraction(papers_dir, arxiv_id)
         fallback = entries is None
-        found = stored_by_paper.get(paper.paper_id, set()) if fallback else set()
-        for entry in entries or []:
+        manually_excluded = arxiv_id in excluded_papers
+        found = set(stored_by_paper.get(paper.paper_id, set())) if fallback else set()
+        if manually_excluded:
+            found.clear()
+        for entry in (entries or []) if not manually_excluded else []:
             raw = entry.get("dataset")
             # Count result rows, not discovery mentions. Protocol, value, origin, and
             # quarantine status deliberately do not gate this permissive ablation.
@@ -227,6 +235,7 @@ def build_usage(papers, stored, eligible_pairs, datasets, names, aliases, papers
                 "extraction_status": paper.extraction_status,
                 "path": path,
                 "fallback": fallback,
+                "manually_excluded": manually_excluded,
                 "stored_datasets": len(stored_by_paper.get(paper.paper_id, set())),
                 "ablation_datasets": len(found),
                 "extracted_rows": len(entries) if entries is not None else None,
@@ -571,6 +580,7 @@ def run(db_path: Path, papers_dir: Path, output: Path):
         "excluded_undated_or_after_end": int(len(dates) - len(papers)),
         "extraction_status_counts": coverage["status"].value_counts().to_dict(),
         "fallback_papers": int(coverage["fallback"].sum()),
+        "manually_excluded_papers": int(coverage["manually_excluded"].sum()),
         "fallback_papers_with_stored_results": int(
             (coverage["fallback"] & (coverage["stored_datasets"] > 0)).sum()
         ),

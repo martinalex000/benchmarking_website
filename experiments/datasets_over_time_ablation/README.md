@@ -21,6 +21,9 @@ Optional paths: `--db`, `--papers-dir`, and `--output-dir`.
   (legacy JSON if YAML is absent). Any extracted result row naming a resolvable
   dataset establishes usage, regardless of protocol, split, task, value, result
   origin, or paper quarantine status. Discovery-only mentions do not establish usage.
+- Paper-wide manual exclusions in `config/protocol_exclusions.yaml` under
+  `exclude_all_results` remain excluded from the ablation, including DB fallback.
+  Coverage records mark these papers with `manually_excluded`.
 - **Fallback:** if the extraction file or result payload is unavailable, invalid,
   unreadable, or belongs to another paper, count all stored dataset uses for that
   paper without an eligibility filter. Successful empty extractions remain empty.
