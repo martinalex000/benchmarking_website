@@ -35,6 +35,7 @@ from experiments.datasets_over_time.datasets_over_time_helpers import (  # noqa:
     compute_union_relative_shares,
     filter_conference_papers,
     filter_peer_reviewed_papers,
+    plot_line_charts,
 )
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -369,6 +370,16 @@ def plot_relative_overlay(tables, names, group, output, start_years):
 
 
 def plot_comparison(tables, names, group, output, start_years):
+    if group == "benchmark":
+        # Match the original pivot ordering, styling, basename, and PDF crop
+        # for a directly substitutable figure, saved only in this sibling.
+        plot_line_charts(
+            tables[1][2].sort_index(axis=1),
+            "benchmarks_relative_lines",
+            output,
+            ylabel="Share of papers (%)",
+            start_years=start_years,
+        )
     plot_relative_overlay(tables, names, group, output, start_years)
     for metric, index, ylabel in (
         ("counts", 0, "Number of unique papers"),

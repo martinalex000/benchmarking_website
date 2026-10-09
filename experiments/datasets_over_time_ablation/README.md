@@ -48,6 +48,9 @@ Optional paths: `--db`, `--papers-dir`, and `--output-dir`.
   the five LRGB datasets. Each comparison shares axes and colors.
   `*_relative_overlay` overlays the original solid curves with dashed ablation
   curves, using the original experiment's group colors and introduction years.
+  `benchmarks_relative_lines.png` / `.pdf` shows the ablation alone in the exact
+  original plotting style and column order, including the original PDF crop,
+  so it can directly replace the same-named original figure.
 - `summary.json`: cohort, extraction coverage, fallback counts, and net/gross
   changes for every publication scope.
 - `report.md`: readable findings and links to plots.
