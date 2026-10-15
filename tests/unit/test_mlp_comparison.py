@@ -99,13 +99,28 @@ def test_compare_results_can_restrict_to_conference_papers() -> None:
     assert comparisons[0]["paper_count"] == 1
 
 
-def test_comparison_ties_use_combined_std_and_zero_for_missing_std() -> None:
+def test_comparison_ties_use_welch_and_mean_confidence_interval() -> None:
     mlp = _result("MLP", 0.5, "mlp-paper", baseline=True, std=0.02)
 
-    assert _comparison_class(_result("GCN", 0.529, "paper-tied", std=0.01), mlp, True) == "tied"
+    assert _comparison_class(_result("GCN", 0.525, "paper-tied", std=0.01), mlp, True) == "tied"
     assert _comparison_class(_result("GCN", 0.531, "paper-better", std=0.01), mlp, True) == "better"
     assert _comparison_class(_result("GCN", 0.51, "paper-missing", std=None), mlp, True) == "tied"
-    assert _comparison_class(_result("GCN", 0.47, "paper-worse", std=None), mlp, True) == "worse"
+    assert (
+        _comparison_class(_result("GCN", 0.47, "paper-missing-tied", std=None), mlp, True) == "tied"
+    )
+    assert _comparison_class(_result("GCN", 0.46, "paper-worse", std=None), mlp, True) == "worse"
+
+
+def test_comparison_class_uses_extracted_counts_and_ignores_count_without_std() -> None:
+    mlp = _result("MLP", 0.5, "mlp-paper", std=0.02)
+    candidate = _result("GCN", 0.51, "paper", std=0.02)
+    assert _comparison_class(candidate, mlp, True) == "tied"
+    candidate.num_runs = mlp.num_runs = 100
+    assert _comparison_class(candidate, mlp, True) == "better"
+    assert _comparison_class(candidate, mlp, False) == "worse"
+    candidate.display_std = None
+    mlp.num_runs = None
+    assert _comparison_class(candidate, mlp, True) == "tied"
 
 
 def test_paper_figure_counts_include_ties_in_worse_percentage_denominator() -> None:

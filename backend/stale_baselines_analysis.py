@@ -39,6 +39,7 @@ from backend.export_to_hugo import (
     clear_export_caches,
 )
 from backend.models import Result
+from backend.significance import SIGNIFICANCE_METHOD, is_significantly_different
 from backend.venue import (
     is_conference_publication_venue,
     is_peer_reviewed_publication_venue,
@@ -146,12 +147,15 @@ def _materially_worse(
     higher_is_better: bool,
     reported_std: float | None,
     reference_std: float | None,
+    reported_num_runs: int | None = None,
+    reference_num_runs: int | None = None,
 ) -> bool:
     shortfall = _directional_shortfall(reported, reference, higher_is_better)
-    if shortfall is None or shortfall <= 1e-12:
+    if shortfall is None or shortfall <= 0:
         return False
-    combined_std = (reported_std or 0.0) + (reference_std or 0.0)
-    return shortfall > combined_std and shortfall > 1e-12
+    return is_significantly_different(
+        reported, reported_std, reported_num_runs, reference, reference_std, reference_num_runs
+    )
 
 
 def _gap_closed_percentage(
@@ -202,8 +206,15 @@ def _comparison_row(
     prior_value = _finite(prior_truth.get("value")) if prior_truth else None
     prior_std = _finite(prior_truth.get("std")) if prior_truth else None
     higher = bool(result.higher_is_better)
-    prior_better = _materially_worse(reported, prior_value, higher, reported_std, prior_std)
-    today_better = _materially_worse(reported, today_value, higher, reported_std, today_std)
+    reported_num_runs = getattr(result, "num_runs", None)
+    prior_num_runs = prior_truth.get("num_runs") if prior_truth else None
+    today_num_runs = today_truth.get("num_runs")
+    prior_better = _materially_worse(
+        reported, prior_value, higher, reported_std, prior_std, reported_num_runs, prior_num_runs
+    )
+    today_better = _materially_worse(
+        reported, today_value, higher, reported_std, today_std, reported_num_runs, today_num_runs
+    )
     if prior_better:
         category = "prior_better"
     elif today_better:
@@ -237,18 +248,22 @@ def _comparison_row(
         "higher_is_better": higher,
         "reported_value": reported,
         "reported_std": reported_std,
+        "reported_num_runs": reported_num_runs,
         "prior_value": prior_value,
         "prior_std": prior_std,
+        "prior_num_runs": prior_num_runs,
         "prior_source_paper": prior_truth.get("arxiv_id", "") if prior_truth else "",
         "prior_source_date": prior_date,
         "prior_source_title": prior_truth.get("title", "") if prior_truth else "",
         "prior_days_available": _days_between(paper_date, prior_date),
         "today_value": today_value,
         "today_std": today_std,
+        "today_num_runs": today_num_runs,
         "today_source_paper": today_truth.get("arxiv_id", ""),
         "today_source_date": today_date,
         "sota_value": sota_value,
         "sota_std": sota_std,
+        "sota_num_runs": sota_truth.get("num_runs"),
         "sota_source_paper": sota_truth.get("arxiv_id", ""),
         "sota_source_date": _date_text(sota_truth.get("date_iso")),
         "prior_better": prior_better,
@@ -284,6 +299,7 @@ def _filtered_truth(results: list[Result], higher_is_better: bool) -> dict[str, 
             "model_key": model_key,
             "value": float(result.display_value),
             "std": _finite(result.display_std),
+            "num_runs": getattr(result, "num_runs", None),
             "arxiv_id": result.paper.arxiv_id if result.paper else "",
             "title": result.paper.title if result.paper else "",
             "date_iso": _date_text(result.paper.published_date if result.paper else ""),
@@ -306,9 +322,7 @@ def load_analysis_rows(
             peer_reviewed_results = [
                 result
                 for result in results
-                if is_peer_reviewed_publication_venue(
-                    result.paper.venue if result.paper else ""
-                )
+                if is_peer_reviewed_publication_venue(result.paper.venue if result.paper else "")
             ]
             conference_results = [
                 result
@@ -357,9 +371,9 @@ def load_analysis_rows(
                         sota_cache[cache_key] = (
                             max(truth.values(), key=lambda row: row["value"])
                             if higher and truth
-                            else min(truth.values(), key=lambda row: row["value"])
-                            if truth
-                            else None
+                            else (
+                                min(truth.values(), key=lambda row: row["value"]) if truth else None
+                            )
                         )
                     else:
                         _, global_rows, truth = _global_ranks_cached(session, *cache_key)
@@ -405,6 +419,7 @@ def load_analysis_rows(
                 "lrgb_rows": sum(row["benchmark"] == LRGB_SHORT_NAME for row in rows),
                 "generated_on": date.today().isoformat(),
                 "conference_only": conference_only,
+                "significance_method": SIGNIFICANCE_METHOD,
             }
             return rows, metadata
     finally:
@@ -612,12 +627,14 @@ def _ordered_selected_dataset_groups(
     return [
         (
             group_name,
-            sorted(
-                datasets,
-                key=lambda dataset: -counts[dataset]["total"],
-            )
-            if group_name in descending_groups
-            else datasets,
+            (
+                sorted(
+                    datasets,
+                    key=lambda dataset: -counts[dataset]["total"],
+                )
+                if group_name in descending_groups
+                else datasets
+            ),
         )
         for group_name, datasets in groups
     ]
@@ -1201,6 +1218,8 @@ def write_report(
         "# Stale-baselines exploratory analysis",
         "",
         f"Generated from `{metadata['db']}` on {metadata['generated_on']}.",
+        "",
+        SIGNIFICANCE_METHOD,
         "",
         "## Main result",
         "",

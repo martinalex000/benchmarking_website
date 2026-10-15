@@ -16,6 +16,7 @@ from typing import Any
 from backend.model_name_resolution import normalize_model_name_for_resolution
 from backend.models import Dataset, DatasetVariant, Result
 from backend.results_parser import result_is_leaderboard_eligible
+from backend.significance import SIGNIFICANCE_METHOD, is_significantly_different
 from backend.venue import is_conference_publication_venue, is_peer_reviewed_publication_venue
 
 NODE_TASKS = frozenset({"node_classification", "node_regression"})
@@ -159,10 +160,14 @@ def _is_better(candidate: Any, incumbent: Any | None, higher_is_better: bool) ->
 def _comparison_class(result: Any, mlp: Any, higher_is_better: bool) -> str:
     value = _result_value(result)
     reference = _result_value(mlp)
-    if value is None or reference is None or math.isclose(value, reference, abs_tol=1e-12):
-        return "tied"
-    combined_std = (_result_std(result) or 0.0) + (_result_std(mlp) or 0.0)
-    if abs(value - reference) <= combined_std:
+    if not is_significantly_different(
+        value,
+        _result_std(result),
+        getattr(result, "num_runs", None),
+        reference,
+        _result_std(mlp),
+        getattr(mlp, "num_runs", None),
+    ):
         return "tied"
     if higher_is_better:
         return "better" if value > reference else "worse"
@@ -195,6 +200,7 @@ def _source(result: Any) -> dict[str, Any]:
         "title": str(getattr(paper, "title", "") or ""),
         "value": _result_value(result),
         "std": _result_std(result),
+        "num_runs": getattr(result, "num_runs", None),
         "model": _model_name(result),
         "table": str(getattr(result, "table_ref", "") or ""),
         "source_ref": str(getattr(result, "source_ref", "") or ""),
@@ -396,7 +402,7 @@ def write_comparison_outputs(
     lines = [
         "MLP baseline comparison",
         "Reference: best eligible plain MLP; comparison: best eligible non-MLP result per paper.",
-        "Counts are descriptive directional counts; no significance test is applied.",
+        SIGNIFICANCE_METHOD,
         "",
     ]
     for row in comparisons:
@@ -594,30 +600,33 @@ def write_comparison_figures(
     return (*method_paths, *paper_paths)
 
 
-def load_comparison_results() -> list[Result]:
+def load_comparison_results(db_path: Path | None = None) -> list[Result]:
     """Load all result rows needed by the comparison through a read-only ORM query."""
+    import sqlite3
+
     from sqlalchemy import create_engine
     from sqlalchemy.orm import Session, joinedload
 
     from backend.config import cfg
 
-    # Statistics generation must not enable WAL or otherwise mutate the
-    # benchmark database.  The immutable URI also permits reading a database
-    # while another process has an active WAL file.
-    db_path = cfg.db_path.resolve()
+    # Use an actual read-only SQLite URI, including committed WAL contents.
+    db_path = (db_path or cfg.db_path).resolve()
     engine = create_engine(
-        f"sqlite:///{db_path}?mode=ro&immutable=1",
-        connect_args={"uri": True, "check_same_thread": False},
+        "sqlite://",
+        creator=lambda: sqlite3.connect(f"file:{db_path}?mode=ro", uri=True),
     )
-    with Session(engine) as session:
-        return (
-            session.query(Result)
-            .options(
-                joinedload(Result.model),
-                joinedload(Result.paper),
-                joinedload(Result.dataset_variant)
-                .joinedload(DatasetVariant.dataset)
-                .joinedload(Dataset.benchmark),
+    try:
+        with Session(engine) as session:
+            return (
+                session.query(Result)
+                .options(
+                    joinedload(Result.model),
+                    joinedload(Result.paper),
+                    joinedload(Result.dataset_variant)
+                    .joinedload(DatasetVariant.dataset)
+                    .joinedload(Dataset.benchmark),
+                )
+                .all()
             )
-            .all()
-        )
+    finally:
+        engine.dispose()

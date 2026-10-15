@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import logging
 import shutil
+import sqlite3
 import subprocess
 import sys
 from datetime import date
@@ -16,12 +17,14 @@ matplotlib.use("Agg")
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from pdfCropMargins import pdfCropMargins
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 _PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(_PROJECT_ROOT))
 
 from backend.config import cfg  # noqa: E402
-from backend.db import init_db, session_scope  # noqa: E402
+from backend.significance import SIGNIFICANCE_METHOD  # noqa: E402
 from backend.sota_architecture_analysis import (  # noqa: E402
     AnalysisRow,
     OwnershipSnapshot,
@@ -284,6 +287,10 @@ def _write_report(
         "Generated from the canonical benchmark database using standard variants, "
         "primary metrics, protocol-eligible rows, and non-problematic results.",
         "",
+        SIGNIFICANCE_METHOD,
+        "SOTA ownership is shared with results not significantly different from the best mean. "
+        "The single-mean winner figures retain their directional selection rule.",
+        "",
         "This is an ownership statistic, not a causal estimate of which architecture "
         "drove improvement. Transformer-involving combines `graph_transformer` and `hybrid`.",
         "",
@@ -391,12 +398,22 @@ def run_analysis(
     min_papers: int = 5,
     weight: str = "uniform",
     papers_root: Path | None = None,
+    db_path: Path | None = None,
 ) -> tuple[Path, ...]:
     """Run the analysis and return report and figure paths."""
-    init_db()
-    with session_scope() as session:
-        before_rows = load_analysis_rows(session, papers_root=papers_root, apply_overrides=False)
-        after_rows = load_analysis_rows(session, papers_root=papers_root, apply_overrides=True)
+    db_path = (db_path or cfg.db_path).resolve()
+    engine = create_engine(
+        "sqlite://",
+        creator=lambda: sqlite3.connect(f"file:{db_path}?mode=ro", uri=True),
+    )
+    try:
+        with Session(engine) as session:
+            before_rows = load_analysis_rows(
+                session, papers_root=papers_root, apply_overrides=False
+            )
+            after_rows = load_analysis_rows(session, papers_root=papers_root, apply_overrides=True)
+    finally:
+        engine.dispose()
     annual_cutoffs = historical_cutoffs(after_rows)
     report_after = analyze_snapshots(
         after_rows, cutoffs=annual_cutoffs, min_papers=min_papers, weight=weight
@@ -464,6 +481,7 @@ def main() -> int:
     parser.add_argument("--min-papers", type=int, default=5)
     parser.add_argument("--weight", choices=("sqrt", "uniform"), default="uniform")
     parser.add_argument("--papers-root", type=Path, default=None)
+    parser.add_argument("--db", type=Path, default=None)
     args = parser.parse_args()
     if args.min_papers < 1:
         parser.error("--min-papers must be positive")
@@ -484,6 +502,7 @@ def main() -> int:
         min_papers=args.min_papers,
         weight=args.weight,
         papers_root=args.papers_root,
+        db_path=args.db,
     )
     print(f"Report: {report}")
     print(f"Figure: {figure}")

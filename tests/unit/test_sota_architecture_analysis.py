@@ -1,5 +1,6 @@
 """Tests for historical SOTA architecture ownership analysis."""
 
+from dataclasses import replace
 from datetime import date
 
 import pytest
@@ -7,6 +8,7 @@ import pytest
 from backend.model_metadata_defaults import lookup_default_model_type
 from backend.sota_architecture_analysis import (
     AnalysisRow,
+    _winner_rows,
     analyze_snapshots,
     architecture_category,
     compare_override_effects,
@@ -130,6 +132,27 @@ def test_task_level_filter_keeps_only_requested_tasks():
 
 def test_square_root_weight():
     assert square_root_weight(9) == pytest.approx(3.0)
+
+
+def test_winner_rows_use_extracted_counts_and_keep_exact_best():
+    best = row(1, "Cora", 1, "2020-01-01", 0.8, "gnn", std=0.02)
+    other = row(1, "Cora", 2, "2020-01-01", 0.79, "hybrid", std=0.02)
+    assert _winner_rows([best, other]) == [best, other]
+    best = replace(best, num_runs=100)
+    other = replace(other, num_runs=100)
+    assert _winner_rows([best, other]) == [best]
+    # A known count on the side lacking std does not estimate its uncertainty.
+    other = replace(other, std=None)
+    best = replace(best, num_runs=None)
+    assert _winner_rows([best, other]) == [best, other]
+    assert _winner_rows([best, other], winner_policy="single_mean") == [best]
+
+
+def test_winner_rows_keep_bare_equal_means_but_separate_tiny_differences():
+    best = row(1, "Cora", 1, "2020-01-01", 0.8, "gnn")
+    equal = row(1, "Cora", 2, "2020-01-01", 0.8, "hybrid")
+    lower = replace(equal, value=0.8 - 1e-13)
+    assert _winner_rows([best, equal, lower]) == [best, equal]
 
 
 def test_historical_cutoffs_use_year_end_and_latest_date():

@@ -40,6 +40,7 @@ class AtPubEvent:
     title: str
     venue: str
     model_name: str
+    num_runs: int | None = None
 
 
 class AtPubTimeline:
@@ -62,6 +63,7 @@ class AtPubTimeline:
                     pub_iso=(paper.published_date[:10] if paper.published_date else ""),
                     value=float(result.display_value),
                     std=float(result.display_std) if result.display_std is not None else None,
+                    num_runs=getattr(result, "num_runs", None),
                     arxiv_id=paper.arxiv_id or "",
                     title=paper.title or "",
                     venue=paper.venue or "",
@@ -113,6 +115,7 @@ class AtPubTimeline:
             "model_key": model_key_name,
             "value": event.value,
             "std": event.std,
+            "num_runs": event.num_runs,
             "arxiv_id": event.arxiv_id,
             "title": sanitize_title(event.title),
             "date_iso": event.pub_iso,

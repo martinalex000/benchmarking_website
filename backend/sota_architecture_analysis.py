@@ -24,6 +24,7 @@ from backend.model_metadata_defaults import lookup_default_model_type
 from backend.models import DatasetVariant, Result
 from backend.override_handler import load_overrides
 from backend.results_parser import result_is_leaderboard_eligible
+from backend.significance import is_significantly_different
 from backend.venue import is_conference_publication_venue, is_peer_reviewed_publication_venue
 
 TRANSFORMER_TYPES = frozenset({"graph_transformer", "hybrid"})
@@ -63,6 +64,7 @@ class AnalysisRow:
     override_type_applied: bool = False
     is_baseline: bool = False
     venue: str = ""
+    num_runs: int | None = None
 
     @property
     def category(self) -> str:
@@ -302,6 +304,7 @@ def load_analysis_rows(
                 higher_is_better=bool(result.higher_is_better),
                 value=float(value),
                 std=float(std) if std is not None else None,
+                num_runs=result.num_runs,
                 paper_id=paper.id,
                 arxiv_id=paper.arxiv_id or "",
                 paper_date=paper_date,
@@ -362,18 +365,13 @@ def _winner_rows(rows: list[AnalysisRow], winner_policy: str = "ci") -> list[Ana
     if winner_policy == "single_mean":
         tied = [row for row in rows if row.value == best.value]
         return [max(tied, key=lambda row: (row.paper_date, row.paper_id, row.model))]
-    best_std = best.std or 0.0
-    winners = []
-    for row in rows:
-        row_std = row.std or 0.0
-        overlaps = (
-            row.value + row_std >= best.value - best_std
-            if higher
-            else row.value - row_std <= best.value + best_std
+    return [
+        row
+        for row in rows
+        if not is_significantly_different(
+            row.value, row.std, row.num_runs, best.value, best.std, best.num_runs
         )
-        if overlaps:
-            winners.append(row)
-    return winners
+    ]
 
 
 def _ownership_for_dataset(

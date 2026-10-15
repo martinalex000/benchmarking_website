@@ -1,12 +1,16 @@
 from pathlib import Path
+from types import SimpleNamespace
 
 import matplotlib.pyplot as plt
 import pytest
 
 import backend.stale_baselines_analysis as stale_baselines_analysis
+from backend.at_pub_timeline import AtPubTimeline
 from backend.stale_baselines_analysis import (
     CATEGORY_LABELS,
     SELECTED_DATASET_GROUPS,
+    _comparison_row,
+    _filtered_truth,
     _gap_closed_percentage,
     _grouped_counts,
     _histogram_percentage_weights,
@@ -35,6 +39,42 @@ def test_materially_worse_accounts_for_metric_direction_and_uncertainty() -> Non
     assert _materially_worse(0.80, 0.90, True, None, None)
     assert _materially_worse(0.20, 0.10, False, None, None)
     assert not _materially_worse(0.89, 0.90, True, 0.02, None)
+
+
+def test_materially_worse_uses_counts_and_fixed_reference_rule() -> None:
+    assert not _materially_worse(0.8, 0.81, True, 0.02, 0.02)
+    assert _materially_worse(0.8, 0.81, True, 0.02, 0.02, 100, 100)
+    assert _materially_worse(0.81, 0.8, False, 0.02, 0.02, 100, 100)
+    assert not _materially_worse(0.8, 0.81, True, 0.02, None, None, 100)
+    assert _materially_worse(0.8, 0.81, True, None, None)
+
+
+def test_reference_and_comparison_records_preserve_repetition_counts() -> None:
+    result = SimpleNamespace(
+        paper=SimpleNamespace(
+            arxiv_id="test", title="Test", venue="ICLR", published_date="2024-01-01"
+        ),
+        model=SimpleNamespace(canonical_name="GCN"),
+        effective_model_name="GCN",
+        dataset_variant=SimpleNamespace(
+            dataset=SimpleNamespace(name="Cora", task_type="node_classification", benchmark=None)
+        ),
+        display_value=0.8,
+        display_std=0.02,
+        num_runs=100,
+        higher_is_better=True,
+        metric_name="Accuracy",
+    )
+    historical = AtPubTimeline([result], True).best_for_model("gcn")
+    current = _filtered_truth([result], True)["gcn"]
+    assert historical["num_runs"] == current["num_runs"] == 100
+    reference = {**historical, "value": 0.81, "arxiv_id": "reference"}
+    comparison = _comparison_row(
+        result, today_truth=reference, prior_truth=reference, sota_truth=reference
+    )
+    assert comparison["category"] == "prior_better"
+    for prefix in ("reported", "prior", "today", "sota"):
+        assert comparison[f"{prefix}_num_runs"] == 100
 
 
 def test_gap_closed_percentage_accounts_for_metric_direction() -> None:

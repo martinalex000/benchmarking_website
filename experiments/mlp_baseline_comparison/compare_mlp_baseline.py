@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -18,8 +19,12 @@ from backend.mlp_comparison import (  # noqa: E402
 
 
 def main() -> None:
-    output_dir = Path(__file__).resolve().parent
-    results = load_comparison_results()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--db", type=Path, default=None)
+    parser.add_argument("--output-dir", type=Path, default=Path(__file__).resolve().parent)
+    args = parser.parse_args()
+    output_dir = args.output_dir
+    results = load_comparison_results(args.db)
     comparisons = compare_results(results)
     outputs = write_comparison_outputs(comparisons, output_dir)
     figures = write_comparison_figures(comparisons, output_dir)
