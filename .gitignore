@@ -59,6 +59,8 @@ experiments/**/*.txt
 experiments/**/*.yaml
 experiments/**/*.yml
 experiments/**/logs/
+experiments/table_provenance_experiment/
+experiments/table_provenance_candidate_dataset_fix_20261012/
 
 # ── Dataset statistics workspace (derived from paper extraction) ─────────────
 datasets/*
@@ -66,6 +68,7 @@ datasets/.*
 !datasets/.gitkeep
 
 # ── SQLite WAL sidecars (main DB is versioned) ───────────────────────────────
+data/backups/
 data/benchmarks.db-wal
 data/benchmarks.db-shm
 data/benchmarks.db-*
