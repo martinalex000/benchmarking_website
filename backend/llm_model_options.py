@@ -25,11 +25,6 @@ def is_gpt_oss_model(model_name: str | None) -> bool:
     return "gpt-oss" in model or "gptoss" in model.replace("-", "")
 
 
-def is_gemma_model(model_name: str | None) -> bool:
-    """Return True for Gemma model IDs served by local or external backends."""
-    return "gemma" in (model_name or "").lower()
-
-
 def context_limits_for_model(model_name: str | None) -> tuple[int, int | None]:
     """Return (max_text_chars, max_table_chars) for per-dataset RAG context."""
     if is_gpt_oss_model(model_name):
@@ -82,7 +77,9 @@ def _kimi_no_thinking_extra_body() -> dict:
     }
 
 
-def extra_body_for_model(model_name: str | None) -> dict | None:
+def extra_body_for_model(
+    model_name: str | None, *, enable_reasoning: bool | None = None
+) -> dict | None:
     """Return provider-specific extra_body options for a model.
 
     Several model families expose a reasoning/thinking mode that can consume
@@ -92,14 +89,29 @@ def extra_body_for_model(model_name: str | None) -> dict | None:
     model = (model_name or "").lower()
 
     if is_gpt_oss_model(model_name):
-        return {"reasoning_effort": "none"}
+        return {"reasoning_effort": "low" if enable_reasoning else "none"}
+
+    if "deepseek" in model:
+        if enable_reasoning is None:
+            return None
+        if enable_reasoning:
+            # This endpoint enables DeepSeek reasoning by default at high effort.
+            return None
+        return {
+            "thinking": {"type": "disabled"},
+            "reasoning_effort": "none",
+        }
 
     # Qwen3 via compatible gateways.
     if "qwen3" in model:
         return {"chat_template_kwargs": {"enable_thinking": False}}
 
     if "glm" in model:
-        return {"chat_template_kwargs": {"enable_thinking": False}}
+        options: dict = {"chat_template_kwargs": {"enable_thinking": bool(enable_reasoning)}}
+        if enable_reasoning:
+            # A bounded extraction task should not exhaust its output budget thinking.
+            options["reasoning_effort"] = "low"
+        return options
 
     # MiniMax and Kimi/Moonshot families.
     if "minimax" in model:

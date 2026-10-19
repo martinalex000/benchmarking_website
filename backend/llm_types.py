@@ -61,6 +61,8 @@ class CallRecord:
     parse_error: str | None = None
     parsed_result: Any = dc_field(default=None, repr=False)
     extra: dict = dc_field(default_factory=dict)
+    reasoning_response: str = ""
+    finish_reason: str | None = None
 
 
 class ProposedModel(BaseModel):

@@ -153,6 +153,13 @@ def test_pipeline_extract_parse_export_flow(monkeypatch, tmp_path):
 
     monkeypatch.setattr("backend.llm_extractor.run_extraction", fake_run_extraction)
 
+    repetition_calls = []
+    monkeypatch.setattr(
+        pipeline,
+        "stage_repetitions",
+        lambda args: repetition_calls.append(args) or True,
+    )
+
     pipeline.stage_extract(SimpleNamespace(model="primary", force=False, paper=None))
     pipeline.stage_parse(SimpleNamespace(force=False, paper=None))
     pipeline.stage_export(SimpleNamespace(paper=["2401.17791"]))
@@ -176,6 +183,7 @@ def test_pipeline_extract_parse_export_flow(monkeypatch, tmp_path):
         ("extract", "success"),
         ("parse", "success"),
     }
+    assert [call.paper for call in repetition_calls] == [["2401.17791"]]
 
     paper_page = cfg.site_dir / "content" / "papers" / "2401.17791" / "index.md"
     dataset_page = cfg.site_dir / "content" / "datasets" / "peptides-func" / "index.md"

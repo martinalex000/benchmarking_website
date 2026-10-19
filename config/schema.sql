@@ -113,6 +113,20 @@ CREATE TABLE IF NOT EXISTS model_aliases (
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Benchmark results
 -- ─────────────────────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS repetition_assessments (
+    id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+    paper_id            INTEGER NOT NULL REFERENCES papers(id) ON DELETE CASCADE,
+    source_sha256       TEXT NOT NULL,
+    prompt_sha256       TEXT NOT NULL,
+    model               TEXT NOT NULL,
+    status              TEXT NOT NULL,
+    uniform_num_runs    INTEGER,
+    payload             TEXT NOT NULL,
+    artifact_path       TEXT NOT NULL,
+    created_at          TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
+    UNIQUE(paper_id, source_sha256, prompt_sha256)
+);
+
 CREATE TABLE IF NOT EXISTS results (
     id                  INTEGER PRIMARY KEY AUTOINCREMENT,
     paper_id            INTEGER NOT NULL REFERENCES papers(id) ON DELETE CASCADE,
@@ -121,6 +135,11 @@ CREATE TABLE IF NOT EXISTS results (
     metric_name         TEXT NOT NULL,      -- e.g. AP, Accuracy, MAE, F1, Hits@50
     metric_value        REAL NOT NULL,
     metric_std          REAL,               -- ±std over seeds/folds (nullable)
+    num_runs            INTEGER,
+    trained_by_paper    INTEGER,
+    num_runs_evidence   TEXT,
+    repetition_assessment_id INTEGER REFERENCES repetition_assessments(id) ON DELETE SET NULL,
+    repetition_status  TEXT,
     is_baseline         INTEGER NOT NULL DEFAULT 0,
     -- When is_baseline=1 and the result comes from a cited paper, record source
     source_paper_id     INTEGER REFERENCES papers(id) ON DELETE SET NULL,

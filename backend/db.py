@@ -85,6 +85,16 @@ def _migration_results_run_metadata(engine: Engine) -> None:
     _add_column_if_missing(engine, "results", "num_runs_evidence", "TEXT")
 
 
+def _migration_repetition_assessments(engine: Engine) -> None:
+    _add_column_if_missing(
+        engine,
+        "results",
+        "repetition_assessment_id",
+        "INTEGER REFERENCES repetition_assessments(id) ON DELETE SET NULL",
+    )
+    _add_column_if_missing(engine, "results", "repetition_status", "TEXT")
+
+
 def _migration_pending_datasets_columns(engine: Engine) -> None:
     _add_column_if_missing(engine, "pending_datasets", "paper_title", "TEXT")
     _add_column_if_missing(engine, "pending_datasets", "metrics_seen", "TEXT")
@@ -241,6 +251,7 @@ MIGRATIONS: tuple[Migration, ...] = (
     Migration("017_dataset_research_metadata", _migration_dataset_research_metadata),
     Migration("018_dataset_short_description", _migration_dataset_short_description),
     Migration("019_results_run_metadata", _migration_results_run_metadata),
+    Migration("020_repetition_assessments", _migration_repetition_assessments),
 )
 
 

@@ -264,6 +264,7 @@ def stage_parse(args: argparse.Namespace) -> None:
         return
 
     ok = fail = skip = 0
+    repetition_papers = []
     for p in tqdm(papers, desc="Parsing", unit="paper", leave=True):
         if not should_process(p.id, "parse", force=force):
             tqdm.write(f"  skip  {p.arxiv_id}  (already parsed)")
@@ -304,13 +305,124 @@ def stage_parse(args: argparse.Namespace) -> None:
         record_run(p.id, "parse", status)
         if status == "success":
             ok += 1
+            repetition_papers.append(p.arxiv_id)
         else:
             fail += 1
 
     console.print(
         f"  Done — [green]{ok} ok[/green], [red]{fail} failed[/red], [dim]{skip} skipped[/dim]"
     )
+    if repetition_papers:
+        repetition_args = argparse.Namespace(paper=repetition_papers, force=force)
+        if stage_repetitions(repetition_args) is False:
+            fail += 1
     return fail == 0
+
+
+def stage_repetitions(args: argparse.Namespace) -> bool:
+    from pathlib import Path
+
+    from backend.repetition_batch import PRODUCTION_ROOT, run_batch
+
+    root = Path(getattr(args, "output_dir", None) or PRODUCTION_ROOT)
+    state = run_batch(
+        root,
+        arxiv_ids=getattr(args, "paper", None),
+        force=getattr(args, "force", False),
+        night_max=getattr(args, "night_max", None),
+        day_streams=getattr(args, "daytime_streams", None),
+        reuse_root=Path(getattr(args, "reuse_root", ""))
+        if getattr(args, "reuse_root", None)
+        else None,
+    )
+    console.print(
+        f"Repetitions — {state['completed']}/{state['total']} papers; {state['categories']}"
+    )
+    if state.get("preflight_error"):
+        console.print(f"[red]GLM preflight failed:[/red] {state['preflight_error']}")
+    return state["state"] == "finished" and not state["categories"].get("failed", 0)
+
+
+def stage_mapping_plan(args: argparse.Namespace) -> bool:
+    from pathlib import Path
+
+    from backend.mapping.plan import build_plan
+
+    try:
+        ignored_reasons = {}
+        for value in args.ignore_paper_reason or []:
+            paper_id, separator, reason = value.partition("=")
+            if not separator or not paper_id or not reason or paper_id in ignored_reasons:
+                raise ValueError(f"Invalid or duplicate ignored-paper reason: {value}")
+            ignored_reasons[paper_id] = reason
+        plan = build_plan(
+            Path(args.run_dir),
+            cfg.db_path,
+            cfg.papers_dir,
+            Path(args.output_dir),
+            allow_partial=args.allow_partial,
+            eligible_models=set(args.eligible_model) if args.eligible_model else None,
+            ignored_paper_ids=set(args.ignore_paper_id or []),
+            ignored_paper_reasons=ignored_reasons,
+        )
+    except (ValueError, FileNotFoundError, FileExistsError) as exc:
+        console.print(f"[red]Mapping plan refused:[/red] {exc}")
+        return False
+    changed = sum(bool(e["changes"]) for p in plan["papers"] for e in p["entries"])
+    console.print(
+        f"Dry-run mapping plan: {len(plan['papers'])} papers, {changed} proposed rows. Database unchanged."
+    )
+    return True
+
+
+def stage_result_mapping(args: argparse.Namespace) -> bool:
+    from pathlib import Path
+
+    from backend.mapping.batch import prepare, run
+    from backend.mapping.client import SECOND_GLM_FLASH_ROUTE
+
+    root = Path(args.output_dir)
+    if not root.exists():
+        prepare(
+            root,
+            cfg.db_path,
+            cfg.papers_dir,
+            parent=Path(args.parent) if args.parent else None,
+            ids=args.paper,
+            count=args.count,
+            seed=args.seed,
+            chunk_size=args.chunk_size,
+            daytime_streams=args.daytime_streams,
+            maximum=args.night_max,
+            review_roots=args.review_root or (),
+            preferred_fact_model=(
+                SECOND_GLM_FLASH_ROUTE
+                if args.second_key_only or getattr(args, "prefer_second_glm_key_phase1", False)
+                else None
+            ),
+            compact_verifier=args.compact_verifier,
+            database_mode=args.database_mode,
+            include_nonconference=args.include_nonconference,
+            second_key_only=args.second_key_only,
+        )
+    if args.prepare_only:
+        console.print(f"Read-only mapping inputs prepared: {root}")
+        return True
+    status = run(root)
+    console.print(
+        f"Mapping: {status['successful']}/{status['total']} successful; {status['failed']} failed. "
+        + (
+            "Completed papers were applied to the database."
+            if status.get("database_mode") == "apply"
+            else "Database unchanged; run the apply command when ready."
+        )
+    )
+    database_verified = (
+        status.get("database_application_verified")
+        if status.get("database_mode") == "apply"
+        else status.get("selected_rows_unchanged")
+    )
+    return not status["failed"] and bool(database_verified)
 
 
 def stage_export(args: argparse.Namespace) -> None:
@@ -347,14 +459,27 @@ def stage_run_all(args: argparse.Namespace) -> bool:
     args.since = _parse_since(getattr(args, "since", None))
 
     console.rule("[bold]Pipeline: run-all[/bold]")
-    stage_discover(args)
+    ok_discover = stage_discover(args) is not False
     ok_download = stage_download(args) is not False
     ok_extract = stage_extract(args) is not False
     ok_parse = stage_parse(args) is not False
-    stage_export(args)
-    stage_build(args)
+    if not (ok_discover and ok_download and ok_extract and ok_parse):
+        console.print("[red]Stopping before export/build because an earlier stage failed[/red]")
+        return False
+    ok_export = stage_export(args) is not False
+    if not ok_export:
+        console.print("[red]Stopping before build because export failed[/red]")
+        return False
+    ok_build = stage_build(args) is not False
     console.rule("[green]Done[/green]")
-    return ok_download and ok_extract and ok_parse
+    return ok_build
+
+
+def stage_aggregate(args: argparse.Namespace) -> bool:
+    """Run parse and export, propagating a parse failure to the caller."""
+    if stage_parse(args) is False:
+        return False
+    return stage_export(args) is not False
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
@@ -428,6 +553,88 @@ def _build_parser() -> argparse.ArgumentParser:
     )
 
     # aggregate (alias for parse + export)
+    rp = sub.add_parser("repetitions", help="Verified GLM-Flash repetition extraction and backfill")
+    rp.add_argument("--paper", nargs="+", metavar="ARXIV_ID")
+    rp.add_argument("--force", action="store_true")
+    rp.add_argument("--output-dir")
+    rp.add_argument("--reuse-root", help="Reuse source-identical, prompt-identical saved calls")
+    rp.add_argument("--daytime-streams", type=int, default=None)
+    rp.add_argument("--night-max", type=int, default=None)
+
+    mp = sub.add_parser(
+        "mapping-plan", help="Validate saved mapping outputs and prepare a read-only change plan"
+    )
+    mp.add_argument("--run-dir", required=True)
+    mp.add_argument("--output-dir", required=True)
+    mp.add_argument(
+        "--allow-partial",
+        action="store_true",
+        help="Freeze incomplete papers as skipped while validating the full cohort snapshots",
+    )
+    mp.add_argument(
+        "--eligible-model",
+        action="append",
+        help="In partial mode, only include complete assessments from this model (repeatable)",
+    )
+    mp.add_argument(
+        "--ignore-paper-id",
+        action="append",
+        help="Explicitly omit a user-approved out-of-scope paper from full-cohort coverage",
+    )
+    mp.add_argument(
+        "--ignore-paper-reason",
+        action="append",
+        metavar="ARXIV_ID=REASON",
+        help=(
+            "Reason for an ignored paper (user_confirmed_artifact_ignored or "
+            "adversarial_examples_not_tracked); repeat as needed"
+        ),
+    )
+
+    rm = sub.add_parser("map-results", help="Read-only result-to-table assignment")
+    rm.add_argument("--output-dir", required=True)
+    rm.add_argument("--parent", help="Reuse an existing frozen cohort, not its model outputs")
+    rm.add_argument("--paper", nargs="+")
+    rm.add_argument("--count", type=int)
+    rm.add_argument("--seed", type=int, default=20261009)
+    rm.add_argument("--chunk-size", type=int, default=15)
+    rm.add_argument("--daytime-streams", type=int, default=None)
+    rm.add_argument("--night-max", type=int, default=None)
+    rm.add_argument(
+        "--prefer-second-glm-key-phase1",
+        action="store_true",
+        help="Prefer the separately configured glm-5.3-flash key for phase 1; keep it eligible for verification",
+    )
+    rm.add_argument(
+        "--second-key-only",
+        action="store_true",
+        help="Use the separately configured second GLM key for both extraction and verification",
+    )
+    rm.add_argument(
+        "--review-root",
+        action="append",
+        help="Import source-bound human approvals from an existing frozen run (repeatable)",
+    )
+    rm.add_argument("--prepare-only", action="store_true")
+    rm.add_argument(
+        "--include-nonconference",
+        action="store_true",
+        help="Include all result-bearing papers, regardless of publication venue",
+    )
+    rm.add_argument(
+        "--database-mode",
+        choices=("apply", "collect-only"),
+        default="apply",
+        help="Apply each completed paper immediately (default), or collect proposals for a later apply",
+    )
+    rm.add_argument(
+        "--compact-verifier",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Use source-grounded typed verifier patches (default; pass --no-compact-verifier to disable)",
+    )
+
+    # aggregate (alias for parse + export)
     sub.add_parser("aggregate", help="Recompute aggregates and re-export")
 
     # export
@@ -464,14 +671,18 @@ def main(argv: list[str] | None = None) -> int:
     level = logging.DEBUG if args.verbose else logging.INFO
     logging.basicConfig(level=level, format="%(levelname)s %(name)s %(message)s")
 
-    init_db()
+    if args.command not in {"mapping-plan", "map-results"}:
+        init_db()
 
     dispatch: dict[str, Callable[[argparse.Namespace], Any]] = {
         "discover": stage_discover,
         "download": stage_download,
         "extract": stage_extract,
         "parse": stage_parse,
-        "aggregate": lambda a: (stage_parse(a), stage_export(a)),
+        "repetitions": stage_repetitions,
+        "mapping-plan": stage_mapping_plan,
+        "map-results": stage_result_mapping,
+        "aggregate": stage_aggregate,
         "export": stage_export,
         "build": stage_build,
         "run-all": stage_run_all,
@@ -489,4 +700,4 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

@@ -60,6 +60,7 @@ from backend.qm9_targets import (
     normalize_qm9_metric,
     normalize_qm9_result_mapping,
 )
+from backend.repetition_metadata import supports_repeat_count
 from backend.repository_linking import (
     find_verified_repository_link,
     repository_source_from_storage,
@@ -94,7 +95,7 @@ def _validated_run_metadata(entry: dict[str, Any]) -> tuple[int | None, int | No
 
     A paper-level count must not leak onto cited rows. Keep it only when the
     extractor explicitly identifies an author-trained row and supplies evidence
-    containing the same numeric count.
+    containing the same count attached to a repetition unit, not merely folds or epochs.
     """
     trained = parse_optional_extracted_bool(entry.get("trained_by_paper"))
     trained_db = 1 if trained is True else 0 if trained is False else None
@@ -113,7 +114,12 @@ def _validated_run_metadata(entry: dict[str, Any]) -> tuple[int | None, int | No
     if not numeric_count.is_integer() or numeric_count <= 0:
         return None, trained_db, None
     num_runs = int(numeric_count)
-    if not re.search(rf"(?<!\d){num_runs}(?!\d)", evidence):
+    design = (
+        "repeated_cv"
+        if re.search(r"cross.validation|\bfold", evidence, re.I)
+        else "repeated_training"
+    )
+    if not supports_repeat_count(num_runs, evidence, design):
         return None, trained_db, None
     return num_runs, trained_db, evidence
 

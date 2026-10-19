@@ -6,18 +6,19 @@ import json
 import logging
 import re
 import time
+from contextlib import nullcontext
 from datetime import UTC, datetime
 from typing import Any
 
 import httpx
 import yaml
 from openai import APIStatusError, APITimeoutError, RateLimitError
-from tenacity import Retrying, retry_if_exception, stop_after_attempt, wait_exponential
+from tenacity import Retrying, retry_if_exception, wait_exponential
 
 from backend.config import cfg
 from backend.json_repair import parse_json_lenient
 from backend.llm_metadata import _headers_to_dict
-from backend.llm_model_options import extra_body_for_model, is_gemma_model
+from backend.llm_model_options import extra_body_for_model
 from backend.llm_types import CallRecord
 
 logger = logging.getLogger(__name__)
@@ -57,22 +58,34 @@ class LLMClientMixin:
 
         Uses the shared helper so behavior is consistent across scripts.
         """
-        return extra_body_for_model(self.model_name)
+        override = getattr(self, "request_extra_body", None)
+        if override is not None:
+            return override
+        return extra_body_for_model(
+            self.model_name, enable_reasoning=getattr(self, "enable_reasoning", None)
+        )
 
     def _probe_usage_limits(self) -> dict[str, Any]:
         """Fetch a compact snapshot of endpoint request-limit headers."""
         try:
-            raw = self._client.chat.completions.with_raw_response.create(
-                model=self.model_name,
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant. Respond briefly."},
-                    {"role": "user", "content": "Say 'OK' and nothing else."},
-                ],
-                max_tokens=8,
-                temperature=0.0,
-                extra_body=self._extra_body(),
-            )
+            request_gate = getattr(self, "request_gate", None)
+            with request_gate if request_gate is not None else nullcontext():
+                raw = self._client.chat.completions.with_raw_response.create(
+                    model=self.model_name,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a helpful assistant. Respond briefly.",
+                        },
+                        {"role": "user", "content": "Say 'OK' and nothing else."},
+                    ],
+                    max_tokens=8,
+                    temperature=0.0,
+                    extra_body=self._extra_body(),
+                )
             headers = _headers_to_dict(getattr(raw, "headers", None))
+            if request_gate is not None:
+                request_gate.observe_rate_limit_headers(headers)
         except Exception as exc:
             logger.debug("Usage limit probe failed for %s: %s", self.model_name, exc)
             return {
@@ -117,21 +130,46 @@ class LLMClientMixin:
         max_tokens: int | None = None,
         call_type: str = "llm",
         call_extra: dict | None = None,
+        response_format: dict[str, Any] | None = None,
     ) -> str:
+        request_gate = getattr(self, "request_gate", None)
+        exponential_wait = wait_exponential(multiplier=cfg.llm_retry_base_delay, max=60)
+
+        def stop_retrying(retry_state) -> bool:
+            exc = retry_state.outcome.exception()
+            if request_gate is not None and getattr(exc, "status_code", None) == 429:
+                # The shared gate waits for Retry-After and owns key-wide recovery.
+                return False
+            return retry_state.attempt_number >= cfg.llm_max_retries + 1
+
+        def retry_wait(retry_state) -> float:
+            exc = retry_state.outcome.exception()
+            if request_gate is not None and getattr(exc, "status_code", None) == 429:
+                return 0
+            return exponential_wait(retry_state)
+
         retryer = Retrying(
             sleep=time.sleep,
-            stop=stop_after_attempt(cfg.llm_max_retries + 1),
-            wait=wait_exponential(multiplier=cfg.llm_retry_base_delay, max=60),
+            stop=stop_retrying,
+            wait=retry_wait,
             retry=retry_if_exception(_is_retryable_llm_exception),
             reraise=True,
         )
+
+        def invoke(*args, **kwargs):
+            if request_gate is None:
+                return self._call_once(*args, **kwargs)
+            with request_gate:
+                return self._call_once(*args, **kwargs)
+
         return retryer(
-            self._call_once,
+            invoke,
             system_prompt,
             user_content,
             max_tokens=max_tokens,
             call_type=call_type,
             call_extra=call_extra,
+            response_format=response_format,
         )
 
     def _call_once(
@@ -141,59 +179,81 @@ class LLMClientMixin:
         max_tokens: int | None = None,
         call_type: str = "llm",
         call_extra: dict | None = None,
+        response_format: dict[str, Any] | None = None,
     ) -> str:
         """Perform one LLM request; retrying is configured by ``_call``."""
         requested_max_tokens = max_tokens or cfg.llm_max_tokens
         estimated_prompt_tokens = _estimated_tokens(system_prompt) + _estimated_tokens(user_content)
+        total_budget = getattr(self, "max_total_tokens", None) or cfg.llm_max_total_tokens
         completion_budget = min(
             requested_max_tokens,
-            cfg.llm_max_total_tokens - estimated_prompt_tokens,
+            total_budget - estimated_prompt_tokens,
         )
         if completion_budget < 1:
             raise ValueError(
                 "LLM prompt exceeds the configured total token budget "
-                f"({cfg.llm_max_total_tokens:,} estimated tokens)."
+                f"({total_budget:,} estimated tokens)."
             )
 
         request_start = time.perf_counter()
         first_token_time: float | None = None
         chunks: list[str] = []
+        reasoning_chunks: list[str] = []
+        finish_reason: str | None = None
         prompt_tokens: int | None = None
         completion_tokens: int | None = None
         extra_body = self._extra_body()
+        call_timeout = getattr(self, "request_timeout_seconds", None) or cfg.llm_timeout
         request_timeout = httpx.Timeout(
-            cfg.llm_timeout,
-            read=min(30.0, float(cfg.llm_timeout)),
+            call_timeout,
+            read=min(
+                getattr(self, "request_read_timeout_seconds", None)
+                or (60.0 if getattr(self, "request_timeout_seconds", None) else 30.0),
+                float(call_timeout),
+            ),
         )
+        request_kwargs: dict[str, Any] = {
+            "model": self.model_name,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_content},
+            ],
+            "max_tokens": completion_budget,
+            "temperature": cfg.llm_temperature,
+            "extra_body": extra_body,
+            "timeout": request_timeout,
+        }
+        if response_format is not None:
+            request_kwargs["response_format"] = response_format
         try:
             if self.streaming:
                 # Streaming path: captures TTFT and tokens/sec
                 stream = self._client.chat.completions.create(
-                    model=self.model_name,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_content},
-                    ],
-                    max_tokens=completion_budget,
-                    temperature=cfg.llm_temperature,
+                    **request_kwargs,
                     stream=True,
                     stream_options={"include_usage": True},
-                    extra_body=extra_body,
-                    timeout=request_timeout,
                 )
                 for chunk in stream:
                     elapsed = time.perf_counter() - request_start
-                    if elapsed > cfg.llm_timeout:
+                    if elapsed > call_timeout:
                         stream.close()
                         raise LLMWallClockTimeout(
-                            f"LLM request exceeded {cfg.llm_timeout}s wall-clock limit"
+                            f"LLM request exceeded {call_timeout}s wall-clock limit"
                         )
                     if getattr(chunk, "usage", None) is not None:
                         prompt_tokens = chunk.usage.prompt_tokens
                         completion_tokens = chunk.usage.completion_tokens
                     if not chunk.choices:
                         continue
-                    delta = chunk.choices[0].delta.content
+                    choice = chunk.choices[0]
+                    finish_reason = getattr(choice, "finish_reason", None) or finish_reason
+                    delta_object = choice.delta
+                    reasoning = getattr(delta_object, "reasoning_content", None) or getattr(
+                        delta_object, "reasoning", None
+                    )
+                    if isinstance(reasoning, str):
+                        reasoning_chunks.append(reasoning)
+                    delta = delta_object.content
                     if delta:
                         if first_token_time is None:
                             first_token_time = time.perf_counter()
@@ -202,17 +262,15 @@ class LLMClientMixin:
             else:
                 # Non-streaming path (production default)
                 response = self._client.chat.completions.create(
-                    model=self.model_name,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_content},
-                    ],
-                    max_tokens=completion_budget,
-                    temperature=cfg.llm_temperature,
-                    extra_body=extra_body,
-                    timeout=request_timeout,
+                    **request_kwargs,
                 )
                 choice = response.choices[0]
+                finish_reason = getattr(choice, "finish_reason", None)
+                reasoning = getattr(choice.message, "reasoning_content", None) or getattr(
+                    choice.message, "reasoning", None
+                )
+                if isinstance(reasoning, str):
+                    reasoning_chunks.append(reasoning)
                 content = (choice.message.content or "").strip()
                 if response.usage:
                     prompt_tokens = response.usage.prompt_tokens
@@ -288,10 +346,17 @@ class LLMClientMixin:
             completion_tokens=completion_tokens,
             success=bool(content),
             extra=call_extra or {},
+            reasoning_response="".join(reasoning_chunks),
+            finish_reason=finish_reason,
         )
         self._call_log.append(record)
 
         if not content:
+            if reasoning_chunks and finish_reason == "length":
+                raise ValueError(
+                    "Reasoning exhausted the completion budget before the final answer; "
+                    "increase the budget or reduce reasoning effort (not a retryable outage)"
+                )
             # Some endpoints return HTTP 200 with an empty body when
             # rate-limiting or encountering a transient error.  Raising here
             # lets _call() apply its configured retry policy.
@@ -402,10 +467,6 @@ class LLMClientMixin:
 
     def _read_result_prompt(self, full_mode: bool = False) -> str:
         if self.result_output_format == "yaml":
-            if is_gemma_model(self.model_name):
-                compact_path = cfg.prompts_dir / "gemma_result_extraction_yaml.txt"
-                if compact_path.exists():
-                    return compact_path.read_text(encoding="utf-8").strip()
             yaml_name = (
                 "full_result_extraction_yaml.txt" if full_mode else "result_extraction_yaml.txt"
             )
@@ -491,6 +552,7 @@ class LLMClientMixin:
         call_type: str = "llm",
         call_extra: dict | None = None,
         output_format: str = "json",
+        response_format: dict[str, Any] | None = None,
     ) -> Any:
         raw = self._call(
             system_prompt,
@@ -498,5 +560,6 @@ class LLMClientMixin:
             max_tokens,
             call_type=call_type,
             call_extra={**(call_extra or {}), "requested_output_format": output_format},
+            response_format=response_format,
         )
         return self._parse_structured_response(raw, output_format)

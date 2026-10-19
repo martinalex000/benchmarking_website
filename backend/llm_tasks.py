@@ -39,7 +39,7 @@ from backend.dataset_stats_parsing import (
 from backend.db import session_scope
 from backend.guided_table import GuidedDiscovery, build_table_column_guide, extract_guided_results
 from backend.json_repair import parse_json_lenient
-from backend.llm_backends import client_params_for_model
+from backend.llm_backends import ModelRoute, client_params_for_model
 from backend.llm_client import LLMClientMixin, LLMWallClockTimeout
 from backend.llm_metadata import (
     _discovery_text_excerpts,
@@ -699,15 +699,26 @@ class LLMExtractor(LLMClientMixin):
         model_tier: str = "primary",
         streaming: bool = False,
         result_output_format: str = "yaml",
+        enable_reasoning: bool | None = None,
+        max_total_tokens: int | None = None,
+        model_route: ModelRoute | None = None,
     ) -> None:
         self.model_name = cfg.model_for_tier(model_tier)
         self.streaming = streaming
         self.result_output_format = result_output_format.lower()
+        self.enable_reasoning = enable_reasoning
+        self.max_total_tokens = max_total_tokens
         self._call_log: list[CallRecord] = []
         self._progress_callback: Any = None  # called with (CallRecord,) after each LLM call
         self._last_progress_idx: int = -1  # tracks which record was last fired
         self._last_table_selection_rationales: dict[str, str] = {}
-        endpoint, api_key, self._model_route = client_params_for_model(self.model_name)
+        if model_route is None:
+            endpoint, api_key, self._model_route = client_params_for_model(self.model_name)
+        else:
+            if model_route.model_id != self.model_name:
+                raise ValueError("Explicit model route does not match requested model")
+            self._model_route = model_route
+            endpoint, api_key = model_route.backend.endpoint, model_route.backend.api_key
         self._client = OpenAI(
             api_key=api_key or "none",
             base_url=endpoint or None,
@@ -1842,13 +1853,9 @@ class LLMExtractor(LLMClientMixin):
                     f"{rationale}\n{header}{guide}{md}"
                 )
             joined_tables = "\n\n---\n\n".join(table_parts)
-            tables_truncated = (
-                max_table_chars is not None and len(joined_tables) > max_table_chars
-            )
+            tables_truncated = max_table_chars is not None and len(joined_tables) > max_table_chars
             tables_str = (
-                joined_tables
-                if max_table_chars is None
-                else joined_tables[:max_table_chars]
+                joined_tables if max_table_chars is None else joined_tables[:max_table_chars]
             )
         else:
             tables_str = ""

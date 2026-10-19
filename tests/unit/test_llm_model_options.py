@@ -46,3 +46,13 @@ def test_strict_no_reasoning_required_for_kimi_and_qwen3():
     assert strict_no_reasoning_required("Qwen/Qwen3-VL-8B-Instruct")
     assert strict_no_reasoning_required("MiniMaxAI/MiniMax-M2.7")
     assert strict_no_reasoning_required("openai/gpt-oss-120b")
+
+
+def test_deepseek_thinking_mode_is_explicitly_selectable():
+    model = "deepseek-ai/DeepSeek-V4.1-Flash"
+    assert extra_body_for_model(model) is None
+    assert extra_body_for_model(model, enable_reasoning=False) == {
+        "thinking": {"type": "disabled"},
+        "reasoning_effort": "none",
+    }
+    assert extra_body_for_model(model, enable_reasoning=True) is None

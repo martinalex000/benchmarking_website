@@ -12,8 +12,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -23,6 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import requests
 from openai import APIStatusError, OpenAI, RateLimitError
 from rich.console import Console
+from rich.progress import BarColumn, MofNCompleteColumn, Progress, TextColumn, TimeElapsedColumn
 from rich.table import Table
 
 from backend.config import cfg
@@ -49,6 +52,9 @@ _NON_CHAT_EXACT = frozenset(
         "tts-1-hd",
         "Kokoro-82M",
         "alias-image-generation",
+        "alias-stt",
+        "OmniVoice",
+        "Qwen/Qwen3-Reranker-4B",
     }
 )
 # Models that intentionally expose reasoning; skip the no-thinking probe for them.
@@ -66,9 +72,14 @@ def fetch_model_ids(endpoint: str, api_key: str) -> list[str]:
 
 def is_chat_model_for_reasoning_check(model_id: str) -> bool:
     """Return True for chat models that should have thinking disabled."""
-    if model_id in _NON_CHAT_EXACT or model_id in _REASONING_ALLOWED:
-        return False
-    return not any(model_id.startswith(prefix) for prefix in _NON_CHAT_PREFIXES)
+    return is_chat_model(model_id) and model_id not in _REASONING_ALLOWED
+
+
+def is_chat_model(model_id: str) -> bool:
+    """Return True for models that can be probed through chat completions."""
+    return model_id not in _NON_CHAT_EXACT and not any(
+        model_id.startswith(prefix) for prefix in _NON_CHAT_PREFIXES
+    )
 
 
 def _headers_to_dict(headers_obj) -> dict[str, str]:
@@ -142,17 +153,116 @@ def _configured_tiers() -> dict[str, str]:
     }
 
 
-def _print_model_inventory(routes: dict[str, ModelRoute]) -> None:
+def _rate_limit_columns(headers: dict[str, str]) -> tuple[str, str, str]:
+    scoped: dict[str, dict[str, dict[str, str]]] = {}
+    consumed: set[str] = set()
+    for name, value in headers.items():
+        if not name.startswith("x-ratelimit-"):
+            continue
+        parts = name.removeprefix("x-ratelimit-").split("-")
+        if len(parts) == 2 and parts[0] in {"limit", "remaining", "reset"}:
+            kind, unit = parts
+            scope = "default"
+        elif len(parts) == 3 and parts[0] in {"limit", "remaining", "reset"}:
+            kind, scope, unit = parts
+        elif len(parts) == 3 and parts[1] in {"limit", "remaining", "reset"}:
+            scope, kind, unit = parts
+        else:
+            continue
+        if unit not in {"requests", "tokens"}:
+            continue
+        scoped.setdefault(unit, {}).setdefault(scope, {})[kind] = value
+        consumed.add(name)
+
+    columns = []
+    for unit in ("requests", "tokens"):
+        values = []
+        for scope, limits in sorted(scoped.get(unit, {}).items()):
+            limit = limits.get("limit", "?")
+            remaining = limits.get("remaining", "?")
+            detail = f"{remaining}/{limit}"
+            if scope != "default":
+                detail = f"{scope} {detail}"
+            if limits.get("reset"):
+                detail += f" reset={limits['reset']}"
+            values.append(detail)
+        columns.append("; ".join(values) if values else "—")
+
+    other_headers = {name: value for name, value in headers.items() if name not in consumed}
+    other_limits = _format_rate_limits(other_headers)
+    return columns[0], columns[1], "—" if other_limits == "not reported" else other_limits
+
+
+def _probe_rate_limits(route: ModelRoute, model_id: str) -> tuple[dict[str, str], str]:
+    try:
+        result = ping_model(
+            route.backend.endpoint,
+            route.backend.api_key,
+            model_id,
+            timeout=min(cfg.llm_timeout, 10),
+        )
+        status = "HTTP 200" if result["ok"] else "empty response"
+        return result["headers"], status
+    except APIStatusError as exc:
+        response = getattr(exc, "response", None)
+        return (
+            _headers_to_dict(getattr(response, "headers", None)),
+            f"HTTP {exc.status_code}",
+        )
+    except Exception as exc:
+        return {}, type(exc).__name__
+
+
+def _print_model_inventory(
+    routes: dict[str, ModelRoute], *, show_rate_limits: bool = False
+) -> None:
+    model_ids = sorted(routes, key=str.casefold)
+    if show_rate_limits:
+        model_ids = [model_id for model_id in model_ids if is_chat_model(model_id)]
+
+    rate_limit_results: dict[str, tuple[dict[str, str], str]] = {}
+    if show_rate_limits:
+        with Progress(
+            TextColumn("{task.description}"),
+            BarColumn(),
+            MofNCompleteColumn(),
+            TimeElapsedColumn(),
+            console=console,
+        ) as progress:
+            task_id = progress.add_task("Probing model rate limits", total=len(model_ids))
+            with ThreadPoolExecutor(max_workers=20) as executor:
+                futures = {
+                    executor.submit(_probe_rate_limits, routes[model_id], model_id): model_id
+                    for model_id in model_ids
+                }
+                for future in as_completed(futures):
+                    model_id = futures[future]
+                    rate_limit_results[model_id] = future.result()
+                    progress.update(
+                        task_id,
+                        advance=1,
+                        description=f"Probed {model_id}",
+                    )
+
     table = Table(
-        title=f"Reachable models ({len(routes)})",
+        title=f"Reachable models ({len(model_ids)})",
         show_header=True,
         highlight=True,
     )
     table.add_column("Model ID", style="cyan")
     table.add_column("Backend")
-    for model_id in sorted(routes):
+    if show_rate_limits:
+        table.add_column("Requests (left/limit)")
+        table.add_column("Tokens (left/limit)")
+        table.add_column("Other limits")
+        table.add_column("Probe")
+    for model_id in model_ids:
         route = routes[model_id]
-        table.add_row(model_id, route.backend.label)
+        row = [model_id, route.backend.label]
+        if show_rate_limits:
+            headers, status = rate_limit_results[model_id]
+            row.extend([*_rate_limit_columns(headers), status])
+        table.add_row(*row)
     console.print(table)
 
 
@@ -188,6 +298,45 @@ def _format_rate_limits(headers: dict[str, str]) -> str:
                 detail += f" reset={reset}"
             windows.append(detail)
 
+    for unit in ("requests", "tokens"):
+        limit = headers.get(f"x-ratelimit-limit-{unit}")
+        remaining = headers.get(f"x-ratelimit-remaining-{unit}")
+        reset = headers.get(f"x-ratelimit-reset-{unit}")
+        if limit or remaining or reset:
+            detail = f"{unit}: {remaining or '?'}/{limit or '?'}"
+            if reset:
+                detail += f" reset={reset}"
+            windows.append(detail)
+
+    scoped_limits: dict[str, dict[str, str]] = {}
+    for name, value in headers.items():
+        if not name.startswith("x-ratelimit-"):
+            continue
+        parts = name.removeprefix("x-ratelimit-").split("-")
+        if len(parts) == 3 and parts[0] in {"limit", "remaining", "reset"}:
+            kind, scope, unit = parts
+        elif len(parts) == 3 and parts[1] in {"limit", "remaining", "reset"}:
+            scope, kind, unit = parts
+        else:
+            continue
+        if unit not in {"requests", "tokens"}:
+            continue
+        scoped_limits.setdefault(scope, {})[f"{kind}-{unit}"] = value
+
+    for scope, values in sorted(scoped_limits.items()):
+        details = []
+        for unit in ("requests", "tokens"):
+            limit = values.get(f"limit-{unit}")
+            remaining = values.get(f"remaining-{unit}")
+            reset = values.get(f"reset-{unit}")
+            if limit or remaining or reset:
+                detail = f"{unit}: {remaining or '?'}/{limit or '?'}"
+                if reset:
+                    detail += f" reset={reset}"
+                details.append(detail)
+        if details:
+            windows.append(f"{scope}: " + ", ".join(details))
+
     burst_limit = headers.get("ratelimit-limit")
     burst_remaining = headers.get("ratelimit-remaining")
     burst_reset = headers.get("ratelimit-reset") or headers.get("retry-after")
@@ -216,7 +365,9 @@ def _ping_routes(
 
     reasoning_ok = True
     candidates = model_ids if model_ids is not None else routes
-    models_to_check = sorted(model_id for model_id in candidates if model_id in routes)
+    models_to_check = sorted(
+        (model_id for model_id in candidates if model_id in routes), key=str.casefold
+    )
     models_to_check = [
         model_id for model_id in models_to_check if is_chat_model_for_reasoning_check(model_id)
     ]
@@ -231,16 +382,16 @@ def _ping_routes(
                 model_id,
                 timeout=cfg.llm_timeout,
             )
-        except RateLimitError:
+        except RateLimitError as exc:
             row = [model_id, backend.label, "rate limited", "–", "[yellow]⚠[/yellow]"]
             if show_rate_limits:
-                row.append("rate limited")
+                row.append(_format_rate_limits(_headers_to_dict(exc.response.headers)))
             ping_table.add_row(*row)
             continue
         except APIStatusError as exc:
             row = [model_id, backend.label, f"HTTP {exc.status_code}", "–", "[red]✗[/red]"]
             if show_rate_limits:
-                row.append("not available")
+                row.append(_format_rate_limits(_headers_to_dict(exc.response.headers)))
             ping_table.add_row(*row)
             continue
         except Exception as exc:
@@ -255,12 +406,11 @@ def _ping_routes(
             if strict_no_reasoning_required(model_id) or extra_body_for_model(model_id) is None:
                 reasoning_ok = False
                 reason_text = (
-                    "[red]ACTIVE[/red]\n" f"[dim]extra_body={result['extra_body_sent']}[/dim]"
+                    f"[red]ACTIVE[/red]\n[dim]extra_body={result['extra_body_sent']}[/dim]"
                 )
             else:
                 reason_text = (
-                    "[yellow]PARTIAL[/yellow]\n"
-                    f"[dim]extra_body={result['extra_body_sent']}[/dim]"
+                    f"[yellow]PARTIAL[/yellow]\n[dim]extra_body={result['extra_body_sent']}[/dim]"
                 )
         else:
             reason_text = "[green]OFF[/green]"
@@ -270,37 +420,6 @@ def _ping_routes(
         ping_table.add_row(*row)
 
     return ping_table, reasoning_ok
-
-
-def _print_rate_limit_routes(routes: dict[str, ModelRoute]) -> None:
-    """Probe one suitable chat model per backend and print rate-limit headers."""
-    selected: dict[str, str] = {}
-    preferred = [cfg.model_primary, cfg.model_fallback, cfg.model_small]
-    for model_id in [*preferred, *sorted(routes)]:
-        route = routes.get(model_id)
-        if route is None or not is_chat_model_for_reasoning_check(model_id):
-            continue
-        selected.setdefault(route.backend.label, model_id)
-
-    table = Table(title="Current endpoint rate limits", show_header=True, highlight=True)
-    table.add_column("Backend")
-    table.add_column("Endpoint")
-    table.add_column("Probe model", style="cyan")
-    table.add_column("Limits")
-    for backend_label, model_id in sorted(selected.items()):
-        route = routes[model_id]
-        try:
-            result = ping_model(
-                route.backend.endpoint,
-                route.backend.api_key,
-                model_id,
-                timeout=cfg.llm_timeout,
-            )
-            limits = _format_rate_limits(result["headers"])
-        except Exception as exc:
-            limits = f"probe failed: {str(exc)[:80]}"
-        table.add_row(backend_label, route.backend.endpoint, model_id, limits)
-    console.print(table)
 
 
 def _run_check(
@@ -363,7 +482,7 @@ def _run_check(
             console.print("[red]Reachable backends returned no models.[/red]")
             return 1
 
-    _print_model_inventory(routes)
+    _print_model_inventory(routes, show_rate_limits=rate_limits and not ping)
     tiers_ok = _print_tier_status(routes)
     if not tiers_ok:
         console.print(
@@ -392,9 +511,6 @@ def _run_check(
                 "models.[/red] Check [cyan]backend/llm_model_options.py[/cyan]."
             )
             return 1
-    elif rate_limits:
-        _print_rate_limit_routes(routes)
-
     if tiers_ok:
         console.print("\n[green]All configured models are reachable on this node.[/green]")
     else:
@@ -411,15 +527,67 @@ def _endpoint_arguments(parser: argparse.ArgumentParser) -> None:
         help="Single LLM base URL override (default: all configured backends on this node)",
     )
     parser.add_argument(
+        "--endpoint-env",
+        default=None,
+        metavar="VARIABLE",
+        help=(
+            "Read the endpoint URL from this environment variable "
+            "(including values loaded from .env)"
+        ),
+    )
+    parser.add_argument(
         "--api-key",
         default=None,
         help="API key for --endpoint override (default: LLM_API_KEY from .env)",
     )
     parser.add_argument(
-        "--rate-limits",
-        action="store_true",
-        help="Perform a small probe and print current endpoint rate-limit headers",
+        "--api-key-env",
+        default=None,
+        metavar="VARIABLE",
+        help=(
+            "Read the API key from this environment variable (including values loaded from .env); "
+            "use with --endpoint, --endpoint-env, or the configured LLM_ENDPOINT"
+        ),
     )
+    parser.add_argument(
+        "--rate-limits",
+        "--rate-limit",
+        dest="rate_limits",
+        action="store_true",
+        help="Add current rate-limit columns for every available model",
+    )
+
+
+def _resolve_api_key(api_key: str | None, api_key_env: str | None) -> str | None:
+    if api_key is not None and api_key_env is not None:
+        raise ValueError("Use either --api-key or --api-key-env, not both")
+    if api_key_env is None:
+        return api_key
+    value = os.environ.get(api_key_env)
+    if not value:
+        raise ValueError(f"API key environment variable {api_key_env!r} is not set")
+    return value
+
+
+def _resolve_api_target(
+    endpoint: str | None,
+    endpoint_env: str | None,
+    api_key: str | None,
+    api_key_env: str | None,
+) -> tuple[str | None, str | None]:
+    if endpoint is not None and endpoint_env is not None:
+        raise ValueError("Use either --endpoint or --endpoint-env, not both")
+    if endpoint_env is not None:
+        endpoint = os.environ.get(endpoint_env, "").strip()
+        if not endpoint:
+            raise ValueError(f"Endpoint environment variable {endpoint_env!r} is not set")
+
+    resolved_key = _resolve_api_key(api_key, api_key_env)
+    if resolved_key is not None and endpoint is None:
+        endpoint = (cfg.llm_endpoint or "").strip() or None
+        if endpoint is None:
+            raise ValueError("An API key override requires --endpoint or a configured LLM_ENDPOINT")
+    return endpoint, resolved_key
 
 
 DEFAULT_METRICS_ENDPOINT = "http://127.0.0.1:8773/metrics"
@@ -513,9 +681,15 @@ def main(argv: list[str] | None = None) -> int:
         parser.add_argument("models", nargs="*", metavar="MODEL")
         _endpoint_arguments(parser)
         args = parser.parse_args(arguments[1:])
+        try:
+            endpoint, api_key = _resolve_api_target(
+                args.endpoint, args.endpoint_env, args.api_key, args.api_key_env
+            )
+        except ValueError as exc:
+            parser.error(str(exc))
         return _run_check(
-            endpoint=args.endpoint,
-            api_key=args.api_key,
+            endpoint=endpoint,
+            api_key=api_key,
             ping=True,
             model_ids=args.models or None,
             rate_limits=args.rate_limits,
@@ -530,9 +704,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     _endpoint_arguments(parser)
     args = parser.parse_args(arguments)
+    try:
+        endpoint, api_key = _resolve_api_target(
+            args.endpoint, args.endpoint_env, args.api_key, args.api_key_env
+        )
+    except ValueError as exc:
+        parser.error(str(exc))
     return _run_check(
-        endpoint=args.endpoint,
-        api_key=args.api_key,
+        endpoint=endpoint,
+        api_key=api_key,
         ping=False,
         model_ids=None,
         rate_limits=args.rate_limits,

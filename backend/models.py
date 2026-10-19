@@ -400,6 +400,24 @@ class ModelAlias(Base):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+class RepetitionAssessment(Base):
+    """Versioned, source-backed paper assessment; raw calls live in the artifact folder."""
+
+    __tablename__ = "repetition_assessments"
+    __table_args__ = (UniqueConstraint("paper_id", "source_sha256", "prompt_sha256"),)
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    paper_id = Column(Integer, ForeignKey("papers.id", ondelete="CASCADE"), nullable=False)
+    source_sha256 = Column(String, nullable=False)
+    prompt_sha256 = Column(String, nullable=False)
+    model = Column(String, nullable=False)
+    status = Column(String, nullable=False)  # uniform | table_dependent | unknown | failed
+    uniform_num_runs = Column(Integer)
+    payload = Column(Text, nullable=False)
+    artifact_path = Column(Text, nullable=False)
+    created_at = Column(String, nullable=False, default=_utcnow)
+
+
 class Result(Base):
     __tablename__ = "results"
     __table_args__ = (
@@ -418,6 +436,10 @@ class Result(Base):
     num_runs = Column(Integer)  # independent training/evaluation runs reported by this paper
     trained_by_paper = Column(Integer)  # 1=yes, 0=no, NULL=unknown
     num_runs_evidence = Column(Text)
+    repetition_assessment_id = Column(
+        Integer, ForeignKey("repetition_assessments.id", ondelete="SET NULL")
+    )
+    repetition_status = Column(String)  # count | copied | unknown | table_pending | conflict
     is_baseline = Column(Integer, nullable=False, default=0)
     source_paper_id = Column(Integer, ForeignKey("papers.id", ondelete="SET NULL"))
     higher_is_better = Column(Integer, nullable=False, default=1)

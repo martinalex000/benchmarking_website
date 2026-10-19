@@ -821,7 +821,8 @@ def _extract_sections(tex: str) -> list[LatexSection]:
 def _strip_latex(text: str) -> str:
     """Strip common LaTeX markup to produce readable plain text."""
     # Remove comments
-    text = re.sub(r"%[^\n]*", "", text)
+    # Escaped percentages belong to captions, not LaTeX comments.
+    text = re.sub(r"(?<!\\)%[^\n]*", "", text)
     text = text.replace("~", " ")
     # Normalize explicit LaTeX line breaks before removing bare commands, or
     # sequences like "\\with" lose the following word entirely.

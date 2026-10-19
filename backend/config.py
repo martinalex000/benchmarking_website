@@ -59,6 +59,14 @@ class Config:
     llm_endpoint: str = os.environ.get("LLM_ENDPOINT", _llm_cfg.get("endpoint", ""))
     llm_api_key: str = os.environ.get("LLM_API_KEY", "")
 
+    # Support both descriptive names and the existing numbered endpoint credentials.
+    llm_glm_flash_second_endpoint: str = os.environ.get(
+        "LLM_GLM_FLASH_SECOND_ENDPOINT", os.environ.get("LLM_ENDPOINT2", "")
+    )
+    llm_glm_flash_second_api_key: str = os.environ.get(
+        "LLM_GLM_FLASH_SECOND_API_KEY", os.environ.get("LLM_API_KEY2", "")
+    )
+
     # Optional separate local vLLM server (compare_models merges with llm_endpoint).
     llm_local_endpoint: str = os.environ.get("LLM_LOCAL_ENDPOINT", "")
     llm_local_api_key: str = os.environ.get("LLM_LOCAL_API_KEY", "")

@@ -49,16 +49,17 @@ def test_split_into_chunks_small():
     assert chunks[0] == text
 
 
-def test_gemma_yaml_extraction_uses_compact_result_prompt():
+def test_yaml_extraction_uses_current_result_schema():
     extractor = LLMExtractor.__new__(LLMExtractor)
-    extractor.model_name = "google/gemma-4-31B-it"
+    extractor.model_name = "zai-org/GLM-5.3-Flash"
     extractor.result_output_format = "yaml"
 
     prompt = extractor._read_result_prompt()
 
     assert "COLUMN GROUP GUIDE" in prompt
-    assert "m: <exact model name>" in prompt
-    assert "omit all other keys" in prompt
+    assert "model: <exact model name from table>" in prompt
+    assert "num_runs_evidence:" in prompt
+    assert "trained_by_paper:" in prompt
 
 
 def test_split_into_chunks_large():

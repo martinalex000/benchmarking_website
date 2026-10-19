@@ -88,7 +88,7 @@ uv run python scripts/test_llms.py
 # Probe reachable chat models and verify reasoning is disabled
 uv run python scripts/test_llms.py ping
 
-# Print current rate-limit headers from each reachable endpoint
+# Print current rate-limit headers for all reachable models
 uv run python scripts/test_llms.py --rate-limits
 ```
 
@@ -230,8 +230,10 @@ uv run python scripts/test_llms.py ping MODEL_NAME
 uv run python scripts/test_llms.py metrics
 ```
 
-Use `--rate-limits` with the default command or `ping` to print current endpoint
-rate-limit headers.
+Use `--rate-limits` (also accepted as `--rate-limit`) with the default command to add request,
+token, and other rate-limit columns to the reachable-models table. With `ping`, it adds the
+rate-limit headers for the selected models. The rate-limit probes run with up to 20 workers and a
+progress indicator; with `--rate-limits`, the inventory lists only models that support chat requests.
 
 ---
 
